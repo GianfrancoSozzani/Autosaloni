@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class forms_ModificaProfilo : System.Web.UI.Page
+public partial class Forms_ModificaProfilo : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -23,20 +23,22 @@ public partial class forms_ModificaProfilo : System.Web.UI.Page
         {
 
 
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Data Source = DESKTOP-0E2GJI9\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
 
-
+            SqlCommand cmd = new SqlCommand();
 
             // query di selezione
 
-            //cmd.CommandText = "Select * from UTENTI where USR ='" + Session["USR"] + "'";
+            cmd.CommandText = "Select * from UTENTI where USR ='" + Session["USR"] + "'";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = conn;
 
-            DB db = new DB();
-            db.query = "SelezionaUtente";
-            db.cmd.Parameters.AddWithValue("@USR", Session["USR"]);
-
+            SqlDataAdapter DA = new SqlDataAdapter();
+            DA.SelectCommand = cmd;
 
             DataTable DT = new DataTable();
-            DT = db.SQLselect();
+            DA.Fill(DT);
 
             txtUSR.Text = DT.Rows[0]["USR"].ToString();
             txtCognome.Text = DT.Rows[0]["COGNOME"].ToString();
@@ -59,6 +61,8 @@ public partial class forms_ModificaProfilo : System.Web.UI.Page
         // controllo che tutti i campi sono pieni
 
         if (
+            String.IsNullOrEmpty(PWD) ||
+            String.IsNullOrEmpty(PWD2) ||
             String.IsNullOrEmpty(COGNOME) ||
             String.IsNullOrEmpty(NOME) ||
             String.IsNullOrEmpty(CITTA))
@@ -69,41 +73,37 @@ public partial class forms_ModificaProfilo : System.Web.UI.Page
 
         // se c'è qualcosa nelle due password, se si controllare se coincidono
 
-
-
-        if (PWD != PWD2)
-        {
-            lblMessaggio.Text = "Password non coincidenti";
-            return;
-        }
-
+       
+        
+            if (PWD != PWD2)
+            {
+                lblMessaggio.Text = "Password non coincidenti";
+                return;
+            }
+        
 
         // la connessione
-        DB x = new DB();
+
+        SqlConnection conn = new SqlConnection();
+        conn.ConnectionString = "Data Source = DESKTOP-0E2GJI9\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
+
+        SqlCommand cmd = new SqlCommand();
+
+        cmd.CommandType = CommandType.Text;
+        cmd.Connection = conn;
 
         // query di selezione
         if (!String.IsNullOrEmpty(PWD) && !String.IsNullOrEmpty(PWD2))
         {
-            x.query = "ModificaUtente_Password";
-            x.cmd.Parameters.AddWithValue("@PWD", PWD);
-            x.cmd.Parameters.AddWithValue("@COGNOME", COGNOME);
-            x.cmd.Parameters.AddWithValue("@NOME", NOME);
-            x.cmd.Parameters.AddWithValue("@CITTA", CITTA);
-            x.cmd.Parameters.AddWithValue("@USR", USR);
-            x.SQLCommand();
-        }
-        else
+            cmd.CommandText = "update UTENTI set PWD = '"+PWD+"',COGNOME = '"+COGNOME+"', NOME = '"+NOME+"', CITTA = '"+CITTA+"' where USR = '"+USR+"'";
+        } else
         {
-
-            x.query = "ModificaUtente_NoPassword";
-            x.cmd.Parameters.AddWithValue("@COGNOME", COGNOME);
-            x.cmd.Parameters.AddWithValue("@NOME", NOME);
-            x.cmd.Parameters.AddWithValue("@CITTA", CITTA);
-            x.cmd.Parameters.AddWithValue("@USR", USR);
-            x.SQLCommand();
+            cmd.CommandText = "update UTENTI set COGNOME = '"+COGNOME+"', NOME = '"+NOME+"', CITTA = '"+CITTA+"' where USR = '"+USR+"'";
         }
 
-   
+        conn.Open();
+        cmd.ExecuteNonQuery();
+        conn.Close();
 
         // modifico i dati
         // confermo la modifica

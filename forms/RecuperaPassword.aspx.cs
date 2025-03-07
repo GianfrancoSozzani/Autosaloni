@@ -1,54 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
 
-public partial class forms_RecuperaPassword : System.Web.UI.Page
+public partial class Forms_RecuperaPassword : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
     }
 
     protected void btnRecupera_Click(object sender, EventArgs e)
     {
-        //Controlli formali
+        // controlli formali
 
-        if (txtUSR.Text.Trim() == "") // Trim impedisce di mettere spazi all'inizio e al fondo
+        if (txtUSR.Text.Trim() == "")
         {
-            lblMessaggio.Text = "Dati non validi!";
-
+            lblMessaggio.Text = "Dati non validi";
             return;
         }
 
-        string wUSR = txtUSR.Text.Trim(); //dichiaro le variabili
+        // riempio la datable
 
-        //Riempio la DataTable
+        string wUSR = txtUSR.Text.Trim();
        
-        DB database = new DB();
-        database.query = "RecuperaPassword";
-        database.cmd.Parameters.AddWithValue("@USR", wUSR);
 
+        //connessione
+
+        SqlConnection conn = new SqlConnection();
+        conn.ConnectionString = "Data Source = DESKTOP-0E2GJI9\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
+
+
+
+        SqlCommand cmd = new SqlCommand();
+        // query di selezione
+        // query: select * from utenti where usr = txtUsername.Text
+
+        cmd.CommandText = "SELECT PWD FROM UTENTI WHERE USR = '"+wUSR+"'";
+        cmd.CommandType = CommandType.Text;
+        cmd.Connection = conn;
+
+        SqlDataAdapter DA = new SqlDataAdapter();
+        DA.SelectCommand = cmd;
 
         DataTable DT = new DataTable();
-        //DA.Fill(DT);
-        DT = database.SQLselect();
+        DA.Fill(DT);
 
-        // se DT.Rows.Count == 0, l'utente non esiste
-        //oppure se DT.Rows.Count != l'utente non è univoco è non esiste
+        // testare se dt.rows.count == 0
+
         if (DT.Rows.Count == 0)
         {
             lblMessaggio.Text = "Dati non validi";
-            return; //è più efficente a volte di un else
+            return;
         }
 
-        //Altrimenti, leggo la PWD e la scrivo nella Lbl --> DT.Rows[0]["PWD"].ToString()
-        lblMessaggio.Text = "La tua password è " + DT.Rows[0]["PWD"].ToString();
+        // altrimento leggo la pwd e la imposto nella label --> dt.rows [0] ["PWD"].toString();
 
-        //E' necessario ritornare alla schermata precedente
+        lblMessaggio.Text = "La tua password è: " + DT.Rows [0]["PWD"].ToString();
     }
+
 }

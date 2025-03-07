@@ -1,0 +1,78 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="Forms_MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="../Stile/NavbarFooter.css" rel="stylesheet" />
+    <link href="../Stile/PagineFiglio.css" rel="stylesheet" />
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav>
+            <ul class='main-nav'>
+                <li>
+                    <img id="logo" src="../Resources/logoDefault.png" /></li>
+                <li class='has-sub'><a href='#'>Marche </a>
+                    <ul class='drop-down'>
+                        <li><a href="MarcaInserimento.aspx">Nuova Marca </a></li>
+                        <li><a href="ModificaMarca.aspx">Modifica Marche </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Modelli </a>
+                    <ul class='drop-down'>
+                        <li><a href='ModelloInserimento.aspx'>Nuovo Modello </a></li>
+                        <li><a href='ModelloModifica.aspx'>Modifica Modelli </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Autosaloni </a>
+                    <ul class='drop-down'>
+                        <li><a href='AutosaloneInserimento.aspx'>Nuovo Autosalone </a></li>
+                        <li><a href='#'>Modifica Autosaloni </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Dipendenti </a>
+                    <ul class='drop-down'>
+                        <li><a href='DipendenteInserimento.aspx'>Nuovo Dipendente </a></li>
+                        <li><a href='#'>Modifica Dipendenti </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Clienti </a>
+                    <ul class='drop-down'>
+                        <li><a href='ClienteInserimento.aspx'>Nuovo Cliente </a></li>
+                        <li><a href='#'>Modifica Clienti </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Automobili </a>
+                    <ul class='drop-down'>
+                        <li><a href='#'>Spese </a></li>
+                        <li><a href='#'>Nuova Automobile </a></li>
+                        <li><a href='#'>Modifica Automobili </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Statistiche </a>
+                    <ul class='drop-down'>
+                        <li><a href='#'>Acquisti </a></li>
+                        <li><a href='#'>Vendite </a></li>
+                    </ul>
+                </li>
+                <li class='has-sub'><a href='#'>Utente </a>
+                    <ul class='drop-down'>
+                        <li><a href='#'>Griglia </a></li>
+                    </ul>
+                </li>
+                <li><a href="LogOut.aspx">Log Out</a></li>
+
+            </ul>
+        </nav>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+        <div id="footer">
+            <p>© 2023 Autosaloni. Tutti i diritti riservati.</p>
+        </div>
+    </form>
+</body>
+</html>

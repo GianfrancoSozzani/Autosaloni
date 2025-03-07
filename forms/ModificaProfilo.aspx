@@ -1,17 +1,18 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ModificaProfilo.aspx.cs" Inherits="forms_ModificaProfilo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ModificaProfilo.aspx.cs" Inherits="Forms_ModificaProfilo" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Autosaloni-Modifica Profilo</title>
-    <link href="../css/LoginStile.css" rel="stylesheet" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Modifica Profilo</title>
+    <link href="../Stile/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
-        <div id="container">
+       <div id="container">
     <div id="divLogo">
-        <img id="logo" src="../images/Logo.png" alt="Logo" />
+        <img id="logo" src="../Resources/Logo.png" alt="Logo" />
     </div>
     <div id="main">
         <p class="titolo">Modifica il Profilo</p>
@@ -67,7 +68,7 @@
             <tr>
                 <td></td>
                 <td class="adx">
-                    <asp:Button ID="btnSalva" runat="server" Text="Salva" OnClick="btnSalva_Click" />
+                    <asp:Button ID="btnSalva" runat="server" Text="Salva" OnClick ="btnSalva_Click"/>
                 </td>
             </tr>
             <tr>

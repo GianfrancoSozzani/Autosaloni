@@ -5,11 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Forms_Default2 : System.Web.UI.Page
+public partial class Forms_MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Session["USR"] = "";
-        Response.Redirect("Login.aspx");
+
     }
 }
