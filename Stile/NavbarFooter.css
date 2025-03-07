@@ -1,0 +1,103 @@
+﻿body, html {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+nav {
+    width: 100%;
+    padding: 10px;
+    background: #236bb3;
+    color: white;
+}
+
+.main-nav {
+    padding: 0;
+    display: flex;
+    list-style-type: none;
+}
+
+    .main-nav > li {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+    }
+
+        .main-nav > li > a {
+            text-decoration: none;
+            color: white;
+        }
+
+.drop-down {
+    position: absolute;
+    top: 40px;
+    box-sizing: border-box;
+    width: 160px;
+    visibility: hidden;
+    transition: ease-out .1s;
+    -moz-transition: ease-out .1s;
+    -webkit-transition: ease-out .1s;
+    list-style-type: none;
+    background-color: #ffffff;
+    box-shadow: -2px 2px 81px -27px rgba(0, 0, 0, 0.3);
+    padding: 20px !important;
+    border-bottom: 5px solid #236bb3;
+    color: black;
+}
+
+.has-sub {
+    position: relative;
+}
+
+    .has-sub:after {
+        content: arrow;
+    }
+
+    .has-sub:hover > .drop-down {
+        visibility: visible;
+    }
+
+.drop-down li {
+    padding: 12px 0;
+}
+
+    .drop-down li a {
+        text-decoration: none;
+        color: black;
+    }
+
+.sub-menu {
+    left: 140px;
+    top: 0;
+}
+
+.has-sub:after {
+    content: '\25BC';
+    font-size: 10px;
+}
+ #logo {
+   height: 50px;
+   float: right;
+
+      
+ }
+
+#footer {
+    background-color: #f0f0f0; /* Un grigio chiaro per distinguerlo dal contenuto principale */
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #555; /* Un colore di testo più tenue */
+    border-top: 1px solid #ccc; /* Un bordo superiore per separarlo dal contenuto */
+}
+
+/* Stile alternativo con il colore blu della barra di navigazione per coerenza */
+/*
+#footer {
+    background-color: #236bb3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+}
+*/
