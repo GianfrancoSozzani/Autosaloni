@@ -77,14 +77,8 @@ public partial class forms_Registrati : System.Web.UI.Page
         x.cmd.Parameters.AddWithValue("@NOME", wNOME);
         x.cmd.Parameters.AddWithValue("@CITTA", wCITTA);
         x.SQLCommand();
-
-
-
         
         //cmd.CommandText = "insert into UTENTI values ('" + wUSR + "','" + wPWD + "','" + wCOGNOME + "','" + wNOME + "','" + wCITTA + "')";
-
-       
-
      
         lblMessaggio.Text = "Utente registrato";
         return;
