@@ -40,9 +40,9 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        ////tolgo visibiltà a K_Dipendente
-        //e.Row.Cells[1].Visible = false;
-        ////tolgo visibiltà a K_Salone
-        //e.Row.Cells[2].Visible = false;
+        //tolgo visibiltà a K_Dipendente
+        e.Row.Cells[1].Visible = false;
+        //tolgo visibiltà a K_Salone
+        e.Row.Cells[2].Visible = false;
     }
 }

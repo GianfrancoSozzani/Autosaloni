@@ -18,6 +18,10 @@
         <div>&nbsp</div>
         <asp:DropDownList ID="ddlSaloni" runat="server"></asp:DropDownList>
         <div>&nbsp</div>
+        <asp:Label ID="Label5" runat="server" Text="Codice Fiscale:"></asp:Label>
+        <div>&nbsp</div>
+        <asp:TextBox ID="txtCodiceFiscale" runat="server" CssClass="Upper" MaxLength="16"></asp:TextBox>
+        <div>&nbsp</div>
         <asp:Button ID="btnSalva" runat="server" Text="Salva Modifica" ForeColor="#236BB3" OnClick="btnSalva_Click" />
     </div>
 </asp:Content>

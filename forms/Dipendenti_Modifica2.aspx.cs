@@ -53,6 +53,8 @@ public partial class _Default : System.Web.UI.Page
             txtCognome.Text = DT.Rows[0]["Cognome"].ToString();
             //valore in textbox (nome)
             txtNome.Text = DT.Rows[0]["Nome"].ToString();
+            //valore in textbox (codice fiscale)
+            txtCodiceFiscale.Text = DT.Rows[0]["Codice_Fiscale"].ToString();
 
         }
     }
@@ -62,22 +64,47 @@ public partial class _Default : System.Web.UI.Page
         //controlli formali
 
         //controllo che l'utente abbia effettivamante scritto qualcosa
+        if (String.IsNullOrEmpty(txtCognome.Text) ||
+            String.IsNullOrEmpty(txtNome.Text) ||
+            String.IsNullOrEmpty(txtCodiceFiscale.Text))
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati non validi');", true);
+            return;
+        }
+
+        //Controllo il contenuto scritto dall'utente
+
+        //dimensione Codice Fiscale corretta
+        if (txtCodiceFiscale.Text.Length != 16)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
+            return;
+        }
+       
+        //se il codice fiscale contiene spzai
+        if (txtCodiceFiscale.Text.Contains(" "))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
+            return;
+        }
+
+        //controllo se il dipendente è già presente
+        DB database = new DB();
+        database.query = "DIPENDENTI_CheckRedundantRecords";
+        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
+        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text.Trim());
+        //creare la datatable
+        DataTable DT = new DataTable();
+        DT = database.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone già presente');", true);
+            return;
+        }
+
         //collegamento al database
         DB x = new DB();
         //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
@@ -87,6 +114,8 @@ public partial class _Default : System.Web.UI.Page
         x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
         x.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
         x.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text.Trim());
+
         //eseguo il comando di update
         x.SQLCommand();
 
