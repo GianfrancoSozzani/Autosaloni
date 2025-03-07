@@ -30,22 +30,28 @@ public partial class _Default : System.Web.UI.Page
             //eseguo query
             database.query = "SALONI_SelectAll";
             ddlSaloni.DataSource = database.SQLselect();
+            ddlSaloni.DataValueField = "K_Salone";
+            ddlSaloni.DataTextField = "Nome_Salone";
             //indico come la ddl deve visualizzare i valori
 
             //aggiornamento ddl
             ddlSaloni.DataBind();
 
-            //CARICO VALORI SELEZIONATI NELLA DDL(marca) e nel TEXTBOX(modello) in base ai valori scelti nella pagina di partenza
+            //CARICO VALORI SELEZIONATI NELLA DDL(saloni) e nel TEXTBOX(Nome,Cognome) in base ai valori scelti nella pagina di partenza
             //collegamento database
             DB stampdatabase = new DB();
             //gli passo la query che stampera i valori dalla tabella MODELLI in base alla chiave
-            stampdatabase.query = "Modello_SelezionaChiave";
+            stampdatabase.query = "DIPENDENTI_SelezionaChiave";
             stampdatabase.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
             DataTable DT = new DataTable();
             DT = stampdatabase.SQLselect();
-            //valore dddl (marca)
-            ddlSaloni.SelectedValue = DT.Rows[0]["K_Marca"].ToString();
-            //valore in textbox (modello)
+            //valore ddl (saloni)
+            ddlSaloni.SelectedValue = DT.Rows[0]["K_Salone"].ToString();
+            //valore ddl (ruoli)
+            ddlRuoli.SelectedValue = DT.Rows[0]["Ruolo"].ToString();
+            //valore in textbox (cognome)
+            txtCognome.Text = DT.Rows[0]["Cognome"].ToString();
+            //valore in textbox (nome)
             txtNome.Text = DT.Rows[0]["Nome"].ToString();
 
         }
@@ -53,6 +59,38 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
+        //controlli formali
 
+        //controllo che l'utente abbia effettivamante scritto qualcosa
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //collegamento al database
+        DB x = new DB();
+        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
+        x.query = "DIPENDENTI_Update";
+        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
+        x.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        //eseguo il comando di update
+        x.SQLCommand();
+
+        //ritorno a Marche_Modifica
+        Response.Redirect("Dipendenti_Modifica.aspx");
     }
 }

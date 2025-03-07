@@ -42,6 +42,56 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
+        //controllo che l'utente abbia effettivamente scritto qualcosa
+        if (String.IsNullOrEmpty(txtSalone.Text) ||
+            String.IsNullOrEmpty(txtIndirizzo.Text) ||
+            String.IsNullOrEmpty(txtCAP.Text) ||
+            String.IsNullOrEmpty(txtCitta.Text) ||
+            String.IsNullOrEmpty(txtProvincia.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati non validi');", true);
+            return;
+        }
+        //Controllo il contenuto scritto dall'utente
+
+        //dimensione CAP
+        if (txtCAP.Text.Length != 5)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
+            return;
+        }
+        //dimesione Provincia
+        if (txtProvincia.Text.Length != 2)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('provincia non valida');", true);
+            return;
+        }
+        //se Provincia o CAP presentano spazi
+        if (txtCAP.Text.Contains(" ") || txtProvincia.Text.Contains(" "))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
+            return;
+        }
+
+        //controllo che non ci sia un autosalone con nome uguale
+        DB database = new DB();
+        database.query = "SALONI_CheckRedundantRecords";
+        database.cmd.Parameters.AddWithValue("@nome_salone", txtSalone.Text.Trim());
+        //creare la datatable
+        DataTable DT = new DataTable();
+        DT = database.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone già presente');", true);
+            return;
+        }
+
+
+
+
+
+
         //collegamento al database
         DB x = new DB();
         //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
