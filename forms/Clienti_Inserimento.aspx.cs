@@ -11,7 +11,7 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        CaricaDati();
     }
 
     protected void btnInserimento_Click(object sender, EventArgs e)
@@ -25,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
         string CAP_cliente = txtCAP.Text;
         string provincia = txtProvincia.Text;
         string codice_patente_cliente = txtPatente.Text;
-        string giorno_di_nascita = txtDataNascita.Text.Trim();
+        string giorno_di_nascita = txtDataNascita.Text;
 
 
 
@@ -94,19 +94,20 @@ public partial class _Default : System.Web.UI.Page
 
         //controllo che il cliente non sia già presente
 
-        //connesione database
-        SqlConnection conn = new SqlConnection();
-        conn.ConnectionString = @"Data Source=DESKTOP-KM2T7UL\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true;";
+        //controllo che non ci siano clienti già registrati
+        DB database = new DB();
+        database.query = "CLIENTI_CheckRedundantRecords";
+        database.cmd.Parameters.AddWithValue("@cognome", cognome_cliente);
+        database.cmd.Parameters.AddWithValue("@nome", nome_cliente);
+        database.cmd.Parameters.AddWithValue("@codice_fiscale", codice_fiscale_cliente);
+        database.cmd.Parameters.AddWithValue("@citta", citta_cliente);
+        database.cmd.Parameters.AddWithValue("@provincia", provincia);
+        database.cmd.Parameters.AddWithValue("@indirizzo", indirizzo_cliente);
+        database.cmd.Parameters.AddWithValue("@data_nascita", giorno_di_nascita);
 
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = conn;
-        cmd.CommandType = CommandType.Text; //fai attenzione a questo, importante!
-
-        cmd.CommandText = "select count(*) as [QUANTI] from CLIENTI where Codice_Fiscale = '" + codice_fiscale_cliente + "' AND Data_di_Nascita = '" + giorno_di_nascita + "'";
-        SqlDataAdapter DA = new SqlDataAdapter();
-        DA.SelectCommand = cmd;
+        //creare la datatable
         DataTable DT = new DataTable();
-        DA.Fill(DT);
+        DT = database.SQLselect();
 
         if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
@@ -114,30 +115,39 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //verifico che non ci siano patenti già registrate
-
-        cmd.CommandText = "select count(*) as [QUANTIpatente] from CLIENTI where Codice_Patente = '" + codice_patente_cliente + "'";
-        SqlDataAdapter DApatente = new SqlDataAdapter();
-        DApatente.SelectCommand = cmd;
+        //controllo che non ci sia un codice_patente registrato 2 volte 
+        DB patenteDB = new DB();
+        patenteDB.query = "CLIENTI_CheckRedundantLicenses";
+        patenteDB.cmd.Parameters.AddWithValue("@codice_patente", codice_patente_cliente);
+        patenteDB.cmd.Parameters.AddWithValue("@codice_fiscale", codice_fiscale_cliente);
+        patenteDB.cmd.Parameters.AddWithValue("@cognome", cognome_cliente);
+        //creare la datatable
         DataTable DTpatente = new DataTable();
-        DApatente.Fill(DTpatente);
+        DTpatente = patenteDB.SQLselect();
 
-
-        if ((int)DTpatente.Rows[0]["QUANTIpatente"] == 1) //ricordarsi di mettre (int) davanti
+        if ((int)DTpatente.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice patente già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Patente già registrata');", true);
             return;
         }
 
         //registro il cliente
 
-        cmd.CommandText = "insert into CLIENTI (COGNOME,NOME,CITTA,CODICE_FISCALE,INDIRIZZO,CAP,PROVINCIA,CODICE_PATENTE,DATA_DI_NASCITA)" +
-            " VALUES ('" + cognome_cliente + "','" + nome_cliente + "','" + citta_cliente + "', '" + codice_fiscale_cliente + "', '" + indirizzo_cliente + "', '" + CAP_cliente + "', '" + provincia + "', '" + codice_patente_cliente + "', '" + giorno_di_nascita + "')";
+        //collegamento al database
+        DB x = new DB();
+        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
+        x.query = "CLIENTI_Inserimento";
+        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
+        x.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
+        x.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
+        x.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
+        x.cmd.Parameters.AddWithValue("@codice_patente", txtPatente.Text);
+        x.cmd.Parameters.AddWithValue("@data_nascita", txtDataNascita.Text);
+        x.SQLCommand();
 
-        conn.Open();
-        cmd.ExecuteNonQuery();
-        conn.Close();
-        grigliaClienti.DataBind(); //aggiorna i valori della griglia
 
         //messaggio di conferma registrazione
 
@@ -155,5 +165,22 @@ public partial class _Default : System.Web.UI.Page
         txtProvincia.Text = "";
         txtPatente.Text = "";
         txtDataNascita.Text = "";
+
+        //ricarico la tabella
+        CaricaDati();
+    }
+
+    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //tolgo visibiltà a K_Cliente
+        e.Row.Cells[0].Visible = false;
+    }
+
+    protected void CaricaDati()
+    {
+        DB database = new DB();
+        database.query = "CLIENTI_SelectAll";
+        griglia.DataSource = database.SQLselect();
+        griglia.DataBind();
     }
 }

@@ -9,30 +9,17 @@
         </div>
 
         <div class="griglia-optimized">
-            <asp:GridView ID="grigliaClienti" CssClass="scroll" runat="server" AutoGenerateColumns="False" DataKeyNames="K_Cliente" DataSourceID="sdsClienti" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
-                <Columns>
-                    <asp:BoundField DataField="K_Cliente" HeaderText="K_Cliente" InsertVisible="False" ReadOnly="True" SortExpression="K_Cliente" />
-                    <asp:BoundField DataField="Cognome" HeaderText="Cognome" SortExpression="Cognome" />
-                    <asp:BoundField DataField="Nome" HeaderText="Nome" SortExpression="Nome" />
-                    <asp:BoundField DataField="Citta" HeaderText="Citta" SortExpression="Citta" />
-                    <asp:BoundField DataField="Codice_Fiscale" HeaderText="Codice_Fiscale" SortExpression="Codice_Fiscale" />
-                    <asp:BoundField DataField="Indirizzo" HeaderText="Indirizzo" SortExpression="Indirizzo" />
-                    <asp:BoundField DataField="CAP" HeaderText="CAP" SortExpression="CAP" />
-                    <asp:BoundField DataField="Provincia" HeaderText="Provincia" SortExpression="Provincia" />
-                    <asp:BoundField DataField="Codice_Patente" HeaderText="Codice_Patente" SortExpression="Codice_Patente" />
-                    <asp:BoundField DataField="Data_di_Nascita" HeaderText="Data_di_Nascità" SortExpression="Data_di_Nascità" />
-                </Columns>
+            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Cliente" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
                 <FooterStyle BackColor="White" ForeColor="#000066" />
                 <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
                 <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
                 <RowStyle ForeColor="#000066" />
-                <SelectedRowStyle BackColor="#669999" Font-Bold="True" ForeColor="White" />
+                <SelectedRowStyle BackColor="#1495db" Font-Bold="True" ForeColor="White" />
                 <SortedAscendingCellStyle BackColor="#F1F1F1" />
                 <SortedAscendingHeaderStyle BackColor="#007DBB" />
                 <SortedDescendingCellStyle BackColor="#CAC9C9" />
                 <SortedDescendingHeaderStyle BackColor="#00547E" />
             </asp:GridView>
-            <asp:SqlDataSource ID="sdsClienti" runat="server" ConnectionString="<%$ ConnectionStrings:AUTOSALONIConnectionString %>" SelectCommand="SELECT [K_Cliente], [Cognome], [Nome], [Citta], [Codice_Fiscale], [Indirizzo], [CAP], [Provincia], [Codice_Patente], [Data_di_Nascita] FROM [CLIENTI] ORDER BY [Citta], [Cognome]"></asp:SqlDataSource>
         </div>
         <div class="inserimento">
             <div class="form-container">
