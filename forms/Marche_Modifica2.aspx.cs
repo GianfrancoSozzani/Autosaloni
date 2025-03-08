@@ -39,6 +39,35 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnAggiorna_Click(object sender, EventArgs e)
     {
+        //CONTROLLI FORMALI
+
+        //controllo che l'utente abbia inserito un dato
+        if (String.IsNullOrEmpty(txtAggiorna.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati non validi');", true);
+            return;
+        }
+        
+        //controllo che la marca inserita non sia già presente nel database
+        DB database = new DB();
+        database.query = "MARCHE_CheckRedundantRecors";
+        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        //creare la datatable
+        DataTable DT = new DataTable();
+        DT = database.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
+            return;
+        }
+
+
+
+
+
+
+
         //collegamento al database
         DB x = new DB();
         //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
