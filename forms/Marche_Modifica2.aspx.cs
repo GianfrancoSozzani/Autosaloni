@@ -50,7 +50,7 @@ public partial class _Default : System.Web.UI.Page
         
         //controllo che la marca inserita non sia già presente nel database
         DB database = new DB();
-        database.query = "MARCHE_CheckRedundantRecors";
+        database.query = "MARCHE_CheckRedundantRecords";
         database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
         //creare la datatable
         DataTable DT = new DataTable();

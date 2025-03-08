@@ -51,6 +51,32 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
+        //controlli formali
+
+        //controllo che l'utente abbia inserito un dato nei modelli
+        if (String.IsNullOrEmpty(txtModello.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati non validi');", true);
+            return;
+        }
+
+        //controllo che il modello non sia già presente nel database 
+        DB database = new DB();
+        database.query = "MODELLI_CheckRedundantRecords";
+        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        database.cmd.Parameters.AddWithValue("@marca", ddlMarche.SelectedValue);
+        //creare la datatable
+        DataTable DT = new DataTable();
+        DT = database.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
+            return;
+        }
+
+        //UPDATE
+
         //connesione al database
         DB x = new DB();
         //gli passo la query
