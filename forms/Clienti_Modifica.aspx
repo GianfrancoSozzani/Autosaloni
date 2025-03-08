@@ -6,7 +6,7 @@
             <p>Modifica una autosalone già registrata</p>
         </div>
         <div class="griglia">
-            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Cliente" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
+            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Cliente" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
                 <Columns>
                     <asp:CommandField ButtonType="Button" HeaderText="Seleziona" ShowSelectButton="true" ShowHeader="true" />
                 </Columns>

@@ -18,13 +18,13 @@ public partial class _Default : System.Web.UI.Page
         //controllo se l'utente non ha selezionato nulla
         if (griglia.SelectedIndex == -1)
         {
-            //in caso gli si rilascia un alert di erro
+            //in caso gli si rilascia un alert di errore
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Non hai selezionato nulla');", true);
             return;
         }
 
         //dichiaro una variabile per storare il valore di K_Salone
-        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Salone del recor selezionato
+        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Salone del record selezionato
         string chiave = griglia.SelectedValue.ToString();
         //passare il dato chaive alla pagina per la modifica
         //inviare l'utente alla pagina di modifica
