@@ -9,18 +9,30 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
+    static string inserimentoModello;
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        CaricaDati();
+        if (!IsPostBack)
+        {
+            //CARICAMENTO DROPDOWNLIST GENERALE
+            //collagmento a DB
+            DB db = new DB();
+            //eseguo query
+            db.query = "Marche_SelectAll";
+            ddlMarca.DataSource = db.SQLselect();
+            //indico come la ddl deve visualizzare i valori
+            ddlMarca.DataValueField = "K_Marca";
+            ddlMarca.DataTextField = "Marca";
+            //aggiornamento ddl
+            ddlMarca.DataBind();
+        }
     }
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
         //dichairo variabile di strorage per la modello inserito
         string inserimentoModello = txtInserimento.Text.Trim();
-
-        //dichiaro una variabile di storage per la marca (presa dal menù a tendina)
-        string MarcaScelta = ddlMarche.SelectedValue;
 
         //controlo che l'utente abbia effettivamente scritto qualcosa
         if (String.IsNullOrEmpty(inserimentoModello))
@@ -29,23 +41,15 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che non sia già presente la marca
+        //controllo che non sia già presente lo stesso modello
 
-        //connesione database
-        SqlConnection conn = new SqlConnection();
-        conn.ConnectionString = @"Data Source=DESKTOP-KM2T7UL\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true;";
-
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = conn;
-        cmd.CommandType = CommandType.Text; //fai attenzione a questo, importante!
-
-
-        //controllo se il modello non sia già presente
-        cmd.CommandText = "select count(*) as [QUANTI] from MODELLI where MODELLO = '" + inserimentoModello + "' AND K_MARCA = '" + MarcaScelta + "'";
-        SqlDataAdapter DA = new SqlDataAdapter();
-        DA.SelectCommand = cmd;
+        DB database = new DB();
+        database.query = "MODELLI_ControllaModello";
+        database.cmd.Parameters.AddWithValue("@marca", ddlMarca.SelectedValue);
+        database.cmd.Parameters.AddWithValue("@modello", inserimentoModello);
+        //creare la datatable
         DataTable DT = new DataTable();
-        DA.Fill(DT);
+        DT = database.SQLselect();
 
         if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
@@ -53,16 +57,43 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //Inserimento modello con marca associata
-        cmd.CommandText = "insert into MODELLI (MODELLO,K_MARCA) VALUES ('" + inserimentoModello + "','" + MarcaScelta + "')";
 
-        conn.Open();
-        cmd.ExecuteNonQuery();
-        conn.Close();
-        grigliaModelli.DataBind(); //aggiorna i valori della griglia
 
+        //Inserimento
+
+        //connesione al database
+        DB x = new DB();
+        //gli passo la query
+        x.query = "Modelli_Inserimento";
+        //gli passo la chiave e i valori dalla dropdownlist  e dalla textbox
+        x.cmd.Parameters.AddWithValue("@marca", ddlMarca.SelectedValue);
+        x.cmd.Parameters.AddWithValue("@modello", inserimentoModello);
+        //update dati del modello
+        x.SQLCommand();
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello aggiunto correttamente');", true);
 
         txtInserimento.Text = "";
+        CaricaDati();
+    }
+
+    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //tolgo visibiltà a k_modello e K_marca
+        e.Row.Cells[0].Visible = false;
+        e.Row.Cells[1].Visible = false;
+    }
+
+    protected void CaricaDati()
+    {
+        //Connessione al DB e selezione con la query dei dati con cui riempire la tabella
+
+        //connetterci al database
+        DB database = new DB();
+        //popolare la griglia
+        database.query = "MODELLI_SelectAll";
+        griglia.DataSource = database.SQLselect();
+        //aggiorno la griglia
+        griglia.DataBind();
+
     }
 }

@@ -87,11 +87,6 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-
-
-
-
-
         //collegamento al database
         DB x = new DB();
         //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)

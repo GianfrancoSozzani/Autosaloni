@@ -19,7 +19,7 @@ public partial class _Default : System.Web.UI.Page
         //aggiorno la pagina solo al primo caricamento
         if (!IsPostBack)
         {
-            //chiave assumerà il valore c che ricevo dalla pagina Marche_Modifica
+            //chiave assumerà il valore c che ricevo dalla pagina Modelli_Modifica
             chiave = Request.QueryString["c"].ToString();
 
             //CARICAMENTO DROPDOWNLIST GENERALE
