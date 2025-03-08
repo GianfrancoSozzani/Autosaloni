@@ -1,12 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Dipendenti_Modifica.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Clienti_Modifica.aspx.cs" Inherits="_Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="content">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+        <div class="content">
         <div class="title">
             <p>Modifica una autosalone già registrata</p>
         </div>
         <div class="griglia">
-            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Dipendente" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
+            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Cliente" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
                 <Columns>
                     <asp:CommandField ButtonType="Button" HeaderText="Seleziona" ShowSelectButton="true" ShowHeader="true" />
                 </Columns>
