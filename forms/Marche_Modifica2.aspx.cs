@@ -52,6 +52,8 @@ public partial class _Default : System.Web.UI.Page
         DB database = new DB();
         database.query = "MARCHE_CheckRedundantRecords";
         database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        database.cmd.Parameters.AddWithValue("@marca", txtAggiorna.Text.Trim());
+
         //creare la datatable
         DataTable DT = new DataTable();
         DT = database.SQLselect();
