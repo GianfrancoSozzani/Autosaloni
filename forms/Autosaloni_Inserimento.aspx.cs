@@ -11,7 +11,7 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        Caricadati();
     }
 
     protected void btnInserimento_Click(object sender, EventArgs e)
@@ -54,23 +54,13 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che non sia già presente un autosalone con nome, città e indirizzo uguale
-
-        //connesione database
-        SqlConnection conn = new SqlConnection();
-        conn.ConnectionString = @"Data Source=DESKTOP-KM2T7UL\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true;";
-
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = conn;
-        cmd.CommandType = CommandType.Text; //fai attenzione a questo, importante!
-
-
-        //controllo se l'autosalone non sia già presente
-        cmd.CommandText = "select count(*) as [QUANTI] from SALONI where NOME_SALONE= '" + inserimentoNome + "' AND CITTA = '" + inserimentoCitta + "'";
-        SqlDataAdapter DA = new SqlDataAdapter();
-        DA.SelectCommand = cmd;
+        //controllo che non sia già presente un autosalone uguale
+        DB database = new DB();
+        database.query = "SALONI_CheckRedundantRecords";
+        database.cmd.Parameters.AddWithValue("@nome_salone", inserimentoNome);
+        //creare la datatable
         DataTable DT = new DataTable();
-        DA.Fill(DT);
+        DT = database.SQLselect();
 
         if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
@@ -78,23 +68,41 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //Inserimento autosalone 
-        cmd.CommandText = "insert into SALONI (NOME_SALONE,INDIRIZZO,CAP,CITTA,PROVINCIA) VALUES ('" + inserimentoNome + "','" + inserimentoIndirizzo + "','" + inserimentoCAP + "','" + inserimentoCitta + "','" + inserimentoProvincia + "')";
-
-        conn.Open();
-        cmd.ExecuteNonQuery();
-        conn.Close();
-        grigliaAutosaloni.DataBind(); //aggiorna i valori della griglia
+        //INSERIMENTO 
+        //collegamento al database
+        DB x = new DB();
+        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
+        x.query = "SALONI_Inserimento";
+        x.cmd.Parameters.AddWithValue("@nome_salone", inserimentoNome);
+        x.cmd.Parameters.AddWithValue("@indirizzo", inserimentoIndirizzo);
+        x.cmd.Parameters.AddWithValue("@cap", inserimentoCAP);
+        x.cmd.Parameters.AddWithValue("@citta", inserimentoCitta);
+        x.cmd.Parameters.AddWithValue("@provincia", inserimentoProvincia);
+        x.SQLCommand();
 
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosaloni Inserito Correttamente');", true);
 
         //svuoto i campi per un nuovo inserimento
-
-
         txtNome.Text = "";
         txtIndirizzo.Text = "";
         txtCittà.Text = "";
         txtCAP.Text = "";
         txtProvincia.Text = "";
+        //rcarico la griglia aggiornata
+        Caricadati();
+    }
+
+    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //tolgo visibiltà a K_Salone
+        e.Row.Cells[0].Visible = false;
+    }
+
+    protected void Caricadati()
+    {
+        DB database = new DB();
+        database.query = "SALONI_SelectAll";
+        griglia.DataSource = database.SQLselect();
+        griglia.DataBind();
     }
 }

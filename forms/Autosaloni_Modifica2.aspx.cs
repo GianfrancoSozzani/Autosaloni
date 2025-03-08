@@ -95,8 +95,8 @@ public partial class _Default : System.Web.UI.Page
         x.cmd.Parameters.AddWithValue("@nome_salone", txtSalone.Text.Trim());
         x.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
         x.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
-        x.cmd.Parameters.AddWithValue("@Citta", txtCitta.Text);
-        x.cmd.Parameters.AddWithValue("@Provincia", txtProvincia.Text);
+        x.cmd.Parameters.AddWithValue("@citta", txtCitta.Text);
+        x.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
         x.SQLCommand();
 
         //ritorno a Marche_Modifica
