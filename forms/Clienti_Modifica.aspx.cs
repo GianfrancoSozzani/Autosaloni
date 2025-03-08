@@ -28,7 +28,7 @@ public partial class _Default : System.Web.UI.Page
         string chiave = griglia.SelectedValue.ToString();
         //passare il dato chaive alla pagina per la modifica
         //inviare l'utente alla pagina di modifica
-        Response.Redirect("Dipendenti_Modifica2.aspx" + "?c=" + chiave);
+        Response.Redirect("Clienti_Modifica2.aspx" + "?c=" + chiave);
     }
 
     protected void Caricadati()

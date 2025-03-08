@@ -8,7 +8,7 @@
         <div>&nbsp;</div>
         <asp:Label ID="Label2" runat="server" Text="Indirizzo:"></asp:Label>
         <div>&nbsp</div>
-        <asp:TextBox ID="txtIndirizzo" runat="server"  Width="300px"></asp:TextBox>
+        <asp:TextBox ID="txtIndirizzo" runat="server" Width="300px"></asp:TextBox>
         <div>&nbsp</div>
         <asp:Label ID="Label3" runat="server" Text="CAP:"></asp:Label>
         <div>&nbsp</div>
