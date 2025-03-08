@@ -8,15 +8,15 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
-    //dichiaro una variabile per storare il valore passato dll'altra pagina per k_marca
+    //dichiaro una variabile per storare il valore passato dll'altra pagina per k_salone
     static string chiave;
     protected void Page_Load(object sender, EventArgs e)
     {
-        //metto un !postback per eviatre che quando l'utente clicca aggiorna rimanga in memoria il vlaore caricato all'apertura
+        //metto un !postback per eviatre che quando l'utente clicca aggiorna rimanga in memoria il valore caricato all'apertura
         //della pagina e non quello riscritto ex novo per la modifica
         if (!IsPostBack)
         {
-            //chiave assumerà il valore c che ricevo dalla pagina Marche_Modifica
+            //chiave assumerà il valore c che ricevo dalla pagina Autosaloni_Modifica
             chiave = Request.QueryString["c"].ToString();
 
             //inserisco la marca selezionata nell'altra pagina (cioè in base a c) dentro il textbox

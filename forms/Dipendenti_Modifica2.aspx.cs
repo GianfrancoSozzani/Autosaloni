@@ -89,19 +89,21 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo se il dipendente è già presente
+        //controllo che non ci siano codici fiscali doppi
         DB database = new DB();
         database.query = "DIPENDENTI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text.Trim());
+        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
+        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
+        database.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        database.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
+
         //creare la datatable
         DataTable DT = new DataTable();
         DT = database.SQLselect();
 
         if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice fiscale già presente');", true);
             return;
         }
 

@@ -37,11 +37,9 @@
         <div>&nbsp</div>
         <asp:Label ID="Label8" runat="server" Text="Data di Nascità: " CssClass="form-label"></asp:Label>
         <div>&nbsp</div>
-        <asp:TextBox ID="txtDataNascita" runat="server" CssClass="form-input" MaxLength="10" TextMode="Date"></asp:TextBox>
+        <asp:TextBox ID="txtDataNascita" runat="server" CssClass="form-input" MaxLength="10"></asp:TextBox>
         <div>&nbsp</div>
         <asp:Button ID="btnSalva" runat="server" Text="Salva Modifica" ForeColor="#236BB3" OnClick="btnSalva_Click"/>
     </div>
-
-
 </asp:Content>
 
