@@ -65,6 +65,7 @@ public partial class _Default : System.Web.UI.Page
         database.query = "MODELLI_CheckRedundantRecords";
         database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
         database.cmd.Parameters.AddWithValue("@marca", ddlMarche.SelectedValue);
+        database.cmd.Parameters.AddWithValue("@modello", txtModello.Text.Trim());
         //creare la datatable
         DataTable DT = new DataTable();
         DT = database.SQLselect();
