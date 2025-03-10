@@ -102,11 +102,8 @@
     width: 80%;
 }
 
-.scroll {
-    overflow: scroll;
-}
 
-/*the row change colr if thead cursor datalist on it*/
+/*the row change color if thead cursor datalist on it*/
 
 .grid tr:hover {
     background-color: #4b95e0;
