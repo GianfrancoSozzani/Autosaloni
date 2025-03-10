@@ -1,56 +1,4 @@
-﻿/*#container {
-    display: flex;
-    justify-content: center;
-    background-color: #bbdefb;
-    height: 100%;
-    padding: 15px;
-    gap: 5px;
-    margin: 0 auto;
-}
-
-.inserimento {
-    background: white;
-    border: 3px solid #236bb3;
-    border-radius: 5px;
-    padding: 15px;
-    width: 100%;*/ /* Aggiungi questa linea per fare in modo che il contenitore si espanda */
-/*}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;*/ /* Spazio tra i gruppi di label e textbox */
-/*}
-
-.form-label {
-    margin-bottom: 5px;*/ /* Spazio tra la label e la textbox */
-/*}
-
-.form-input {*/
-/* width: 100%;*/ /* Fai in modo che le textbox si espandano per riempire il contenitore */
-/*padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}*/
-
-/*#btnSalva {
-    background-color: #5cb85c;*/ /* VerdeBootstrap */
-/*color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    height: 30px;
-    width: 100px;
-    font-size: medium;
-}
-
-    #btnSalva:hover {
-        background-color: #4cae4c;*/ /* Verde leggermente più scuro all'hover */
-/*}*/
-
-body {
+﻿body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
@@ -79,6 +27,10 @@ body {
         margin-right: 20px; /* Spazio tra i due div */
         border-right: 1px solid #ddd; /* Separatore verticale */
     }
+
+.modifica {
+    padding: 20px;
+}
 
 /* Stile per la GridView */
 #ContentPlaceHolder1_griglia {
@@ -121,7 +73,7 @@ body {
 }
 
 .form-input {
-    width: calc(100% - 12px); /* Larghezza input - padding */
+    width: 300px; /* Larghezza input - padding */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -136,7 +88,7 @@ body {
     }
 
 /* Stile per il bottone */
-#ContentPlaceHolder1_btnSalva {
+#ContentPlaceHolder1_btnSalva, #ContentPlaceHolder1_btnModifica {
     height: 30px;
     width: 100px;
     font-size: medium;
@@ -159,9 +111,16 @@ body {
 
 #ContentPlaceHolder1_txtMarca {
     width: 310px;
-    height: 20px;
+    height: 30px;
+   
 }
 
+#ContentPlaceHolder1_divmodifica {
+    padding: 5px 0px;
+    margin: 15px 0px;
+    /* display: flex;
+    justify-content: space-between;*/
+}
 
 
 /*Stile per la label e il textbox ModelloInserimento*/
@@ -169,7 +128,7 @@ body {
     width: 100px;
     height: 30px;
     padding: 5px;
-    font-size:medium;
+    font-size: medium;
 }
 
 #ContentPlaceHolder1_txtModello {
@@ -196,3 +155,4 @@ body {
     width: 45px;
     text-transform: uppercase;
 }
+

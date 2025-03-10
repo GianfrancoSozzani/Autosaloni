@@ -59,7 +59,7 @@ public partial class Forms_Default : System.Web.UI.Page
 
         DB db2 = new DB();
         db2.query = "InserimentoMarca";
-        db2.cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
+        db2.cmd.Parameters.AddWithValue("@marca", txtMarca.Text.Trim());
         db2.SQLcommand();
 
         // cmd.CommandText = "insert into MARCHE values ('" + txtMarca.Text + "')";

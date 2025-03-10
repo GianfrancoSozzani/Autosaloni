@@ -25,7 +25,7 @@ public partial class Forms_Default2 : System.Web.UI.Page
             DT = db.SQLselect();
             txtSalone.Text = DT.Rows[0]["Nome_Salone"].ToString();
             txtIndirizzo.Text = DT.Rows[0]["Indirizzo"].ToString();
-            txtCAP.Text = DT.Rows[0]["CAP"].ToString();
+            txtCap.Text = DT.Rows[0]["CAP"].ToString();
             txtCitta.Text = DT.Rows[0]["Citta"].ToString();
             txtProvincia.Text = DT.Rows[0]["Provincia"].ToString();
         }
@@ -39,7 +39,7 @@ public partial class Forms_Default2 : System.Web.UI.Page
         db.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
         db.cmd.Parameters.AddWithValue("@nomesalone", txtSalone.Text.Trim());
         db.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
+        db.cmd.Parameters.AddWithValue("@cap", txtCap.Text);
         db.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
         db.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
         db.SQLcommand();

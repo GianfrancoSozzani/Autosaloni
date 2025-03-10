@@ -68,7 +68,7 @@ public partial class Registrati : System.Web.UI.Page
 
         // controllo utente non registrato
 
-        if ((int)DT.Rows[0]["QUNATI"] == 1)
+        if ((int)DT.Rows[0]["QUANTI"] == 1)
         {
             lblMessaggio.Text = "Utente già registrato";
             return;

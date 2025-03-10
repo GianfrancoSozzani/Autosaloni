@@ -1,33 +1,31 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Forms/MasterPage.master" AutoEventWireup="true" CodeFile="MarcaModifica.aspx.cs" Inherits="Forms_MarcaModifica" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Forms/MasterPage.master" AutoEventWireup="true" CodeFile="MarcaModifica.aspx.cs" Inherits="Forms_Default2" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div id="headtitle">
+        <h1>Modifica Marca</h1>
+    </div>
     <div id="container">
         <div class="inserimento">
             <div class="table">
-                <asp:GridView ID="griglia" runat="server" AutoGenerateColumns="False" DataKeyNames="K_Marca" DataSourceID="sdsModifica" OnSelectedIndexChanged="griglia_SelectedIndexChanged" AutoGenerateSelectButton="True">
+                <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Marca" OnSelectedIndexChanged="griglia_SelectedIndexChanged">
                     <Columns>
-                        <%--<asp:ButtonField ShowSelectButton="True" />--%> <%-- Remove this line if you're using AutoGenerateSelectButton--%>
-                        <asp:BoundField DataField="K_Marca" HeaderText="K_Marca" InsertVisible="False" ReadOnly="True" SortExpression="K_Marca" />
-                        <asp:BoundField DataField="Marca" HeaderText="Marca" SortExpression="Marca" />
+                        <asp:CommandField ButtonType="Button" HeaderText="Seleziona" ShowHeader="True" ShowSelectButton="True" />
                     </Columns>
+                    <SelectedRowStyle BackColor="LightYellow" />
+                    <%-- Aggiungi questa riga --%>
                 </asp:GridView>
-                <asp:SqlDataSource ID="sdsModifica" runat="server" ConnectionString="<%$ ConnectionStrings:AUTOSALONIConnectionString2 %>" DeleteCommand="DELETE FROM [MARCHE] WHERE [K_Marca] = @K_Marca" InsertCommand="INSERT INTO [MARCHE] ([Marca]) VALUES (@Marca)" SelectCommand="SELECT [K_Marca], [Marca] FROM [MARCHE] ORDER BY [Marca]" UpdateCommand="UPDATE [MARCHE] SET [Marca] = @Marca WHERE [K_Marca] = @K_Marca">
-                    <DeleteParameters>
-                        <asp:Parameter Name="K_Marca" Type="Int32" />
-                    </DeleteParameters>
-                    <InsertParameters>
-                        <asp:Parameter Name="Marca" Type="String" />
-                    </InsertParameters>
-                    <UpdateParameters>
-                        <asp:Parameter Name="Marca" Type="String" />
-                        <asp:Parameter Name="K_Marca" Type="Int32" />
-                    </UpdateParameters>
-                </asp:SqlDataSource>
             </div>
         </div>
         <div class="inserimento">
-            <asp:Label ID="Label1" runat="server" Text="Marca Selezionata:"></asp:Label>
-            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            <asp:Button ID="btnModifica" runat="server" Text="Modifica" OnClick="btnModifica_Click" />
+            <div id="divmodifica" class="inserimento" runat="server" visible="false">
+                <p>
+                    <asp:TextBox ID="txtMarca" runat="server" CssClass="form-input"></asp:TextBox></p>
+                <p>
+                    <asp:Button ID="btnSalva" runat="server" Text="Salva" OnClick="btnSalva_Click" />
+                </p>
+            </div>
         </div>
     </div>
 </asp:Content>
+

@@ -1,34 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Forms_MarcaModifica : System.Web.UI.Page
+public partial class Forms_Default2 : System.Web.UI.Page
 {
+     static string chiave;
     protected void Page_Load(object sender, EventArgs e)
+        
     {
+
+        // popolo la griglia
+        CaricaDati();
+
+    }
+    // funzione per popolare la griglia
+    protected void CaricaDati()
+    {
+        
+        {
+            DB database = new DB();
+            database.query = "MARCHE_SelectAll";
+            griglia.DataSource = database.SQLselect();
+            griglia.DataBind();
+        }
     }
 
     protected void griglia_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Get the selected row.
-        GridViewRow row = griglia.SelectedRow;
+        chiave = griglia.SelectedValue.ToString();
 
-        // Check if a row is actually selected.
-        if (row != null)
+       
+
+    }
+
+    protected void btnModifica_Click(object sender, EventArgs e)
+    {
+        if (griglia.SelectedIndex == -1)
         {
-            // Extract the "Marca" value from the selected row.
-            //  The index of the Marca column depends on your GridView's Columns definition.
-            //  In your case, Marca is the *second* BoundField (index 1).  K_Marca is index 0.
-            string marca = row.Cells[2].Text; // Cells[0] is the select button, Cells[1] is K_Marca. Cells[2] is Marca
-
-            // Update the Label's text with the selected Marca.
-            Label1.Text = "Marca Selezionata: " + marca;
-
-            //OPTIONAL:  Update the textbox as well.
-            TextBox1.Text = marca;
+            return;
         }
+
+        divmodifica.Visible = true;
+        DB database = new DB();
+        database.query = "MARCA_SelezionaChiave";
+        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+
+        DataTable DT = new DataTable();
+        DT = database.SQLselect();
+        txtMarca.Text = DT.Rows[0]["Marca"].ToString();
+
+
+
+
+    }
+
+    protected void btnSalva_Click(object sender, EventArgs e)
+    {
+        
+
+        DB database = new DB();
+        database.query = "MARCHE_Update";
+        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        database.cmd.Parameters.AddWithValue("@marca", txtMarca.Text.Trim());
+
+        database.SQLcommand();
+        CaricaDati();
+        divmodifica.Visible = false;
     }
 }
