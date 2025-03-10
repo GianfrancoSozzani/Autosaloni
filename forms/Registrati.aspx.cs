@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 public partial class forms_Registrati : System.Web.UI.Page
 {
@@ -77,9 +71,9 @@ public partial class forms_Registrati : System.Web.UI.Page
         x.cmd.Parameters.AddWithValue("@NOME", wNOME);
         x.cmd.Parameters.AddWithValue("@CITTA", wCITTA);
         x.SQLCommand();
-        
+
         //cmd.CommandText = "insert into UTENTI values ('" + wUSR + "','" + wPWD + "','" + wCOGNOME + "','" + wNOME + "','" + wCITTA + "')";
-     
+
         lblMessaggio.Text = "Utente registrato";
         return;
     }

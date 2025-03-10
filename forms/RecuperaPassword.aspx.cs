@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 public partial class forms_RecuperaPassword : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+
     }
 
     protected void btnRecupera_Click(object sender, EventArgs e)
@@ -28,7 +22,7 @@ public partial class forms_RecuperaPassword : System.Web.UI.Page
         string wUSR = txtUSR.Text.Trim(); //dichiaro le variabili
 
         //Riempio la DataTable
-       
+
         DB database = new DB();
         database.query = "RecuperaPassword";
         database.cmd.Parameters.AddWithValue("@USR", wUSR);

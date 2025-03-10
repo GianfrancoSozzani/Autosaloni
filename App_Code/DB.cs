@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Web;
 
 
 public class DB
@@ -16,7 +12,7 @@ public class DB
     public string query;
     public DB()
     {
-        conn.ConnectionString = "Data Source = DESKTOP-KM2T7UL\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
+        conn.ConnectionString = "Data Source = DESKTOP-705G4DM\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
         cmd.Connection = conn;
         cmd.CommandType = CommandType.StoredProcedure;
     }

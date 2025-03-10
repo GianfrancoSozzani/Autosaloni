@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -42,7 +37,7 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //se non è presente inserimento
-        
+
         //creo connessione al db
         DB x = new DB();
         //procedo all'inserimento

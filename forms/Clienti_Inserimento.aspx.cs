@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -29,7 +24,7 @@ public partial class _Default : System.Web.UI.Page
 
 
 
-     
+
         //dichiaro una variabile di tipo data (concetto temporale)
 
         DateTime bornDay;
@@ -55,7 +50,7 @@ public partial class _Default : System.Web.UI.Page
         if (DateTime.TryParse(giorno_di_nascita, out bornDay) && !String.IsNullOrEmpty(giorno_di_nascita))
         {
             bornDay = bornDay.Date;
-           
+
         }
         else
         {

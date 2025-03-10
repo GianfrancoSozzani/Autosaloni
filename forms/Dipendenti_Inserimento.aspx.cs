@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -23,7 +18,7 @@ public partial class _Default : System.Web.UI.Page
 
 
         //controlo che l'utente abbia effettivamente scritto qualcosa
-        if (String.IsNullOrEmpty(cognomeDipendente) || 
+        if (String.IsNullOrEmpty(cognomeDipendente) ||
             String.IsNullOrEmpty(nomeDipendente) ||
             String.IsNullOrEmpty(codiceFiscale)
             )
@@ -117,7 +112,7 @@ public partial class _Default : System.Web.UI.Page
             ddlSaloni.DataValueField = "K_Salone";
             ddlSaloni.DataTextField = "Nome_Salone";
             ddlSaloni.DataBind();
-            
+
         }
     }
 

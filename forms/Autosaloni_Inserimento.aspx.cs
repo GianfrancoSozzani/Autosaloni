@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -48,7 +43,7 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('provincia non valida');", true);
             return;
         }
-        if ( inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
+        if (inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
             return;

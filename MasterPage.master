@@ -28,7 +28,7 @@
                             <li class='has-sub'><a href='#'>Modelli </a>
                                 <ul class='drop-down'>
                                     <li><a href="Modelli_Inserimento.aspx">Nuovo Modello </a></li>
-                                    <li><a href="Modelli_Modifica.aspx">Modifica Modello </a></li>
+                                    <li><a href="Modelli_Modifica.aspx">Modifica Modelli </a></li>
                                 </ul>
                             </li>
                             <li class='has-sub'><a href='#'>Autosaloni </a>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -16,7 +12,7 @@ public partial class _Default : System.Web.UI.Page
     protected void CaricaDati()
     {
         //Connessione al DB e selezione con la query dei dati con cui riempire la tabella
-        
+
         //connetterci al database
         DB database = new DB();
         //popolare la griglia
@@ -29,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
     protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         //tolgo visibiltà a k_marca
-        e.Row.Cells[1].Visible = false; 
+        e.Row.Cells[1].Visible = false;
         //tolgo visibiltà a k_modello
         e.Row.Cells[2].Visible = false;
     }
