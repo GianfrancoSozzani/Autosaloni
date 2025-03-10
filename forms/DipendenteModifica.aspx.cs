@@ -65,14 +65,35 @@ public partial class Forms_Default2 : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        DB db = new DB();
-        db.query = "DIPENDENTI_Update";
-        db.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        db.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@ruolo", ddlRuolo.SelectedValue);
+        if ((String.IsNullOrEmpty(txtCognome.Text)) || (String.IsNullOrEmpty(txtNome.Text)))
 
-        db.SQLcommand();
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('I campi Cognome e Nome non possono essere vuoti');", true);
+            return;
+        }
+
+        DB db = new DB();
+        db.query = "DIPENDENTE_Controllo";
+        db.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
+        db.cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+        DataTable DT = new DataTable();
+        DT = db.SQLselect();
+
+        if ((int)DT.Rows[0]["CONTROLLO"] == 1)
+        {
+            // Mostra un avviso e interrompe l'operazione
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente già presente');", true);
+            return;
+        }
+
+        DB db2 = new DB();
+        db2.query = "DIPENDENTI_Update";
+        db2.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        db2.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@ruolo", ddlRuolo.SelectedValue);
+
+        db2.SQLcommand();
         CaricaDati();
         divmodifica.Visible = false;
     }

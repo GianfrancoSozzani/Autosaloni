@@ -34,7 +34,7 @@ public partial class Forms_Default : System.Web.UI.Page
         // interrompo la stringa inserisco variabile c#
 
         DB db = new DB();
-        db.query = "ControlloMarca";
+        db.query = "MARCA_Controllo";
         db.cmd.Parameters.AddWithValue("@marca", txtMarca.Text);
 
         

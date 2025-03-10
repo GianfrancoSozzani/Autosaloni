@@ -34,15 +34,37 @@ public partial class Forms_Default2 : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
+        if ((String.IsNullOrEmpty(txtSalone.Text)) || (String.IsNullOrEmpty(txtCitta.Text)))
+            
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('I campi Nome Salone e Città non possono essere vuoti');", true);
+            return;
+        }
+
         DB db = new DB();
-        db.query = "SALONI_Update";
-        db.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        db.cmd.Parameters.AddWithValue("@nomesalone", txtSalone.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@cap", txtCap.Text);
-        db.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
-        db.SQLcommand();
+        db.query = "SALONE_Controllo";
+        db.cmd.Parameters.AddWithValue("@nomesalone", txtSalone.Text);
+        db.cmd.Parameters.AddWithValue("@citta", txtCitta.Text);
+        DataTable DT = new DataTable();
+        DT = db.SQLselect();
+
+        if ((int)DT.Rows[0]["CONTROLLO"] == 1)
+        {
+            // Mostra un avviso e interrompe l'operazione
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Salone già presente');", true);
+            return;
+        }
+
+
+        DB db2 = new DB();
+        db2.query = "SALONI_Update";
+        db2.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+        db2.cmd.Parameters.AddWithValue("@nomesalone", txtSalone.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@cap", txtCap.Text);
+        db2.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
+        db2.SQLcommand();
         Response.Redirect("AutosaloniModifica.aspx");
 
 

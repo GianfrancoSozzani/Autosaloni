@@ -38,7 +38,7 @@ public partial class Forms_Default2 : System.Web.UI.Page
 
         // query di selezione
 
-        cmd.CommandText = "Select count(*) as [CONTROLLO] from CLIENTI where CODICE_PATENTE = '" + CODICEPATENTE + "'";
+        cmd.CommandText = "Select count(*) as [CONTROLLO] from CLIENTI where COGNOME = '" +COGNOME+ "' AND NOME = '"+NOME+"' AND INDIRIZZO = '"+INDIRIZZO+"'";
         cmd.CommandType = CommandType.Text;
         cmd.Connection = conn;
 

@@ -39,6 +39,7 @@ public partial class Forms_Default2 : System.Web.UI.Page
             return;
         }
 
+
         divmodifica.Visible = true;
         DB database = new DB();
         database.query = "MARCHE_SelectAll";
@@ -58,13 +59,34 @@ public partial class Forms_Default2 : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        DB db = new DB();
-        db.query = "MODELLI_Update";
-        db.cmd.Parameters.AddWithValue("@chiavemodello", int.Parse(chiave));
-        db.cmd.Parameters.AddWithValue("@modello", txtModello.Text.Trim());
-        db.cmd.Parameters.AddWithValue("chiavemarca", ddlMarche.SelectedValue);
+        if (String.IsNullOrEmpty(txtModello.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Il campo Modello non può essere vuoto');", true);
+            return;
+        }
 
-        db.SQLcommand();
+        DB db = new DB();
+        db.query = "MODELLO_Controllo";
+        db.cmd.Parameters.AddWithValue("@chiavemodello", int.Parse(chiave));
+        db.cmd.Parameters.AddWithValue("@chiavemarca", int.Parse(ddlMarche.SelectedValue));
+        db.cmd.Parameters.AddWithValue("@modello", txtModello.Text);
+        DataTable DT = new DataTable();
+        DT = db.SQLselect();
+
+        if ((int)DT.Rows[0]["CONTROLLO"] == 1)
+        {
+            // Mostra un avviso e interrompe l'operazione
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello già presente');", true);
+            return;
+        }
+
+        DB db2 = new DB();
+        db2.query = "MODELLI_Update";
+        db2.cmd.Parameters.AddWithValue("@chiavemodello", int.Parse(chiave));
+        db2.cmd.Parameters.AddWithValue("@modello", txtModello.Text.Trim());
+        db2.cmd.Parameters.AddWithValue("@chiavemarca", ddlMarche.SelectedValue);
+
+        db2.SQLcommand();
         CaricaDati();
         divmodifica.Visible = false;
     }
