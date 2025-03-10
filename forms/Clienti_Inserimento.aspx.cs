@@ -26,6 +26,7 @@ public partial class _Default : System.Web.UI.Page
         string provincia = txtProvincia.Text;
         string codice_patente_cliente = txtPatente.Text;
         string giorno_di_nascita = txtDataNascita.Text;
+        int provaCAP;
 
 
 
@@ -74,6 +75,13 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice Patente non valido');", true);
             return;
         }
+        if (!int.TryParse(txtCAP.Text, out provaCAP))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
+            return;
+
+        }
+
         if (CAP_cliente.Length != 5)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);

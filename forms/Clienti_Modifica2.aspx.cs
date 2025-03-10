@@ -10,6 +10,7 @@ public partial class _Default : System.Web.UI.Page
 {
     //dichiaro una variabile per storare il valore passato dll'altra pagina per k_cliente
     static string chiave;
+    int provaCAP;
     protected void Page_Load(object sender, EventArgs e)
     {
         //metto un !postback per eviatre che quando l'utente clicca aggiorna rimanga in memoria il valore caricato all'apertura
@@ -86,6 +87,14 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che il CAP o la provincia siano scritti correttamente come formato nel caso non li si aggiorni a vuoto
+        if (!int.TryParse(txtCAP.Text, out provaCAP))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
+            return;
+
+        }
+
+
         if (txtCAP.Text.Length != 5 && !String.IsNullOrEmpty(txtCAP.Text))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);

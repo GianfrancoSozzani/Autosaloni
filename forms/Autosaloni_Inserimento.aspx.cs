@@ -22,6 +22,7 @@ public partial class _Default : System.Web.UI.Page
         string inserimentoCitta = txtCittà.Text.Trim();
         string inserimentoCAP = txtCAP.Text;
         string inserimentoProvincia = txtProvincia.Text;
+        int provaCAP;
 
 
 
@@ -48,6 +49,15 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('provincia non valida');", true);
             return;
         }
+       
+
+        if (!int.TryParse(txtCAP.Text, out provaCAP))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
+            return;
+
+        }
+
         if ( inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
