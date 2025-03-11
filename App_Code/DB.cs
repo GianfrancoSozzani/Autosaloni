@@ -16,7 +16,8 @@ public class DB
     public string query;
     public DB()
     {
-        conn.ConnectionString = "Data Source = DESKTOP-KM2T7UL\\SQLEXPRESS; Initial Catalog=AUTOSALONI; Integrated Security=true";
+        DBConfig config = new DBConfig(); // Crea un'istanza di DBConfig
+        conn.ConnectionString = config.GetConnectionString(); // Recupera la stringa di connessione
         cmd.Connection = conn;
         cmd.CommandType = CommandType.StoredProcedure;
     }
