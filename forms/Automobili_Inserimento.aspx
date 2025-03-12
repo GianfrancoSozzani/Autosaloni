@@ -60,12 +60,12 @@
                 <div>&nbsp;</div>
                 <div id="modelli" class="form-group">
                     <asp:Label ID="lblModello" runat="server" Text="Modello: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlModelli" runat="server" AutoPostBack="true"></asp:DropDownList >
+                    <asp:DropDownList ID="ddlModelli" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label1" runat="server" Text="Stato: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlStato" runat="server" AutoPostBack="true"></asp:DropDownList >
+                    <asp:DropDownList ID="ddlStato" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
@@ -125,6 +125,11 @@
                 <div class="form-group">
                     <asp:Label ID="Label12" runat="server" Text="Targa:" CssClass="form-label"></asp:Label>
                     <asp:TextBox ID="txtTarga" runat="server"></asp:TextBox>
+                </div>
+                <div>&nbsp;</div>
+                <div class="form-group">
+                    <asp:Label ID="Label16" runat="server" Text="Telaio:" CssClass="form-label"></asp:Label>
+                    <asp:TextBox ID="txtTelaio" runat="server"></asp:TextBox>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
