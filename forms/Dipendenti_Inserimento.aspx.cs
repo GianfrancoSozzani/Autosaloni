@@ -61,7 +61,7 @@ public partial class _Default : System.Web.UI.Page
 
         if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice fiscale già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente già presente');", true);
             return;
         }
 
