@@ -55,17 +55,17 @@
             <div class="form-container">
                 <div class="form-group">
                     <asp:Label ID="Label15" runat="server" Text="Marca: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlMarca" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlMarche" runat="server" OnSelectedIndexChanged="ddlMarche_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div id="modelli" class="form-group">
                     <asp:Label ID="lblModello" runat="server" Text="Modello: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlModelli" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlModelli" runat="server" AutoPostBack="true"></asp:DropDownList >
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label1" runat="server" Text="Stato: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlStato" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlStato" runat="server" AutoPostBack="true"></asp:DropDownList >
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
@@ -75,7 +75,7 @@
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label3" runat="server" Text="Cliente Acquisto: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlClientiAcquisto" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlClientiAcquisto" runat="server" AutoPostBack="true"></asp:DropDownList>
                     &nbsp;
                     <a href="Clienti_Inserimento.aspx">Nuovo Cliente </a>
                 </div>
@@ -87,29 +87,29 @@
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label5" runat="server" Text="Salone: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlSaloni" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlSaloni" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label6" runat="server" Text="Responsabile: " CssClass="form-label"></asp:Label>
                     <%--qui compaiono solo i responsabili--%>
-                    <asp:DropDownList ID="ddlResponsabile" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlResponsabile" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label7" runat="server" Text="Venditore:" CssClass="form-label"></asp:Label>
                     <%--qui compaiono tutti i dipendenti  usare chiave per distingure ononimi--%>
-                    <asp:DropDownList ID="ddlVenditore" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlVenditore" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label8" runat="server" Text="Alimentazione:" CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlAlimentazione" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlAlimentazione" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label9" runat="server" Text="Colore:" CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtColori" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtColori" runat="server" AutoPostBack="true"></asp:TextBox>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
@@ -119,7 +119,7 @@
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label11" runat="server" Text="Cambio:" CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlCambio" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlCambio" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
