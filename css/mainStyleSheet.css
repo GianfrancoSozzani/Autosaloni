@@ -138,17 +138,20 @@ nav {
     font-size: 10px;
 }
 
-/*psuedo classi*/
-a:visited {
+/*a {
     text-decoration: none;
-}
+}*/
+    /*psuedo classi*/
+    /*a:visited {
+        text-decoration: none;
+    }
 
-a:hover {
-    text-decoration: none;
-}
+    a:hover {
+        text-decoration: none;
+    }*/
 
 .logo {
-    width: 70%;
+    width: 280px;
 }
 
 #welcome {
@@ -158,3 +161,15 @@ a:hover {
     color: #236BB3;
 }
 
+a {
+    text-decoration: none;
+}
+
+    /*psuedo classi*/
+    a:visited {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }

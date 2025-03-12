@@ -108,3 +108,17 @@
 .grid tr:hover {
     background-color: #4b95e0;
 }
+
+
+.griglia-optimized2 {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding: 15px;
+    gap: 5px;
+    margin: 0 auto;
+    flex-direction: column;
+    color: #236BB3;
+    overflow: scroll;
+    width: 35%;
+}
