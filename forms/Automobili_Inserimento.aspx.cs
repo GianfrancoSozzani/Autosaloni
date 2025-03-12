@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -96,8 +92,8 @@ public partial class _Default : System.Web.UI.Page
         database.query = "AUTOMOBILI_SelectAll";
         griglia.DataSource = database.SQLselect();
         griglia.DataBind();
-        
-        if(!IsPostBack)
+
+        if (!IsPostBack)
         {
             CaricaModelli();
         }

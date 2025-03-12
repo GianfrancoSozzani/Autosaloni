@@ -39,7 +39,7 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
         }
-		
+
         if (inserimentoProvincia.Length != 2)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('provincia non valida');", true);
@@ -53,7 +53,7 @@ public partial class _Default : System.Web.UI.Page
 
         }
 
-        if ( inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
+        if (inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
             return;

@@ -58,8 +58,8 @@ public partial class _Default : System.Web.UI.Page
             return;
 
         }
-                
-            if (txtCAP.Text.Length != 5)
+
+        if (txtCAP.Text.Length != 5)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
