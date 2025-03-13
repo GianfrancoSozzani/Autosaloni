@@ -8,7 +8,7 @@
         </div>
 
         <div class="griglia-optimized2">
-            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
+            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
                 <FooterStyle BackColor="White" ForeColor="#000066" />
                 <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
                 <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
@@ -18,37 +18,6 @@
                 <SortedAscendingHeaderStyle BackColor="#007DBB" />
                 <SortedDescendingCellStyle BackColor="#CAC9C9" />
                 <SortedDescendingHeaderStyle BackColor="#00547E" />
-
-                <Columns>
-                    <asp:TemplateField HeaderText="Cognome_Responsabile">
-                        <ItemTemplate>
-                            <asp:Label ID="lblCognomeResp"
-                                Text=""
-                                runat="server"></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Nome_Responsabile">
-                        <ItemTemplate>
-                            <asp:Label ID="lblNomeResp"
-                                Text=""
-                                runat="server"></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Cognome_Cliente_Vendita">
-                        <ItemTemplate>
-                            <asp:Label ID="lblCognomeVendita"
-                                Text=""
-                                runat="server"></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Nome_Cliente_Vendita">
-                        <ItemTemplate>
-                            <asp:Label ID="lblNomeVendita"
-                                Text=""
-                                runat="server"></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
             </asp:GridView>
         </div>
         <div class="inserimento">

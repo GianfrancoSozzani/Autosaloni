@@ -102,50 +102,6 @@ public partial class _Default : System.Web.UI.Page
             CaricaModelli();
         }
     }
-
-    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        DB db = new DB();
-        db.query = "AUTOMOBILI_SelectResp_ClienteVendita";
-        DataTable DT = new DataTable();
-        DT = db.SQLselect();
-
-
-        if (e.Row.RowType == DataControlRowType.DataRow)
-        {
-            int index = e.Row.RowIndex;
-
-            // Assuming you want to add a custom value based on some logic
-            string cognomeResponsabile = DT.Rows[index]["Cognome_Responsabile"].ToString();
-            string nomeResponsabile = DT.Rows[index]["Nome_Responsabile"].ToString();
-            string cognomeCliente = DT.Rows[index]["Cognome_Cliente_Vendita"].ToString();
-            string nomeCliente = DT.Rows[index]["Nome_Cliente_Vendita"].ToString();
-
-
-            // Find the Label control in the TemplateField
-            Label lblCognomeResp = (Label)e.Row.FindControl("lblCognomeResp");
-            Label lblNomeResp = (Label)e.Row.FindControl("lblNomeResp");
-            Label lblCognomeVendita = (Label)e.Row.FindControl("lblCognomeVendita");
-            Label lblNomeVendita = (Label)e.Row.FindControl("lblNomeVendita");
-
-            if (lblCognomeResp != null)
-            {
-                lblCognomeResp.Text = cognomeResponsabile;
-            }
-            if (lblNomeResp != null)
-            {
-                lblNomeResp.Text = nomeResponsabile;
-            }
-            if (lblCognomeVendita != null)
-            {
-                lblCognomeVendita.Text = cognomeCliente;
-            }
-            if (lblNomeVendita != null)
-            {
-                lblNomeVendita.Text = nomeCliente;
-            }
-        }
-    }
     protected void ddlMarche_SelectedIndexChanged(object sender, EventArgs e)
     {
         CaricaModelli();
