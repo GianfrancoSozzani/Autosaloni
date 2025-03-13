@@ -1,6 +1,7 @@
 ﻿* {
     margin: 0 auto;
     font-family: Verdana,Tahoma, sans-serif;
+    box-sizing: border-box;
 }
 
 .container {

@@ -2,6 +2,7 @@
     font-family: Thaoma, Verdana, Geneva, sans-serif;
     margin: 0 auto;
     color: #236BB3;
+    box-sizing: border-box;
 }
 
 a {
