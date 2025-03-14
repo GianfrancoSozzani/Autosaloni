@@ -84,7 +84,7 @@ public partial class _Default : System.Web.UI.Page
             ddlVenditore.DataBind();
 
             // lista carburanti
-            
+
             ddlAlimentazione.Items.Add(new ListItem("benzina", "benzina")); // Testo visualizzato, Valore effettivo
             ddlAlimentazione.Items.Add(new ListItem("gasolio", "gasolio")); // Testo visualizzato, Valore effettivo
             ddlAlimentazione.Items.Add(new ListItem("ibrido-benzina", "ibrido-benzina")); // Testo visualizzato, Valore effettivo
@@ -107,7 +107,7 @@ public partial class _Default : System.Web.UI.Page
         database.query = "AUTOMOBILI_SelectAll";
         griglia.DataSource = database.SQLselect();
         griglia.DataBind();
-       
+
     }
     protected void ddlMarche_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -133,6 +133,51 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void btnInserimento_Click(object sender, EventArgs e)
     {
+        //controllo campi vuoti
+        if (String.IsNullOrEmpty(txtDataAcquisto.Text) ||
+            String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
+            String.IsNullOrEmpty(txtTelaio.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            txtDataAcquisto.Text = "*";
+            txtPrezzoAcquisto.Text = "*";
+            txtTelaio.Text = "*";
+        }
+
+        //controllo che il telaio sia valido
+        if (txtTelaio.Text.Length != 17)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('VIN');", true);
+            return;
+        }
+
+        if (
+           txtTelaio.Text.Contains(" ") ||
+           (txtTarga.Text.Contains(" ") && !String.IsNullOrEmpty(txtTarga.Text))
+          )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
+            return;
+
+        }
+
+
+        //CONTROLLLO CHE L'AUTO NON SIA GIà REGISTRATA
+        //collagmento a DB
+        DB c = new DB();
+        //eseguo query
+        c.query = "AUTOMIBILI_ControlloDuplicati";
+        c.cmd.Parameters.AddWithValue("@vin",txtTelaio.Text.Trim());
+        DataTable DT = new DataTable();
+        DT = c.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile già registrata');", true);
+            return;
+        }
+
+
         DB db = new DB();
         //eseguo query
         db.query = "AUTOMOBILI_Inserimento";
@@ -156,7 +201,7 @@ public partial class _Default : System.Web.UI.Page
         //eseguo il comando di update
         db.SQLCommand();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobiloe registrata correttamente');", true);
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile registrata correttamente');", true);
 
         //svuoto campi di inserimento
         txtDataAcquisto.Text = "";
