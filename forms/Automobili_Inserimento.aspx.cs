@@ -29,9 +29,9 @@ public partial class _Default : System.Web.UI.Page
 
 
             // Popola la dropdown solo al primo caricamento della pagina
-            // Aggiungi la voce "V"
+            // Aggiungi la voce "N"
             ddlStato.Items.Add(new ListItem("Nuova", "N")); // Testo visualizzato, Valore effettivo
-            // Aggiungi la voce "R"
+            // Aggiungi la voce "U"
             ddlStato.Items.Add(new ListItem("Usata", "U")); // Testo visualizzato, Valore effettivo
 
             //CARICAMENTO DROPDOWNLIST CLIENTIACQUISTO
@@ -96,11 +96,7 @@ public partial class _Default : System.Web.UI.Page
         database.query = "AUTOMOBILI_SelectAll";
         griglia.DataSource = database.SQLselect();
         griglia.DataBind();
-
-        if (!IsPostBack)
-        {
-            CaricaModelli();
-        }
+       
     }
     protected void ddlMarche_SelectedIndexChanged(object sender, EventArgs e)
     {
