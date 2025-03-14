@@ -1,5 +1,4 @@
-﻿
-.content {
+﻿.content {
     display: flex;
     justify-content: flex-start;
     align-items: stretch;
@@ -12,7 +11,6 @@
     padding: 14px;
     gap: 12px;
 }
-
 
 .griglia {
     display: flex;
@@ -49,7 +47,6 @@
     color: #236BB3;
 }
 
-
 .form-group {
     display: flex;
     flex-direction: column;
@@ -61,7 +58,6 @@
 }
 
 .form-input {
-    /* width: 100%;*/ /* Fai in modo che le textbox si espandano per riempire il contenitore */
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -102,13 +98,10 @@
     width: 80%;
 }
 
-
 /*the row change color if thead cursor datalist on it*/
-
 .grid tr:hover {
     background-color: #4b95e0;
 }
-
 
 .griglia-optimized2 {
     display: flex;
@@ -136,6 +129,7 @@
     padding: 14px;
     gap: 12px;
 }
+
 .pagina {
     display: flex;
     flex-direction: row;
@@ -151,4 +145,3 @@
     flex-direction: row;
     gap: 35px;
 }
-
