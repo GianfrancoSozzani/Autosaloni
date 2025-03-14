@@ -134,14 +134,17 @@ public partial class _Default : System.Web.UI.Page
     }
 
 
-    protected void btnInserimento_Click1(object sender, EventArgs e)
+    protected void btnInserimento_Click(object sender, EventArgs e)
     {
         DateTime Day;
 
         //controllo campi vuoti
-        if (String.IsNullOrEmpty(txtDataAcquisto.Text) ||
+        if (
+            String.IsNullOrEmpty(txtDataAcquisto.Text) ||
             String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
-            String.IsNullOrEmpty(txtTelaio.Text))
+            String.IsNullOrEmpty(txtTelaio.Text) ||
+            String.IsNullOrEmpty(txtKM.Text)
+            )
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
             return;
@@ -181,7 +184,7 @@ public partial class _Default : System.Web.UI.Page
         //collagmento a DB
         DB c = new DB();
         //eseguo query
-        c.query = "AUTOMIBILI_ControlloDuplicati";
+        c.query = "AUTOMOBILI_ControlloDuplicati";
         c.cmd.Parameters.AddWithValue("@vin", txtTelaio.Text.Trim());
         DataTable DT = new DataTable();
         DT = c.SQLselect();
