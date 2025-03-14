@@ -94,13 +94,13 @@
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
-                        <asp:Label ID="Label12" runat="server" Text="Targa:" CssClass="form-label Upper" ForeColor="#236BB3"></asp:Label>
-                        <asp:TextBox ID="txtTarga" runat="server" ForeColor="#236BB3" MaxLength="20"></asp:TextBox>
+                        <asp:Label ID="Label12" runat="server" Text="Targa:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                        <asp:TextBox ID="txtTarga" runat="server" ForeColor="#236BB3" MaxLength="20" CssClass="Upper"></asp:TextBox>
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
-                        <asp:Label ID="Label16" runat="server" Text="Telaio:" CssClass="form-label Upper" ForeColor="#236BB3"></asp:Label>
-                        <asp:TextBox ID="txtTelaio" runat="server" ForeColor="#236BB3" MaxLength="17"></asp:TextBox>
+                        <asp:Label ID="Label16" runat="server" Text="Telaio:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                        <asp:TextBox ID="txtTelaio" runat="server" ForeColor="#236BB3" MaxLength="17" CssClass="Upper"></asp:TextBox>
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">

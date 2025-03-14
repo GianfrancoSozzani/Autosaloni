@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -131,17 +132,31 @@ public partial class _Default : System.Web.UI.Page
         //aggiornamento ddl
         ddlModelli.DataBind();
     }
-    protected void btnInserimento_Click(object sender, EventArgs e)
+
+
+    protected void btnInserimento_Click1(object sender, EventArgs e)
     {
+        DateTime Day;
+
         //controllo campi vuoti
         if (String.IsNullOrEmpty(txtDataAcquisto.Text) ||
             String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
             String.IsNullOrEmpty(txtTelaio.Text))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
-            txtDataAcquisto.Text = "*";
-            txtPrezzoAcquisto.Text = "*";
-            txtTelaio.Text = "*";
+            return;
+        }
+
+        //controllo che la data inserita sia valida come formato e la converto nel formato senza orario come in sql server (yyyy-mm-dd)
+        if (DateTime.TryParse(txtDataAcquisto.Text, out Day) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
+        {
+            Day = Day.Date;
+
+        }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
+            return;
         }
 
         //controllo che il telaio sia valido
@@ -167,7 +182,7 @@ public partial class _Default : System.Web.UI.Page
         DB c = new DB();
         //eseguo query
         c.query = "AUTOMIBILI_ControlloDuplicati";
-        c.cmd.Parameters.AddWithValue("@vin",txtTelaio.Text.Trim());
+        c.cmd.Parameters.AddWithValue("@vin", txtTelaio.Text.Trim());
         DataTable DT = new DataTable();
         DT = c.SQLselect();
 
@@ -183,7 +198,7 @@ public partial class _Default : System.Web.UI.Page
         db.query = "AUTOMOBILI_Inserimento";
         db.cmd.Parameters.AddWithValue("@modello", ddlModelli.SelectedValue);
         db.cmd.Parameters.AddWithValue("@stato", ddlStato.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@data_acquisto", DateTime.Parse(txtDataAcquisto.Text));
+        db.cmd.Parameters.AddWithValue("@data_acquisto", txtDataAcquisto.Text);
         db.cmd.Parameters.AddWithValue("@cliente_acquisto", ddlClientiAcquisto.SelectedValue);
         db.cmd.Parameters.AddWithValue("@prezzo_acquisto", Decimal.Parse(txtPrezzoAcquisto.Text.Trim()));
         db.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
@@ -213,6 +228,6 @@ public partial class _Default : System.Web.UI.Page
         txtOptional.Text = "";
         //ricarico la griglia
         CaricaDati();
-
     }
+
 }
