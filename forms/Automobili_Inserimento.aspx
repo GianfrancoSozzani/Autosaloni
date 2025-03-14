@@ -1,23 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Automobili_Inserimento.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="content-optimized">
+    <div class="content-optimized2">
 
         <div class="title">
             <p>Inserire una nuova Automobile</p>
         </div>
-
         <div class="griglia-optimized2">
-            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3">
-                <FooterStyle BackColor="White" ForeColor="#000066" />
-                <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
-                <RowStyle ForeColor="#000066" />
-                <SelectedRowStyle BackColor="#1495db" Font-Bold="True" ForeColor="White" />
-                <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                <SortedAscendingHeaderStyle BackColor="#007DBB" />
-                <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                <SortedDescendingHeaderStyle BackColor="#00547E" />
+            <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid">
             </asp:GridView>
         </div>
         <div class="inserimento">
@@ -61,13 +51,13 @@
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label6" runat="server" Text="Responsabile: " CssClass="form-label"></asp:Label>
-                    <%--qui compaiono solo i responsabili--%>
+
                     <asp:DropDownList ID="ddlResponsabile" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
                 <div class="form-group">
                     <asp:Label ID="Label7" runat="server" Text="Venditore:" CssClass="form-label"></asp:Label>
-                    <%--qui compaiono tutti i dipendenti  usare chiave per distingure ononimi--%>
+
                     <asp:DropDownList ID="ddlVenditore" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div>&nbsp;</div>
