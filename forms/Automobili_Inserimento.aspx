@@ -74,7 +74,7 @@
                 <div id="parte2">
                     <div class="form-group">
                         <asp:Label ID="Label17" runat="server" Text="Alimentazione:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
-                        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" ForeColor="#236BB3"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlAlimentazione" runat="server" AutoPostBack="true" ForeColor="#236BB3"></asp:DropDownList>
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
@@ -93,12 +93,12 @@
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
-                        <asp:Label ID="Label12" runat="server" Text="Targa:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                        <asp:Label ID="Label12" runat="server" Text="Targa:" CssClass="form-label Upper" ForeColor="#236BB3"></asp:Label>
                         <asp:TextBox ID="txtTarga" runat="server" ForeColor="#236BB3"></asp:TextBox>
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
-                        <asp:Label ID="Label16" runat="server" Text="Telaio:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                        <asp:Label ID="Label16" runat="server" Text="Telaio:" CssClass="form-label Upper" ForeColor="#236BB3"></asp:Label>
                         <asp:TextBox ID="txtTelaio" runat="server" ForeColor="#236BB3"></asp:TextBox>
                     </div>
                     <div>&nbsp;</div>
