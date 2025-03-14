@@ -113,7 +113,6 @@
 .griglia-optimized2 {
     display: flex;
     justify-content: center;
-    height: 100%;
     padding: 15px;
     gap: 5px;
     margin: 0 auto;
@@ -121,6 +120,7 @@
     color: #236BB3;
     overflow: scroll;
     width: 600px;
+    height:45%;
 }
 
 .content-optimized2 {
@@ -135,5 +135,20 @@
     height: 100%;
     padding: 14px;
     gap: 12px;
+}
+.pagina {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    gap:20px;
+}
+
+.compilazione {
+    margin: 20px;
+    display:flex;
+    flex-direction: row;
+    gap: 35px;
 }
 
