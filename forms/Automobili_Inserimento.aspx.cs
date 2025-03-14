@@ -93,14 +93,14 @@ public partial class _Default : System.Web.UI.Page
             ddlAlimentazione.Items.Add(new ListItem("elettrico", "elettrico")); // Testo visualizzato, Valore effettivo
             ddlAlimentazione.Items.Add(new ListItem("metano", "metano")); // Testo visualizzato, Valore effettivo
 
+            // lista cambi
+
+            ddlCambio.Items.Add(new ListItem("automatico", "automatico")); // Testo visualizzato, Valore effettivo
+            ddlCambio.Items.Add(new ListItem("manuale", "manuale")); // Testo visualizzato, Valore effettivo
+            ddlCambio.Items.Add(new ListItem("sequenzale", "sequenzale")); // Testo visualizzato, Valore effettivo
+
         }
     }
-
-    protected void btnInserimento_Click(object sender, EventArgs e)
-    {
-
-    }
-
     protected void CaricaDati()
     {
         DB database = new DB();
@@ -130,5 +130,44 @@ public partial class _Default : System.Web.UI.Page
         ddlModelli.DataTextField = "Modello";
         //aggiornamento ddl
         ddlModelli.DataBind();
+    }
+    protected void btnInserimento_Click(object sender, EventArgs e)
+    {
+        DB db = new DB();
+        //eseguo query
+        db.query = "AUTOMOBILI_Inserimento";
+        db.cmd.Parameters.AddWithValue("@modello", ddlModelli.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@stato", ddlStato.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@data_acquisto", DateTime.Parse(txtDataAcquisto.Text));
+        db.cmd.Parameters.AddWithValue("@cliente_acquisto", ddlClientiAcquisto.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@prezzo_acquisto", Decimal.Parse(txtPrezzoAcquisto.Text.Trim()));
+        db.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@responsabile", ddlResponsabile.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@venditore", ddlVenditore.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@alimentazione", ddlAlimentazione.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@colore", txtColori.Text.Trim());
+        db.cmd.Parameters.AddWithValue("@km", int.Parse(txtKM.Text.Trim()));
+        db.cmd.Parameters.AddWithValue("@cambio", ddlCambio.SelectedValue);
+        db.cmd.Parameters.AddWithValue("@targa", txtTarga.Text.Trim());
+        db.cmd.Parameters.AddWithValue("@telaio", txtTelaio.Text.Trim());
+        db.cmd.Parameters.AddWithValue("@condizione", txtCondizioni.Text.Trim());
+        db.cmd.Parameters.AddWithValue("@optional", txtOptional.Text.Trim());
+
+        //eseguo il comando di update
+        db.SQLCommand();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobiloe registrata correttamente');", true);
+
+        //svuoto campi di inserimento
+        txtDataAcquisto.Text = "";
+        txtPrezzoAcquisto.Text = "";
+        txtColori.Text = "";
+        txtTarga.Text = "";
+        txtTelaio.Text = "";
+        txtCondizioni.Text = "";
+        txtOptional.Text = "";
+        //ricarico la griglia
+        CaricaDati();
+
     }
 }
