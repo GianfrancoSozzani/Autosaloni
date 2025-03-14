@@ -71,7 +71,7 @@ public partial class _Default : System.Web.UI.Page
             //aggiornamento ddl
             ddlResponsabile.DataBind();
 
-            //CARICAMENTO DROPDOWNLIST RESPONSABILI
+            //CARICAMENTO DROPDOWNLIST VEBDITORI
             //collagmento a DB
             DB database3 = new DB();
             //eseguo query
@@ -82,6 +82,16 @@ public partial class _Default : System.Web.UI.Page
             ddlVenditore.DataTextField = "NomeCognome";
             //aggiornamento ddl
             ddlVenditore.DataBind();
+
+            // lista carburanti
+            
+            ddlAlimentazione.Items.Add(new ListItem("benzina", "benzina")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("gasolio", "gasolio")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("ibrido-benzina", "ibrido-benzina")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("ibrido-gasolio", "ibrido-gasolio")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("idrogeno", "idrogeno")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("elettrico", "elettrico")); // Testo visualizzato, Valore effettivo
+            ddlAlimentazione.Items.Add(new ListItem("metano", "metano")); // Testo visualizzato, Valore effettivo
 
         }
     }
