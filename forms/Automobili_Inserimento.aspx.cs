@@ -130,12 +130,12 @@ public partial class _Default : System.Web.UI.Page
         r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
         DataTable DT = new DataTable();
         DT = r.SQLselect();
-        ddlModelli.DataSource = DT;
+        ddlResponsabile.DataSource = DT;
         //indico come la ddl deve visualizzare i valori
-        ddlModelli.DataValueField = "K_Dipendente";
-        ddlModelli.DataTextField = "NomeCognome";
+        ddlResponsabile.DataValueField = "K_Dipendente";
+        ddlResponsabile.DataTextField = "NomeCognome";
         //aggiornamento ddl
-        ddlModelli.DataBind();
+        ddlResponsabile.DataBind();
     }
 
     protected void CaricaVenditori()
@@ -148,12 +148,12 @@ public partial class _Default : System.Web.UI.Page
         r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
         DataTable DT = new DataTable();
         DT = r.SQLselect();
-        ddlModelli.DataSource = DT;
+        ddlVenditore.DataSource = DT;
         //indico come la ddl deve visualizzare i valori
-        ddlModelli.DataValueField = "K_Dipendente";
-        ddlModelli.DataTextField = "NomeCognome";
+        ddlVenditore.DataValueField = "K_Dipendente";
+        ddlVenditore.DataTextField = "NomeCognome";
         //aggiornamento ddl
-        ddlModelli.DataBind();
+        ddlVenditore.DataBind();
     }
 
 
