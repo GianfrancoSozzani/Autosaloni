@@ -61,29 +61,10 @@ public partial class _Default : System.Web.UI.Page
             ddlSaloni.DataBind();
 
             //CARICAMENTO DROPDOWNLIST RESPONSABILI
-            //collagmento a DB
-            DB database2 = new DB();
-            //eseguo query
-            database2.query = "DIPENDENTI_ResponsabiliDatiAnagrafici";
-            ddlResponsabile.DataSource = database2.SQLselect();
-            //indico come la ddl deve visualizzare i valor
-            ddlResponsabile.DataValueField = "K_Dipendente";
-            ddlResponsabile.DataTextField = "NomeCognome";
-            //aggiornamento ddl
-            ddlResponsabile.DataBind();
+            CaricaResponsabili();
 
-            //CARICAMENTO DROPDOWNLIST VEBDITORI
-            //collagmento a DB
-            DB database3 = new DB();
-            //eseguo query
-            database3.query = "DIPENDENTI_VenditoriDatiAnagrafici";
-            ddlVenditore.DataSource = database3.SQLselect();
-            //indico come la ddl deve visualizzare i valor
-            ddlVenditore.DataValueField = "K_Dipendente";
-            ddlVenditore.DataTextField = "NomeCognome";
-            //aggiornamento ddl
-            ddlVenditore.DataBind();
-
+            //CARICAMENTO DROPDOWNLIST VENDITORI
+            CaricaVenditori();
             // lista carburanti
 
             ddlAlimentazione.Items.Add(new ListItem("benzina", "benzina")); // Testo visualizzato, Valore effettivo
@@ -115,6 +96,12 @@ public partial class _Default : System.Web.UI.Page
         CaricaModelli();
     }
 
+    protected void ddlSaloni_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CaricaResponsabili();
+        CaricaVenditori();
+    }
+
     protected void CaricaModelli()
     {
         //CARICAMENTO DROPDOWNLIST GENERALE
@@ -133,6 +120,44 @@ public partial class _Default : System.Web.UI.Page
         ddlModelli.DataBind();
     }
 
+    protected void CaricaResponsabili()
+    {
+        //CARICAMENTO DROPDOWNLIST GENERALE
+        //collagmento a DB
+        DB r = new DB();
+        //eseguo query
+        r.query = "DIPENDENTI_ResponsabiliSalone";
+        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        DataTable DT = new DataTable();
+        DT = r.SQLselect();
+        ddlModelli.DataSource = DT;
+        //indico come la ddl deve visualizzare i valori
+        ddlModelli.DataValueField = "K_Dipendente";
+        ddlModelli.DataTextField = "NomeCognome";
+        //aggiornamento ddl
+        ddlModelli.DataBind();
+    }
+
+    protected void CaricaVenditori()
+    {
+        //CARICAMENTO DROPDOWNLIST GENERALE
+        //collagmento a DB
+        DB r = new DB();
+        //eseguo query
+        r.query = "DIPENDENTI_VenditoriSalone";
+        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        DataTable DT = new DataTable();
+        DT = r.SQLselect();
+        ddlModelli.DataSource = DT;
+        //indico come la ddl deve visualizzare i valori
+        ddlModelli.DataValueField = "K_Dipendente";
+        ddlModelli.DataTextField = "NomeCognome";
+        //aggiornamento ddl
+        ddlModelli.DataBind();
+    }
+
+
+
 
     protected void btnInserimento_Click(object sender, EventArgs e)
     {
@@ -150,7 +175,7 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che la data inserita sia valida come formato e la converto nel formato senza orario come in sql server (yyyy-mm-dd)
+        //controllo che la data inserita sia valida come formato
         if (DateTime.TryParse(txtDataAcquisto.Text, out Day) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
         {
             Day = Day.Date;
@@ -232,5 +257,7 @@ public partial class _Default : System.Web.UI.Page
         //ricarico la griglia
         CaricaDati();
     }
+
+
 
 }

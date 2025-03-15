@@ -57,7 +57,7 @@
                     <div>&nbsp;</div>
                     <div class="form-group">
                         <asp:Label ID="Label5" runat="server" Text="Salone: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
-                        <asp:DropDownList ID="ddlSaloni" runat="server" AutoPostBack="true" ForeColor="#236BB3"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlSaloni" runat="server" AutoPostBack="true" ForeColor="#236BB3" OnSelectedIndexChanged="ddlSaloni_SelectedIndexChanged"></asp:DropDownList>
                     </div>
                     <div>&nbsp;</div>
                     <div class="form-group">
