@@ -186,6 +186,15 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
             return;
         }
+        //controllo che la data inserita non sia oltre la data corrente
+        DateTime dataOdierna = DateTime.Now;
+        
+        if(Day > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
+            return;
+        }
 
         //controllo che il telaio sia valido
         if (txtTelaio.Text.Length != 17)
