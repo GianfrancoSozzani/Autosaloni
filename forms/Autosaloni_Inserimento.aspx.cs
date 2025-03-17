@@ -49,46 +49,40 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('provincia non valida');", true);
             return;
         }
-       
 
-        if (!int.TryParse(txtCAP.Text, out provaCAP))
+
+        if (!int.TryParse(inserimentoCAP, out provaCAP))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
-
         }
 
-        if ( inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
+        if (inserimentoCAP.Contains(" ") || inserimentoProvincia.Contains(" "))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
             return;
         }
 
         //controllo che non sia già presente un autosalone uguale
-        DB database = new DB();
-        database.query = "SALONI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@nome_salone", inserimentoNome);
-        //creare la datatable
-        DataTable DT = new DataTable();
-        DT = database.SQLselect();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        SALONI s = new SALONI();
+        s.Nome_Salone = inserimentoNome;
+        DataTable DT = new DataTable();
+        DT = s.SelezionaSalone();
+
+
+        if (DT.Rows.Count > 0)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone già presente allo stesso indirizzo in questa città');", true);
             return;
         }
+        
+        s.Indirizzo = inserimentoIndirizzo;
+        s.Citta = inserimentoCitta;
+        s.CAP = inserimentoCAP;
+        s.Provincia = inserimentoProvincia;
+        s.Inserimento();
 
-        //INSERIMENTO 
-        //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "SALONI_Inserimento";
-        x.cmd.Parameters.AddWithValue("@nome_salone", inserimentoNome);
-        x.cmd.Parameters.AddWithValue("@indirizzo", inserimentoIndirizzo);
-        x.cmd.Parameters.AddWithValue("@cap", inserimentoCAP);
-        x.cmd.Parameters.AddWithValue("@citta", inserimentoCitta);
-        x.cmd.Parameters.AddWithValue("@provincia", inserimentoProvincia);
-        x.SQLCommand();
 
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosaloni Inserito Correttamente');", true);
 
@@ -110,9 +104,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-        DB database = new DB();
-        database.query = "SALONI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        SALONI s = new SALONI();
+        griglia.DataSource = s.SelectAll();
         griglia.DataBind();
     }
 }

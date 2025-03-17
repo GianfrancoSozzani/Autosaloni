@@ -23,13 +23,11 @@ public partial class _Default : System.Web.UI.Page
             //inserisco la marca selezionata nell'altra pagina (cioè in base a c) dentro il textbox
 
             //collegarmi al database
-            DB database = new DB();
-            //gli passo la query
-            database.query = "SALONI_SelezionaChiave";
-            database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+            SALONI s = new SALONI();
+            s.K_Salone = int.Parse(chiave);
             //creare la datatable
             DataTable DT = new DataTable();
-            DT = database.SQLselect();
+            DT = s.SelezionaChiave();
             //riempio il textbox
             txtSalone.Text = DT.Rows[0]["Nome_Salone"].ToString();
             txtIndirizzo.Text = DT.Rows[0]["Indirizzo"].ToString();
@@ -63,8 +61,8 @@ public partial class _Default : System.Web.UI.Page
             return;
 
         }
-                
-            if (txtCAP.Text.Length != 5)
+
+        if (txtCAP.Text.Length != 5)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
@@ -83,30 +81,25 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che non ci sia un autosalone con nome uguale
-        DB database = new DB();
-        database.query = "SALONI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@nome_salone", txtSalone.Text.Trim());
+        SALONI s = new SALONI();
+        s.K_Salone = int.Parse(chiave);
+        s.Nome_Salone = txtSalone.Text.Trim();
+        s.Indirizzo = txtIndirizzo.Text.Trim();
+        s.CAP = txtCAP.Text;
+        s.Citta = txtCitta.Text.Trim();
+        s.Provincia = txtProvincia.Text;
         //creare la datatable
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = s.CheckRedundantRecords();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone già presente');", true);
             return;
         }
 
         //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "SALONI_Update";
-        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        x.cmd.Parameters.AddWithValue("@nome_salone", txtSalone.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
-        x.cmd.Parameters.AddWithValue("@citta", txtCitta.Text);
-        x.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
-        x.SQLCommand();
+        s.Modifica();
 
         //ritorno a Marche_Modifica
         Response.Redirect("Autosaloni_Modifica.aspx");
