@@ -55,7 +55,7 @@ public partial class _Default : System.Web.UI.Page
         m.K_Marca = int.Parse(chiave);
         DataTable DT = new DataTable();
         DT = m.CheckRedundantRecords();
-        if (DT.Rows.Count != 0) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
             return;

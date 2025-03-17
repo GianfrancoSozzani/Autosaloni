@@ -24,10 +24,9 @@ public partial class _Default : System.Web.UI.Page
 
             //CARICAMENTO DROPDOWNLIST GENERALE
             //collagmento a DB
-            DB database = new DB();
+            MARCHE m = new MARCHE();
             //eseguo query
-            database.query = "Marche_SelectAll";
-            ddlMarche.DataSource = database.SQLselect();
+            ddlMarche.DataSource = m.SelectAll();
             //indico come la ddl deve visualizzare i valori
             ddlMarche.DataValueField = "K_Marca";
             ddlMarche.DataTextField = "Marca";
@@ -36,12 +35,10 @@ public partial class _Default : System.Web.UI.Page
 
             //CARICO VALORI SELEZIONATI NELLA DDL(marca) e nel TEXTBOX(modello) in base ai valori scelti nella pagina di partenza
             //collegamento database
-            DB stampdatabase = new DB();
-            //gli passo la query che stampera i valori dalla tabella MODELLI in base alla chiave
-            stampdatabase.query = "Modello_SelezionaChiave";
-            stampdatabase.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+            MODELLI mod = new MODELLI();
+            mod.K_Modello = int.Parse(chiave);
             DataTable DT = new DataTable();
-            DT = stampdatabase.SQLselect();
+            DT = mod.SelezionaChiave();
             //valore dddl (marca)
             ddlMarche.SelectedValue = DT.Rows[0]["K_Marca"].ToString();
             //valore in textbox (modello)
@@ -61,33 +58,23 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che il modello non sia già presente nel database 
-        DB database = new DB();
-        database.query = "MODELLI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        database.cmd.Parameters.AddWithValue("@marca", ddlMarche.SelectedValue);
-        database.cmd.Parameters.AddWithValue("@modello", txtModello.Text.Trim());
+        MODELLI m = new MODELLI();
         //creare la datatable
+        m.K_Modello = int.Parse(chiave);
+        m.K_Marca = int.Parse(ddlMarche.SelectedValue);
+        m.Modello = txtModello.Text;
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = m.CheckRedundantRecords();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello già presente');", true);
             return;
         }
 
         //UPDATE
-
-        //connesione al database
-        DB x = new DB();
-        //gli passo la query
-        x.query = "Modelli_Update";
-        //gli passo la chiave e i valori dalla dropdownlist  e dalla textbox
-        x.cmd.Parameters.AddWithValue("@marca", ddlMarche.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@modello", txtModello.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        //update dati del modello
-        x.SQLCommand();
+        m.Modifica();
+     
         //ritorno alla pagina Modelli_Modifica
         Response.Redirect("Modelli_Modifica.aspx");
     }

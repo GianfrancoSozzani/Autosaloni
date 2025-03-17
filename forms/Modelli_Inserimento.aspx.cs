@@ -47,9 +47,9 @@ public partial class _Default : System.Web.UI.Page
         DT = m.SelezionaModello();
 
         //controllo che non sia già presente la marca
-        if (DT.Rows.Count != 0)
+        if (DT.Rows.Count > 0)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello già presente');", true);
             return;
         }
 
@@ -74,8 +74,7 @@ public partial class _Default : System.Web.UI.Page
 
         //connetterci al database
         MODELLI m = new MODELLI();
-        DataTable DT = new DataTable();
-        m.SelectAll();
+        griglia.DataSource = m.SelectAll();
         //aggiorno la griglia
         griglia.DataBind();
 

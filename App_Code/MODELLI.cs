@@ -14,9 +14,9 @@ public class MODELLI
     public string Modello;
     public int K_Marca;
     public MODELLI()
-	{
-		
-	}
+    {
+
+    }
     /// <summary>
     /// restituisce sotto forma di DataTable la lista dei modelli presenti in db
     /// </summary>
@@ -27,7 +27,7 @@ public class MODELLI
         db.query = "MODELLI_SelectAll";
         return db.SQLselect();
     }
-    
+
     //seleziona per  modello e chiave marca
     /// <summary>
     /// indentifica se il modello che si prova ad inserire (ex-novo) è già prsente nel db
@@ -53,7 +53,36 @@ public class MODELLI
         db.query = "MODELLI_Inserimento";
         db.cmd.Parameters.AddWithValue("@modello", Modello);
         db.cmd.Parameters.AddWithValue("@marca", K_Marca);
+        db.SQLCommand();
     }
 
-    //selezione per marca
+    //seleziona per chiave
+    public DataTable SelezionaChiave()
+    {
+        DB db = new DB();
+        db.query = "MODELLI_SelezionaChiave";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Modello);
+        return db.SQLselect();
+    }
+
+    //modifica
+    public void Modifica()
+    {
+        DB db = new DB();
+        db.query = "MODELLI_Update";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Modello);
+        db.cmd.Parameters.AddWithValue("@marca", K_Marca);
+        db.cmd.Parameters.AddWithValue("@modello", Modello);
+        db.SQLCommand();
+    }
+
+    public DataTable CheckRedundantRecords()
+    {
+        DB db = new DB();
+        db.query = "MODELLI_CheckRedundantRecords";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Modello);
+        db.cmd.Parameters.AddWithValue("@marca", K_Marca);
+        db.cmd.Parameters.AddWithValue("@modello", Modello);
+        return db.SQLselect();
+    }
 }
