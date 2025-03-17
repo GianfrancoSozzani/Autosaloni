@@ -14,12 +14,11 @@ public partial class _Default : System.Web.UI.Page
         //Connessione al DB e selezione con la query dei dati con cui riempire la tabella
 
         //connetterci al database
-        DB database = new DB();
-        //popolare la griglia
-        database.query = "MODELLI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        MODELLI m = new MODELLI();
+        griglia.DataSource = m.SelectAll();
         //aggiorno la griglia
         griglia.DataBind();
+
     }
 
     protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
