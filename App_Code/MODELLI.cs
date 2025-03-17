@@ -29,6 +29,9 @@ public class MODELLI
     }
     
     //seleziona per  modello e chiave marca
+    /// <summary>
+    /// indentifica se il modello che si prova ad inserire (ex-novo) è già prsente nel db
+    /// </summary>
     public DataTable SelezionaModello()
     {
         DB db = new DB();
@@ -38,7 +41,6 @@ public class MODELLI
         return db.SQLselect();
     }
 
-    //selezione per marca
 
     //inserimento
 
@@ -53,4 +55,5 @@ public class MODELLI
         db.cmd.Parameters.AddWithValue("@marca", K_Marca);
     }
 
+    //selezione per marca
 }
