@@ -17,13 +17,11 @@ public partial class _Default : System.Web.UI.Page
             //inserisco la marca selezionata nell'altra pagina (cioè in base a c) dentro il textbox
 
             //collegarmi al database
-            DB database = new DB();
+            MARCHE m = new MARCHE();
             //gli passo la query
-            database.query = "MARCHE_SelezioneChiave";
-            database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-            //creare la datatable
+            m.K_Marca = int.Parse(chiave);
             DataTable DT = new DataTable();
-            DT = database.SQLselect();
+            DT = m.SelezionaChiave();
             //riempio il textbox
             txtAggiorna.Text = DT.Rows[0]["Marca"].ToString();
 
@@ -43,35 +41,20 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che la marca inserita non sia già presente nel database
-        DB database = new DB();
-        database.query = "MARCHE_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        database.cmd.Parameters.AddWithValue("@marca", txtAggiorna.Text.Trim());
+
 
         //creare la datatable
+        MARCHE m = new MARCHE();
+        m.Marca = txtAggiorna.Text;
+        m.K_Marca = int.Parse(chiave);
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
-
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        DT = m.CheckRedundantRecords();
+        if (DT.Rows.Count != 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
             return;
         }
-
-
-
-
-
-
-
-        //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "Marche_Update";
-        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        x.cmd.Parameters.AddWithValue("@marca", txtAggiorna.Text.Trim());
-        x.SQLCommand();
-
+        m.Modifica();
         //ritorno a Marche_Modifica
         Response.Redirect("Marche_Modifica.aspx");
     }
