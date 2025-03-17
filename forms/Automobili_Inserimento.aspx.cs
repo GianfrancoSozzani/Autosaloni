@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
@@ -56,31 +60,12 @@ public partial class _Default : System.Web.UI.Page
             ddlSaloni.DataBind();
 
             //CARICAMENTO DROPDOWNLIST RESPONSABILI
-            //collagmento a DB
-            DB database2 = new DB();
-            //eseguo query
-            database2.query = "DIPENDENTI_ResponsabiliDatiAnagrafici";
-            ddlResponsabile.DataSource = database2.SQLselect();
-            //indico come la ddl deve visualizzare i valor
-            ddlResponsabile.DataValueField = "K_Dipendente";
-            ddlResponsabile.DataTextField = "NomeCognome";
-            //aggiornamento ddl
-            ddlResponsabile.DataBind();
+            CaricaResponsabili();
 
-            //CARICAMENTO DROPDOWNLIST VEBDITORI
-            //collagmento a DB
-            DB database3 = new DB();
-            //eseguo query
-            database3.query = "DIPENDENTI_VenditoriDatiAnagrafici";
-            ddlVenditore.DataSource = database3.SQLselect();
-            //indico come la ddl deve visualizzare i valor
-            ddlVenditore.DataValueField = "K_Dipendente";
-            ddlVenditore.DataTextField = "NomeCognome";
-            //aggiornamento ddl
-            ddlVenditore.DataBind();
-
+            //CARICAMENTO DROPDOWNLIST VENDITORI
+            CaricaVenditori();
             // lista carburanti
-            
+
             ddlAlimentazione.Items.Add(new ListItem("benzina", "benzina")); // Testo visualizzato, Valore effettivo
             ddlAlimentazione.Items.Add(new ListItem("gasolio", "gasolio")); // Testo visualizzato, Valore effettivo
             ddlAlimentazione.Items.Add(new ListItem("ibrido-benzina", "ibrido-benzina")); // Testo visualizzato, Valore effettivo
@@ -103,11 +88,17 @@ public partial class _Default : System.Web.UI.Page
         database.query = "AUTOMOBILI_SelectAll";
         griglia.DataSource = database.SQLselect();
         griglia.DataBind();
-       
+
     }
     protected void ddlMarche_SelectedIndexChanged(object sender, EventArgs e)
     {
         CaricaModelli();
+    }
+
+    protected void ddlSaloni_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CaricaResponsabili();
+        CaricaVenditori();
     }
 
     protected void CaricaModelli()
@@ -127,14 +118,123 @@ public partial class _Default : System.Web.UI.Page
         //aggiornamento ddl
         ddlModelli.DataBind();
     }
+
+    protected void CaricaResponsabili()
+    {
+        //CARICAMENTO DROPDOWNLIST GENERALE
+        //collagmento a DB
+        DB r = new DB();
+        //eseguo query
+        r.query = "DIPENDENTI_ResponsabiliSalone";
+        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        DataTable DT = new DataTable();
+        DT = r.SQLselect();
+        ddlResponsabile.DataSource = DT;
+        //indico come la ddl deve visualizzare i valori
+        ddlResponsabile.DataValueField = "K_Dipendente";
+        ddlResponsabile.DataTextField = "NomeCognome";
+        //aggiornamento ddl
+        ddlResponsabile.DataBind();
+    }
+
+    protected void CaricaVenditori()
+    {
+        //CARICAMENTO DROPDOWNLIST GENERALE
+        //collagmento a DB
+        DB r = new DB();
+        //eseguo query
+        r.query = "DIPENDENTI_VenditoriSalone";
+        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
+        DataTable DT = new DataTable();
+        DT = r.SQLselect();
+        ddlVenditore.DataSource = DT;
+        //indico come la ddl deve visualizzare i valori
+        ddlVenditore.DataValueField = "K_Dipendente";
+        ddlVenditore.DataTextField = "NomeCognome";
+        //aggiornamento ddl
+        ddlVenditore.DataBind();
+    }
+
+
+
+
     protected void btnInserimento_Click(object sender, EventArgs e)
     {
+        DateTime Day;
+
+        //controllo campi vuoti
+        if (
+            String.IsNullOrEmpty(txtDataAcquisto.Text) ||
+            String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
+            String.IsNullOrEmpty(txtTelaio.Text) ||
+            String.IsNullOrEmpty(txtKM.Text)
+            )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            return;
+        }
+
+        //controllo che la data inserita sia valida come formato
+        if (DateTime.TryParse(txtDataAcquisto.Text, out Day) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
+        {
+            Day = Day.Date;
+
+        }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
+            return;
+        }
+        //controllo che la data inserita non sia oltre la data corrente
+        DateTime dataOdierna = DateTime.Now;
+        
+        if(Day > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
+            return;
+        }
+
+        //controllo che il telaio sia valido
+        if (txtTelaio.Text.Length != 17)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('VIN');", true);
+            return;
+        }
+
+        if (
+           txtTelaio.Text.Contains(" ") ||
+           (txtTarga.Text.Contains(" ") && !String.IsNullOrEmpty(txtTarga.Text))
+          )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
+            return;
+
+        }
+
+
+        //CONTROLLLO CHE L'AUTO NON SIA GIà REGISTRATA
+        //collagmento a DB
+        DB c = new DB();
+        //eseguo query
+        c.query = "AUTOMOBILI_ControlloDuplicati";
+        c.cmd.Parameters.AddWithValue("@vin", txtTelaio.Text.Trim());
+        DataTable DT = new DataTable();
+        DT = c.SQLselect();
+
+        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile già registrata');", true);
+            return;
+        }
+
+
         DB db = new DB();
         //eseguo query
         db.query = "AUTOMOBILI_Inserimento";
         db.cmd.Parameters.AddWithValue("@modello", ddlModelli.SelectedValue);
         db.cmd.Parameters.AddWithValue("@stato", ddlStato.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@data_acquisto", DateTime.Parse(txtDataAcquisto.Text));
+        db.cmd.Parameters.AddWithValue("@data_acquisto", txtDataAcquisto.Text);
         db.cmd.Parameters.AddWithValue("@cliente_acquisto", ddlClientiAcquisto.SelectedValue);
         db.cmd.Parameters.AddWithValue("@prezzo_acquisto", Decimal.Parse(txtPrezzoAcquisto.Text.Trim()));
         db.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
@@ -152,7 +252,7 @@ public partial class _Default : System.Web.UI.Page
         //eseguo il comando di update
         db.SQLCommand();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobiloe registrata correttamente');", true);
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile registrata correttamente');", true);
 
         //svuoto campi di inserimento
         txtDataAcquisto.Text = "";
@@ -164,6 +264,8 @@ public partial class _Default : System.Web.UI.Page
         txtOptional.Text = "";
         //ricarico la griglia
         CaricaDati();
-
     }
+
+
+
 }
