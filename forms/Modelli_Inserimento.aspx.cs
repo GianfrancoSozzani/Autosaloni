@@ -17,10 +17,9 @@ public partial class _Default : System.Web.UI.Page
         {
             //CARICAMENTO DROPDOWNLIST GENERALE
             //collagmento a DB
-            DB db = new DB();
+            MARCHE m = new MARCHE();
             //eseguo query
-            db.query = "Marche_SelectAll";
-            ddlMarca.DataSource = db.SQLselect();
+            ddlMarca.DataSource = m.SelectAll();
             //indico come la ddl deve visualizzare i valori
             ddlMarca.DataValueField = "K_Marca";
             ddlMarca.DataTextField = "Marca";
@@ -31,11 +30,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        //dichairo variabile di strorage per la modello inserito
-        string inserimentoModello = txtInserimento.Text.Trim();
-
         //controlo che l'utente abbia effettivamente scritto qualcosa
-        if (String.IsNullOrEmpty(inserimentoModello))
+        if (String.IsNullOrEmpty(txtInserimento.Text))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati non validi');", true);
             return;
@@ -43,33 +39,22 @@ public partial class _Default : System.Web.UI.Page
 
         //controllo che non sia già presente lo stesso modello
 
-        DB database = new DB();
-        database.query = "MODELLI_ControllaModello";
-        database.cmd.Parameters.AddWithValue("@marca", ddlMarca.SelectedValue);
-        database.cmd.Parameters.AddWithValue("@modello", inserimentoModello);
-        //creare la datatable
+        MODELLI m = new MODELLI();
+     
+        m.Modello = txtInserimento.Text.Trim();
+        m.K_Marca = int.Parse(ddlMarca.SelectedValue);
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = m.SelezionaModello();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        //controllo che non sia già presente la marca
+        if (DT.Rows.Count != 0)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
             return;
         }
 
-
-
-        //Inserimento
-
-        //connesione al database
-        DB x = new DB();
-        //gli passo la query
-        x.query = "Modelli_Inserimento";
-        //gli passo la chiave e i valori dalla dropdownlist  e dalla textbox
-        x.cmd.Parameters.AddWithValue("@marca", ddlMarca.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@modello", inserimentoModello);
-        //update dati del modello
-        x.SQLCommand();
+        //se non è presente inserimento
+        m.Inserimento();
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modello aggiunto correttamente');", true);
 
         txtInserimento.Text = "";
@@ -88,10 +73,9 @@ public partial class _Default : System.Web.UI.Page
         //Connessione al DB e selezione con la query dei dati con cui riempire la tabella
 
         //connetterci al database
-        DB database = new DB();
-        //popolare la griglia
-        database.query = "MODELLI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        MODELLI m = new MODELLI();
+        DataTable DT = new DataTable();
+        m.SelectAll();
         //aggiorno la griglia
         griglia.DataBind();
 
