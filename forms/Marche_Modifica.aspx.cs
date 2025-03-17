@@ -33,12 +33,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaDati()
     {
-        //connetterci al database
-        DB database = new DB();
-        //popolare la griglia
-        database.query = "Marche_SelectAll";
-        grigliaMarche.DataSource = database.SQLselect();
-        //aggiorno la griglia
+        MARCHE m = new MARCHE();
+        grigliaMarche.DataSource = m.SelectAll();
         grigliaMarche.DataBind();
     }
 

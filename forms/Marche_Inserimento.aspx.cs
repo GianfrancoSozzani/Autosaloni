@@ -27,28 +27,20 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //creo la connessione al database
-        DB database = new DB();
-        database.query = "MARCHE_ControlloMarca";
-        database.cmd.Parameters.AddWithValue("@marca", inserimentoMarca);
+        MARCHE m = new MARCHE();
+        m.Marca = inserimentoMarca;
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = m.SelezionaMarca();
 
         //controllo che non sia già presente la marca
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count != 0) 
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
             return;
         }
 
         //se non è presente inserimento
-        
-        //creo connessione al db
-        DB x = new DB();
-        //procedo all'inserimento
-        x.query = "MARCHE_InserimentoMarca";
-        x.cmd.Parameters.AddWithValue("@marca", inserimentoMarca);
-        x.SQLCommand();
+        m.Inserimento();
 
         //aggiorna i valori della griglia
         //forzo il ricaricamento della griglia in questo caso (vedasi Marche_Modifica)
@@ -64,13 +56,10 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaDati()
     {
-        //polpolo la griglia
-        DB database = new DB();
-        database.query = "Marche_SelectAll";
-        // gli si va ad indicare che il DataSource è uguale alla DataTable
-        grigliaMarche.DataSource = database.SQLselect();
-        //aggiorno la griglia
+        MARCHE m = new MARCHE();
+        grigliaMarche.DataSource = m.SelectAll();
         grigliaMarche.DataBind();
+
     }
 
     protected void grigliaMarche_RowDataBound(object sender, GridViewRowEventArgs e)
