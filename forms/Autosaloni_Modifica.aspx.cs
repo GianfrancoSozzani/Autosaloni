@@ -29,9 +29,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-        DB database = new DB();
-        database.query = "SALONI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        SALONI s = new SALONI();
+        griglia.DataSource = s.SelectAll();
         griglia.DataBind();
     }
 
