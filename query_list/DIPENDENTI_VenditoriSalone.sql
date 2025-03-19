@@ -1,4 +1,4 @@
-create procedure DIPENDENTI_ResponsabiliSalone
+ALTER procedure [dbo].[DIPENDENTI_VenditoriSalone]
 (
 	 @salone int
 )
@@ -8,6 +8,6 @@ begin
 	from DIPENDENTI as D
 	inner join SALONI as S
 	on D.K_Salone = S.K_Salone
-	where D.K_Salone = @salone and Ruolo = 'R'
+	where D.K_Salone = @salone
 	order by Cognome, Nome
 end
