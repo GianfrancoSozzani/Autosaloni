@@ -25,26 +25,20 @@ public partial class _Default : System.Web.UI.Page
             chiave = Request.QueryString["c"].ToString();
 
             //CARICAMENTO DROPDOWNLIST GENERALE
-            //collagmento a DB
-            DB database = new DB();
-            //eseguo query
-            database.query = "SALONI_SelectAll";
-            ddlSaloni.DataSource = database.SQLselect();
+            SALONI s = new SALONI();
+            ddlSaloni.DataSource = s.SelectAll();
             ddlSaloni.DataValueField = "K_Salone";
             ddlSaloni.DataTextField = "Nome_Salone";
             //indico come la ddl deve visualizzare i valori
-
             //aggiornamento ddl
             ddlSaloni.DataBind();
 
             //CARICO VALORI SELEZIONATI NELLA DDL(saloni) e nel TEXTBOX(Nome,Cognome) in base ai valori scelti nella pagina di partenza
             //collegamento database
-            DB stampdatabase = new DB();
-            //gli passo la query che stampera i valori dalla tabella MODELLI in base alla chiave
-            stampdatabase.query = "DIPENDENTI_SelezionaChiave";
-            stampdatabase.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+            DIPENDENTI d = new DIPENDENTI();
+            d.K_Dipendente = int.Parse(chiave);
             DataTable DT = new DataTable();
-            DT = stampdatabase.SQLselect();
+            DT = d.SelezionaChiave();
             //valore ddl (saloni)
             ddlSaloni.SelectedValue = DT.Rows[0]["K_Salone"].ToString();
             //valore ddl (ruoli)
@@ -81,7 +75,7 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
         }
-       
+
         //se il codice fiscale contiene spzai
         if (txtCodiceFiscale.Text.Contains(" "))
         {
@@ -89,37 +83,25 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che non ci siano codici fiscali doppi
-        DB database = new DB();
-        database.query = "DIPENDENTI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
-        database.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        database.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
-
         //creare la datatable
+        DIPENDENTI d = new DIPENDENTI();
+        d.K_Dipendente = int.Parse(chiave);
+        d.Codice_Fiscale = txtCodiceFiscale.Text;
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = d.CheckRedundantRecords();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count >0) //ricordarsi di mettre (int) davanti
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice fiscale già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente già presente');", true);
             return;
         }
 
-        //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "DIPENDENTI_Update";
-        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text.Trim());
+        d.Cognome = txtCognome.Text.Trim();
+        d.Nome = txtNome.Text.Trim();
+        d.Ruolo = ddlRuoli.SelectedValue;
+        d.K_Salone = int.Parse(ddlSaloni.SelectedValue);
 
-        //eseguo il comando di update
-        x.SQLCommand();
+        d.Modifica();
 
         //ritorno a Marche_Modifica
         Response.Redirect("Dipendenti_Modifica.aspx");

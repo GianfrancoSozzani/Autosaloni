@@ -44,7 +44,7 @@ public partial class _Default : System.Web.UI.Page
 
 
         //controlo che l'utente abbia effettivamente scritto qualcosa
-        if (String.IsNullOrEmpty(cognomeDipendente) || 
+        if (String.IsNullOrEmpty(cognomeDipendente) ||
             String.IsNullOrEmpty(nomeDipendente) ||
             String.IsNullOrEmpty(codiceFiscale)
             )
@@ -73,13 +73,13 @@ public partial class _Default : System.Web.UI.Page
         d.Cognome = txtCognome.Text.Trim();
         d.Codice_Fiscale = txtCodiceFiscale.Text;
 
-    
+
 
         //creare la datatable
         DataTable DT = new DataTable();
         DT = d.SelezionaDipendente();
 
-        if (DT.Rows.Count >0) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente già presente');", true);
             return;
@@ -106,7 +106,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-       DIPENDENTI d = new DIPENDENTI();
+        DIPENDENTI d = new DIPENDENTI();
         griglia.DataSource = d.SelectAll();
         griglia.DataBind();
     }

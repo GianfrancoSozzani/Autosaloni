@@ -47,7 +47,36 @@ public class DIPENDENTI
 
     }
 	//modifica
+	public void Modifica()
+	{
+		DB db = new DB();
+		db.query = "DIPENDENTI_Update";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Dipendente);
+        db.cmd.Parameters.AddWithValue("@cognome", Cognome);
+        db.cmd.Parameters.AddWithValue("@nome", Nome);
+        db.cmd.Parameters.AddWithValue("@ruolo", Ruolo);
+        db.cmd.Parameters.AddWithValue("@salone", K_Salone);
+        db.cmd.Parameters.AddWithValue("@codice_fiscale", Codice_Fiscale);
+        db.SQLCommand();
+    }
+	
 	//seleziona chiave
+	public DataTable SelezionaChiave()
+	{
+		DB db = new DB();
+		db.query = "DIPENDENTI_SelezionaChiave";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Dipendente);
+		return db.SQLselect();
+    }
+
 	//doppio dipendente
+	public DataTable CheckRedundantRecords()
+	{
+		DB db = new DB();
+		db.query = "DIPENDENTI_CheckRedundantRecords";
+        db.cmd.Parameters.AddWithValue("@codice_fiscale", Codice_Fiscale);
+        db.cmd.Parameters.AddWithValue("@chiave", K_Dipendente);
+		return db.SQLselect();
+    }
 
 }

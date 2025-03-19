@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Runtime.InteropServices.ComTypes;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -26,16 +27,8 @@ public partial class _Default : System.Web.UI.Page
         string provincia = txtProvincia.Text;
         string codice_patente_cliente = txtPatente.Text;
         string giorno_di_nascita = txtDataNascita.Text;
-        int provaCAP;
 
-
-
-     
         //dichiaro una variabile di tipo data (concetto temporale)
-
-        DateTime bornDay;
-
-
 
         //controlo che l'utente abbia effettivamente scritto qualcosa
         if (String.IsNullOrEmpty(cognome_cliente) ||
@@ -53,17 +46,12 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che la data inserita sia valida come formato e la converto nel formato senza orario come in sql server (yyyy-mm-dd)
-        if (DateTime.TryParse(giorno_di_nascita, out bornDay) && !String.IsNullOrEmpty(giorno_di_nascita))
+        if (!DateTime.TryParse(giorno_di_nascita, out _) && !String.IsNullOrEmpty(giorno_di_nascita))
         {
-            bornDay = bornDay.Date;
-           
-        }
-        else
-        {
+
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
             return;
         }
-
         //controllo che il codice fiscale e la patente siano completi (16 e 10 simboli alfanumerici)
         if (codice_fiscale_cliente.Length != 16)
         {
@@ -75,7 +63,7 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice Patente non valido');", true);
             return;
         }
-        if (!int.TryParse(txtCAP.Text, out provaCAP))
+        if (!int.TryParse(CAP_cliente, out _))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;
@@ -100,61 +88,54 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
+        //controllo che la data inserita non sia oltre la data corrente
+        DateTime dataOdierna = DateTime.Now;
+
+        if (DateTime.Parse(giorno_di_nascita) > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
+            return;
+        }
+
+        //controllo che il cliente abbi al maggiore età
+        //periodo di tempo uguale alla differenza
+        TimeSpan ts =  dataOdierna - DateTime.Parse(giorno_di_nascita) ;
+
+        if (ts.TotalDays < (18 * 365))
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Il cliente non è legalmente idoneo alla guida');", true);
+            return;
+        }
+
         //controllo che il cliente non sia già presente
 
         //controllo che non ci siano clienti già registrati
-        DB database = new DB();
-        database.query = "CLIENTI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@cognome", cognome_cliente);
-        database.cmd.Parameters.AddWithValue("@nome", nome_cliente);
-        database.cmd.Parameters.AddWithValue("@codice_fiscale", codice_fiscale_cliente);
-        database.cmd.Parameters.AddWithValue("@citta", citta_cliente);
-        database.cmd.Parameters.AddWithValue("@provincia", provincia);
-        database.cmd.Parameters.AddWithValue("@indirizzo", indirizzo_cliente);
-        database.cmd.Parameters.AddWithValue("@data_nascita", giorno_di_nascita);
-
+        CLIENTI c = new CLIENTI();
+        c.Codice_Fiscale = codice_fiscale_cliente;
+        c.Codice_Patente = codice_patente_cliente;
         //creare la datatable
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = c.SelezionaCliente();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Cliente già registrato');", true);
             return;
         }
 
-        //controllo che non ci sia un codice_patente registrato 2 volte 
-        DB patenteDB = new DB();
-        patenteDB.query = "CLIENTI_CheckRedundantLicenses";
-        patenteDB.cmd.Parameters.AddWithValue("@codice_patente", codice_patente_cliente);
-        patenteDB.cmd.Parameters.AddWithValue("@codice_fiscale", codice_fiscale_cliente);
-        patenteDB.cmd.Parameters.AddWithValue("@cognome", cognome_cliente);
-        //creare la datatable
-        DataTable DTpatente = new DataTable();
-        DTpatente = patenteDB.SQLselect();
-
-        if ((int)DTpatente.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Patente già registrata');", true);
-            return;
-        }
-
         //registro il cliente
 
-        //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "CLIENTI_Inserimento";
-        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        x.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
-        x.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
-        x.cmd.Parameters.AddWithValue("@codice_patente", txtPatente.Text);
-        x.cmd.Parameters.AddWithValue("@data_nascita", txtDataNascita.Text);
-        x.SQLCommand();
+        c.Cognome = cognome_cliente;
+        c.Nome = nome_cliente;
+        c.Citta = citta_cliente;
+        c.CAP = CAP_cliente;
+        c.Provincia = provincia;
+        c.Indirizzo = indirizzo_cliente;
+        c.Data_di_Nascita = DateTime.Parse(giorno_di_nascita);
+
+        c.Inserimento();
 
 
         //messaggio di conferma registrazione
@@ -186,9 +167,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaDati()
     {
-        DB database = new DB();
-        database.query = "CLIENTI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        CLIENTI c = new CLIENTI();
+        griglia.DataSource = c.SelectAll();
         griglia.DataBind();
     }
 }

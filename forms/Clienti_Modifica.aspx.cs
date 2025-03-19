@@ -33,9 +33,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-        DB database = new DB();
-        database.query = "CLIENTI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        CLIENTI c = new CLIENTI();
+        griglia.DataSource = c.SelectAll();
         griglia.DataBind();
     }
 
