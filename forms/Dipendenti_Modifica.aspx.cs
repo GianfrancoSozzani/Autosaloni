@@ -29,9 +29,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-        DB database = new DB();
-        database.query = "DIPENDENTI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        DIPENDENTI d = new DIPENDENTI();
+        griglia.DataSource = d.SelectAll();
         griglia.DataBind();
     }
     protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)

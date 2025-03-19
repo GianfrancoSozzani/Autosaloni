@@ -56,7 +56,7 @@
                     <asp:TextBox ID="txtPatente" runat="server" CssClass="form-input Upper" MaxLength="10" Width="150px"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="Label1" runat="server" Text="Data di Nascità (yyyy-mm-dd): " CssClass="form-label"></asp:Label>
+                    <asp:Label ID="Label1" runat="server" Text="Data di Nascità: " CssClass="form-label"></asp:Label>
                     <asp:TextBox ID="txtDataNascita" runat="server" CssClass="form-input" MaxLength="10" TextMode="Date"></asp:TextBox>
                 </div>
                 <div class="form-group">

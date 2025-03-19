@@ -18,13 +18,11 @@ public partial class _Default : System.Web.UI.Page
             //inserisco la marca selezionata nell'altra pagina (cioè in base a c) dentro il textbox
 
             //collegarmi al database
-            DB database = new DB();
-            //gli passo la query
-            database.query = "CLIENTI_SelezionaChiave";
-            database.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
+            CLIENTI c = new CLIENTI();
+            c.K_Cliente = int.Parse(chiave);
             //creare la datatable
             DataTable DT = new DataTable();
-            DT = database.SQLselect();
+            DT = c.SelezionaChiave();
             //riempio il textbox
             txtCognome.Text = DT.Rows[0]["Cognome"].ToString();
             txtNome.Text = DT.Rows[0]["Nome"].ToString();
@@ -40,9 +38,6 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        //variabile di controllo formato data
-        DateTime bornDay;
-
         //controlli formali
 
         //controlo che l'utente abbia effettivamente scritto qualcosa
@@ -54,18 +49,6 @@ public partial class _Default : System.Web.UI.Page
             )
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati Mancanti');", true);
-            return;
-        }
-
-        //controllo che la data inserita sia valida come formato e la converto nel formato senza orario come in sql server (yyyy-mm-dd)
-        if (DateTime.TryParse(txtDataNascita.Text, out bornDay) && !String.IsNullOrEmpty(txtDataNascita.Text))
-        {
-            bornDay = bornDay.Date;
-
-        }
-        else
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
             return;
         }
 
@@ -113,62 +96,64 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che non ci siano codici fiscali doppi
-        DB database = new DB();
-        database.query = "CLIENTI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
-        database.cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        database.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
-        database.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
-        database.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        database.cmd.Parameters.AddWithValue("@data_nascita", txtDataNascita.Text);
+        //controllo che la data inserita sia valida come formato e la converto nel formato senza orario come in sql server (yyyy-mm-dd)
+        if (!DateTime.TryParse(txtDataNascita.Text, out _) && !String.IsNullOrEmpty(txtDataNascita.Text))
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
+            return;
+        }
+
+        //controllo che la data inserita non sia oltre la data corrente
+        DateTime dataOdierna = DateTime.Now;
+
+        if (DateTime.Parse(txtDataNascita.Text) > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
+            return;
+        }
+
+        //controllo che il cliente abbi al maggiore età
+        //periodo di tempo uguale alla differenza
+        TimeSpan ts = dataOdierna - DateTime.Parse(txtDataNascita.Text);
+
+        if (ts.TotalDays < (18 * 365))
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Il cliente non è legalmente idoneo alla guida');", true);
+            return;
+        }
+
+        //controllo che non ci siano clienti doppi 
+        CLIENTI c = new CLIENTI();
+        c.K_Cliente = int.Parse(chiave);
+        c.Codice_Fiscale = txtCodiceFiscale.Text;
+        c.Codice_Patente = txtPatente.Text;
 
         //creare la datatable
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = c.CheckRedundantRecords();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count >0)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Codice fiscale già presente');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Cliente già presente');", true);
             return;
         }
-
-        //controllo che non ci sia un codice_patente registrato 2 volte 
-        DB patenteDB = new DB();
-        patenteDB.query = "CLIENTI_CheckRedundantLicenses";
-        patenteDB.cmd.Parameters.AddWithValue("@codice_patente", txtPatente.Text);
-        patenteDB.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        patenteDB.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
-        //creare la datatable
-        DataTable DTpatente = new DataTable();
-        DTpatente = patenteDB.SQLselect();
-
-        if ((int)DTpatente.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Patente già registrata');", true);
-            return;
-        }
-
-
 
         //Update
 
         //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "CLIENTI_Update";
-        x.cmd.Parameters.AddWithValue("@chiave", int.Parse(chiave));
-        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        x.cmd.Parameters.AddWithValue("@citta", txtCitta.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@provincia", txtProvincia.Text);
-        x.cmd.Parameters.AddWithValue("@indirizzo", txtIndirizzo.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@cap", txtCAP.Text);
-        x.cmd.Parameters.AddWithValue("@codice_patente", txtPatente.Text);
-        x.cmd.Parameters.AddWithValue("@data_nascita", txtDataNascita.Text);
-        x.SQLCommand();
+        c.Cognome = txtCognome.Text.Trim();
+        c.Nome = txtNome.Text.Trim();
+        c.Citta = txtCitta.Text.Trim();
+        c.CAP = txtCAP.Text;
+        c.Provincia = txtProvincia.Text;
+        c.Indirizzo = txtIndirizzo.Text.Trim();
+        c.Data_di_Nascita = DateTime.Parse(txtDataNascita.Text.Trim());
+
+        c.Modifica();
+ 
 
         //ritorno a Marche_Modifica
         Response.Redirect("Clienti_Modifica.aspx");
