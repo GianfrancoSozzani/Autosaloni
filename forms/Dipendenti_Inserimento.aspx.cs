@@ -12,6 +12,27 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Caricadati();
+
+        if (!IsPostBack)
+        {
+            // Popola la dropdown solo al primo caricamento della pagina
+            // Aggiungi la voce "V"
+            ddlRuoli.Items.Add(new ListItem("Venditore", "V")); // Testo visualizzato, Valore effettivo
+            // Aggiungi la voce "R"
+            ddlRuoli.Items.Add(new ListItem("Responsabile", "R")); // Testo visualizzato, Valore effettivo
+
+            //CARICAMENTO DROPDOWNLIST GENERALE
+
+            //saloni
+            //collagmento a DB
+            SALONI s = new SALONI();
+            //eseguo query
+            ddlSaloni.DataSource = s.SelectAll();
+            ddlSaloni.DataValueField = "K_Salone";
+            ddlSaloni.DataTextField = "Nome_Salone";
+            ddlSaloni.DataBind();
+
+        }
     }
 
     protected void btnInserimento_Click(object sender, EventArgs e)
@@ -48,36 +69,28 @@ public partial class _Default : System.Web.UI.Page
 
 
         //controllo che non ci siano dipendenti già registrati
-        DB database = new DB();
-        database.query = "DIPENDENTI_CheckRedundantRecords";
-        database.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text);
-        database.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text);
-        database.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        database.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
+        DIPENDENTI d = new DIPENDENTI();
+        d.Cognome = txtCognome.Text.Trim();
+        d.Codice_Fiscale = txtCodiceFiscale.Text;
+
+    
 
         //creare la datatable
         DataTable DT = new DataTable();
-        DT = database.SQLselect();
+        DT = d.SelezionaDipendente();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count >0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente già presente');", true);
             return;
         }
 
+        d.Nome = txtNome.Text.Trim();
+        d.Ruolo = ddlRuoli.SelectedValue;
+        d.K_Salone = int.Parse(ddlSaloni.SelectedValue);
         //Inserimento dipendente con autosalone associato
         //collegamento al database
-        DB x = new DB();
-        //passare la query con il valore del parametro desiderato per indicargli dove fare la modifica (SQL where)
-        x.query = "DIPENDENTI_Inserimento";
-        x.cmd.Parameters.AddWithValue("@cognome", txtCognome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@nome", txtNome.Text.Trim());
-        x.cmd.Parameters.AddWithValue("@ruolo", ddlRuoli.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        x.cmd.Parameters.AddWithValue("@codice_fiscale", txtCodiceFiscale.Text.Trim());
-
-        //eseguo il comando di update
-        x.SQLCommand();
+        d.Inserimento();
 
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dipendente registrato correttamente');", true);
 
@@ -93,32 +106,9 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Caricadati()
     {
-        DB database = new DB();
-        database.query = "DIPENDENTI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+       DIPENDENTI d = new DIPENDENTI();
+        griglia.DataSource = d.SelectAll();
         griglia.DataBind();
-
-        if (!IsPostBack)
-        {
-            // Popola la dropdown solo al primo caricamento della pagina
-            // Aggiungi la voce "V"
-            ddlRuoli.Items.Add(new ListItem("Venditore", "V")); // Testo visualizzato, Valore effettivo
-            // Aggiungi la voce "R"
-            ddlRuoli.Items.Add(new ListItem("Responsabile", "R")); // Testo visualizzato, Valore effettivo
-
-            //CARICAMENTO DROPDOWNLIST GENERALE
-
-            //saloni
-            //collagmento a DB
-            DB db = new DB();
-            //eseguo query
-            db.query = "SALONI_SelectAll";
-            ddlSaloni.DataSource = db.SQLselect();
-            ddlSaloni.DataValueField = "K_Salone";
-            ddlSaloni.DataTextField = "Nome_Salone";
-            ddlSaloni.DataBind();
-            
-        }
     }
 
     protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)

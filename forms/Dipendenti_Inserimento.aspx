@@ -23,7 +23,7 @@
             <div class="form-container">
                 <div class="form-group">
                     <asp:Label ID="lblSalone" runat="server" Text="Salone: " CssClass="form-label"></asp:Label>
-                    <asp:DropDownList ID="ddlSaloni" runat="server"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlSaloni" runat="server" AutoPostBack="true"></asp:DropDownList>
                 </div>
                 <div class="form-group">
                     <asp:Label ID="lblCognome" runat="server" Text="Cognome: " CssClass="form-label"></asp:Label>
