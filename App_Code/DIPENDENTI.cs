@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +11,7 @@ public class DIPENDENTI
 	public string Cognome;
 	public string Nome;
 	public string Ruolo;
-	public string K_Salone;
+	public int K_Salone;
 	public string Codice_Fiscale;
 	public DIPENDENTI()
 	{
@@ -29,9 +30,24 @@ public class DIPENDENTI
 		db.SQLCommand();
 	}
 	//selezione dipendente per salone, ruolo, cognome, codice_fiscale
-	
+	public DataTable SelezionaDipendente()
+	{
+		DB db = new DB();
+		db.query = "DIPENDENTI_SelezionaDipendente";
+        db.cmd.Parameters.AddWithValue("@codice_fiscale", Codice_Fiscale);
+		return db.SQLselect();
+
+    }
 	//lista
+	public DataTable SelectAll()
+	{
+		DB db = new DB();
+		db.query = "DIPENDENTI_SelectAll";
+		return db.SQLselect();
+
+    }
 	//modifica
 	//seleziona chiave
 	//doppio dipendente
+
 }
