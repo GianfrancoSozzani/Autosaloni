@@ -13,12 +13,8 @@ public partial class _Default : System.Web.UI.Page
         CaricaDati();
         if (!IsPostBack)
         {
-            //CARICAMENTO DROPDOWNLIST MARCHE
-            //collagmento a DB
-            DB database = new DB();
-            //eseguo query
-            database.query = "Marche_SelectAll";
-            ddlMarche.DataSource = database.SQLselect();
+            MARCHE m = new MARCHE();
+            ddlMarche.DataSource = m.SelectAll();
             //indico come la ddl deve visualizzare i valori
             ddlMarche.DataValueField = "K_Marca";
             ddlMarche.DataTextField = "Marca";
@@ -84,11 +80,9 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void CaricaDati()
     {
-        DB database = new DB();
-        database.query = "AUTOMOBILI_SelectAll";
-        griglia.DataSource = database.SQLselect();
+        AUTOMOBILI a = new AUTOMOBILI();
+        griglia.DataSource = a.SelectAll();
         griglia.DataBind();
-
     }
     protected void ddlMarche_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -105,13 +99,9 @@ public partial class _Default : System.Web.UI.Page
     {
         //CARICAMENTO DROPDOWNLIST GENERALE
         //collagmento a DB
-        DB db = new DB();
-        //eseguo query
-        db.query = "MODELLI_Selectddl";
-        db.cmd.Parameters.AddWithValue("@marca", ddlMarche.SelectedValue);
-        DataTable DT = new DataTable();
-        DT = db.SQLselect();
-        ddlModelli.DataSource = DT;
+        AUTOMOBILI a = new AUTOMOBILI();
+        a.K_Marca = int.Parse(ddlMarche.SelectedValue);
+        ddlModelli.DataSource = a.AUTOMOBILI_ddlModelli();
         //indico come la ddl deve visualizzare i valori
         ddlModelli.DataValueField = "K_Modello";
         ddlModelli.DataTextField = "Modello";
@@ -187,8 +177,8 @@ public partial class _Default : System.Web.UI.Page
         }
         //controllo che la data inserita non sia oltre la data corrente
         DateTime dataOdierna = DateTime.Now;
-        
-        if(Day > dataOdierna)
+
+        if (Day > dataOdierna)
         {
 
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
