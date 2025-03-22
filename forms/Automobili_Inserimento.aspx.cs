@@ -258,4 +258,33 @@ public partial class _Default : System.Web.UI.Page
 
 
 
+
+    protected void btnVendita_Click(object sender, EventArgs e)
+    {
+        //controllo se l'utente non ha selezionato nulla
+        if (griglia.SelectedIndex == -1)
+        {
+            //in caso gli si rilascia un alert di erro
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Non hai selezionato nulla');", true);
+            return;
+        }
+
+        //dichiaro una variabile per storare il valore di K_Salone
+        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Salone del recor selezionato
+        string chiave = griglia.SelectedValue.ToString();
+        //passare il dato chaive alla pagina per la modifica
+        //inviare l'utente alla pagina di modifica
+        Response.Redirect("Automobili_Vendita.aspx" + "?c=" + chiave);
+    }
+
+    protected void griglia_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        part3.Visible = true;
+    }
+
+    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //tolgo visibiltà a K_Auto
+        e.Row.Cells[1].Visible = false;
+    }
 }
