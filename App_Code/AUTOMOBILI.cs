@@ -117,4 +117,28 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         return db.SQLselect();
     }
+
+
+    //dati cliente vendita
+    public DataTable DatiClienteVendita()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_DatiClienteVendita";
+        db.cmd.Parameters.AddWithValue("@cliente", K_Cliente_Vendita);
+        return db.SQLselect();
+    }
+
+
+    //inserimento dati vendita
+    public void InserimentoVendita()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_RiempimentoDatiVendita";
+        db.cmd.Parameters.AddWithValue("@prezzo_offerto", Prezzo_Offerto);
+        db.cmd.Parameters.AddWithValue("@prezzo_vendita", Prezzo_Vendita);
+        db.cmd.Parameters.AddWithValue("@data_vendita", Data_Vendita);
+        db.cmd.Parameters.AddWithValue("@cliente", K_Cliente_Vendita);
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        db.SQLCommand();
+    }
 }

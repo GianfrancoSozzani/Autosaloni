@@ -190,6 +190,7 @@ public partial class _Default : System.Web.UI.Page
         if (
            txtTelaio.Text.Contains(" ") ||
            txtKM.Text.Contains(" ") ||
+           txtPrezzoAcquisto.Text.Contains(" ") ||
            (txtTarga.Text.Contains(" ") && !String.IsNullOrEmpty(txtTarga.Text))
           )
         {
