@@ -34,7 +34,7 @@ public partial class _Default : System.Web.UI.Page
             //CARICAMENTO DROPDOWNLIST CLIENTIACQUISTO
             //collagmento a DB
             AUTOMOBILI a = new AUTOMOBILI();
-            ddlClientiAcquisto.DataSource = a.AUTOMOBILI_ddlClientiAcquisto();
+            ddlClientiAcquisto.DataSource = a.AUTOMOBILI_ddlClienti();
             //indico come la ddl deve visualizzare i valori
             ddlClientiAcquisto.DataValueField = "K_Cliente";
             ddlClientiAcquisto.DataTextField = "NomeCognome";

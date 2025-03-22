@@ -10,7 +10,6 @@ public partial class _Default : System.Web.UI.Page
 {
     //dichiaro una variabile per storare il valore passato dll'altra pagina per k_salone
     static string chiave;
-    int provaCAP;
     protected void Page_Load(object sender, EventArgs e)
     {
         //metto un !postback per eviatre che quando l'utente clicca aggiorna rimanga in memoria il valore caricato all'apertura
@@ -55,7 +54,7 @@ public partial class _Default : System.Web.UI.Page
 
         //dimensione CAP
 
-        if (!int.TryParse(txtCAP.Text, out provaCAP))
+        if (!int.TryParse(txtCAP.Text, out _))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido');", true);
             return;

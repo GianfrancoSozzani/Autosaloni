@@ -52,10 +52,10 @@ public class AUTOMOBILI
         return db.SQLselect();
     }
 
-    public DataTable AUTOMOBILI_ddlClientiAcquisto()
+    public DataTable AUTOMOBILI_ddlClienti()
     {
         DB db = new DB();
-        db.query = "AUTOMOBILI_ddlClientiAcquisto";
+        db.query = "AUTOMOBILI_ddlClienti";
         return db.SQLselect();
     }
 
@@ -107,5 +107,14 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@condizione", Condizione);
         db.cmd.Parameters.AddWithValue("@optional", Optional);
         db.SQLCommand();
+    }
+
+    //lista pagina vendita
+    public DataTable SelectVendita()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_SelezionaAutomobileVendita";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
     }
 }
