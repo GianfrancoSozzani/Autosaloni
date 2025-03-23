@@ -143,4 +143,34 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         db.SQLCommand();
     }
+    /// <summary>
+    /// la query permette di selezioanare la marca in base al modello dell'auto selezionato nella pagina precedente
+    /// </summary>
+    //selezione della marca relativa all'automobile selezionata
+
+    public DataTable SelezionaMarcaAutomobile()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_SelezionaMarcaAutomobile";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
+
+
+    public DataTable SelezionaDatiAutomobile()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_SelezionaDatiAutomobile";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
+
+
+    public DataTable ddlResponsabiliModifica()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_ddlResponsabiliModifica";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
 }
