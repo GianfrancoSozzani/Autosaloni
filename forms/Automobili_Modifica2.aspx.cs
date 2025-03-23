@@ -91,6 +91,9 @@ public partial class _Default : System.Web.UI.Page
             txtTelaio.Text = dt_auto.Rows[0]["Telaio"].ToString();
             txtCondizioni.Text = dt_auto.Rows[0]["Condizione"].ToString();
             txtOptional.Text = dt_auto.Rows[0]["Optional"].ToString();
+            txtPrezzoOfferto.Text = dt_auto.Rows[0]["Prezzo_Offerto"].ToString();
+            txtPrezzoVendita.Text = dt_auto.Rows[0]["Prezzo_Vendita"].ToString();
+            txtDataVendita.Text = dt_auto.Rows[0]["Data_Vendita"].ToString();
 
             //caricamento elenco responsabili del salone
             CaricaResponsabili();
@@ -107,6 +110,28 @@ public partial class _Default : System.Web.UI.Page
             DataTable dt_seller = new DataTable();
             dt_seller = a.ddlVeditoriModifica();
             ddlVenditore.SelectedValue = dt_seller.Rows[0]["K_Dipendente"].ToString();
+            
+            //caricamneto lista clienti acquisto
+            ddlClientiAcquisto.DataSource = a.AUTOMOBILI_ddlClienti();
+            ddlClientiAcquisto.DataValueField = "K_Cliente";
+            ddlClientiAcquisto.DataTextField = "NomeCognome";
+            ddlClientiAcquisto.DataBind();
+
+            //caricamento cliente acquisto auto
+            DataTable dt_clientiA = new DataTable();
+            dt_clientiA = a.ddlClienteAcquistoModifica();
+            ddlClientiAcquisto.SelectedValue = dt_clientiA.Rows[0]["K_Cliente"].ToString();
+
+            //caricamneto lista clienti vendita
+            ddlClientiVendita.DataSource = a.AUTOMOBILI_ddlClienti();
+            ddlClientiVendita.DataValueField = "K_Cliente";
+            ddlClientiVendita.DataTextField = "NomeCognome";
+            ddlClientiVendita.DataBind();
+
+            //caricamento cliente vendita auto
+            DataTable dt_clientiV = new DataTable();
+            dt_clientiV = a.ddlClienteVenditaModifica();
+            ddlClientiVendita.SelectedValue = dt_clientiV.Rows[0]["K_Cliente"].ToString();
 
         }
     }
@@ -165,4 +190,178 @@ public partial class _Default : System.Web.UI.Page
 
 
 
+
+    protected void btnModifica_Click(object sender, EventArgs e)
+    {
+        //controllo se i campi obbligatori sono vuoti
+        if (
+            String.IsNullOrEmpty(txtDataAcquisto.Text) ||
+            String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
+            String.IsNullOrEmpty(txtTelaio.Text) ||
+            String.IsNullOrEmpty(txtKM.Text) ||
+            String.IsNullOrEmpty(txtPrezzoOfferto.Text) ||
+            String.IsNullOrEmpty(txtPrezzoVendita.Text) ||
+            String.IsNullOrEmpty(txtDataVendita.Text)
+           )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            return;
+        }
+
+        //controllose dll hanno valori vuoti es. si è registrata una marca ma non si è ancora registrato un modello
+        //oppure si è registrato un salone ma bisogna ancora asumere il personale 
+
+        if (
+            (!int.TryParse(ddlModelli.SelectedValue, out _)) ||
+            (!int.TryParse(ddlResponsabile.SelectedValue, out _)) ||
+            (!int.TryParse(ddlVenditore.SelectedValue, out _))
+            )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            return;
+        }
+
+
+        //controllo che la data d'acquisto inserita sia valida come formato
+        if (!DateTime.TryParse(txtDataAcquisto.Text, out _) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data di acquisto non valida');", true);
+            return;
+
+        }
+        //controllo che la data inserita non sia oltre la data corrente
+        DateTime dataOdierna = DateTime.Now;
+
+        if (DateTime.Parse(txtDataAcquisto.Text) > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data d'acquisto inserita supera la data corrente ');", true);
+            return;
+        }
+
+        //controllo che il telaio sia valido
+        if (txtTelaio.Text.Length != 17)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('VIN');", true);
+            return;
+        }
+
+        if (
+           txtTelaio.Text.Contains(" ") ||
+           txtKM.Text.Contains(" ") ||
+           txtPrezzoAcquisto.Text.Contains(" ") ||
+           (txtTarga.Text.Contains(" ") && !String.IsNullOrEmpty(txtTarga.Text) ||
+           txtPrezzoOfferto.Text.Contains(" ") ||
+           txtPrezzoVendita.Text.Contains(" ")
+
+           )
+          )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati alfanumerici non validi);", true);
+            return;
+
+        }
+        //controllo che il prezzo di acquisto sia valido
+        if (!Decimal.TryParse(txtPrezzoAcquisto.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(Il dato Prezzo d'acquisto inserito non é valido);", true);
+            return;
+        }
+
+        //controllo che il chilometraggio sia valido
+        if (!int.TryParse(txtKM.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(Il dato Chilometraggio inserito non é valido);", true);
+            return;
+        }
+
+        //controllo che il prezzo offerto e il prezzo di vendita siano dati validi
+        if (!Decimal.TryParse(txtPrezzoOfferto.Text, out _) || !Decimal.TryParse(txtPrezzoVendita.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(Uno dei dati di Prezzo relativi alla vendita inseriti non é valido);", true);
+            return;
+        }
+
+        //controllo che la data inserita sia valida come formato
+        if (!DateTime.TryParse(txtDataVendita.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data di vendita non valida');", true);
+            return;
+
+        }
+        //controllo che la data di vendita non superi quella corrente
+        if (DateTime.Parse(txtDataVendita.Text) > dataOdierna)
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data di venditainserita supera la data corrente');", true);
+            return;
+        }
+        //controllo che la data di vendita non sia precedente a quella di acquisto 
+
+        if (DateTime.Parse(txtDataVendita.Text) < DateTime.Parse(txtDataAcquisto.Text))
+        {
+
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera quella di acquisto');", true);
+            return;
+        }
+
+        //controllose dll hanno valori vuoti es. si è registrata una marca ma non si è ancora registrato un modello
+        //oppure si è registrato un salone ma bisogna ancora asumere il personale 
+
+        if (
+            (!int.TryParse(ddlModelli.SelectedValue, out _)) ||
+            (!int.TryParse(ddlResponsabile.SelectedValue, out _)) ||
+            (!int.TryParse(ddlVenditore.SelectedValue, out _))
+            )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            return;
+        }
+
+
+        //controllo di non star inserendo un duplicato di un automobile
+        //CONTROLLLO CHE L'AUTO NON SIA GIà REGISTRATA
+        //collagmento a DB
+        AUTOMOBILI a = new AUTOMOBILI();
+        a.K_Auto = int.Parse(chiave);
+        DataTable DT = new DataTable();
+        DT = a.SelezionaChiave();
+
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile già registrata');", true);
+            return;
+        }
+
+
+        //modifica
+
+        a.K_Modello = int.Parse(ddlModelli.SelectedValue);
+        a.Stato = ddlStato.SelectedValue;
+        a.Data_Acquisto = DateTime.Parse(txtDataAcquisto.Text);
+        a.K_Cliente_Acquisto = int.Parse(ddlClientiAcquisto.SelectedValue);
+        a.Prezzo_Acquisto = Decimal.Parse(txtPrezzoAcquisto.Text);
+        a.K_Salone = int.Parse(ddlSaloni.SelectedValue);
+        a.K_Responsabile = int.Parse(ddlResponsabile.SelectedValue);
+        a.K_Venditore = int.Parse(ddlVenditore.SelectedValue);
+        a.Alimentazione = ddlAlimentazione.SelectedValue;
+        a.Colore = txtColori.Text.Trim();
+        a.KM = int.Parse(txtKM.Text);
+        a.Cambio = ddlCambio.SelectedValue;
+        a.Targa = txtTarga.Text;
+        a.Telaio = txtTelaio.Text;
+        a.Condizione = txtCondizioni.Text.Trim();
+        a.Optional = txtOptional.Text.Trim();
+        a.Prezzo_Offerto = Decimal.Parse(txtPrezzoOfferto.Text);
+        a.Prezzo_Vendita = Decimal.Parse(txtPrezzoVendita.Text);
+        a.Data_Acquisto = DateTime.Parse(txtDataVendita.Text);
+        a.K_Cliente_Vendita = int.Parse(ddlClientiVendita.SelectedValue);
+
+        a.Modifica();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile Modificata Correttamente');", true);
+
+        Response.Redirect("Automobili_Modifica.aspx");
+
+    }
 }

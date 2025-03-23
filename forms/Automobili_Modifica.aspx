@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="content">
         <div class="title">
-            <p>Modifica un Cliente già registrato</p>
+            <p>Modifica un Automobile già registrata</p>
         </div>
         <div class="griglia-optimized2">
             <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
