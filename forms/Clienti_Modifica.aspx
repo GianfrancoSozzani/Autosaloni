@@ -23,6 +23,8 @@
             <div>&nbsp;</div>
             <div>
                 <asp:Button ID="btnModifica" runat="server" Text="Modifica" ForeColor="#236BB3" OnClick="btnModifica_Click" />
+                 <div>&nbsp;</div>
+                <a href ="Automobili_Vendita.aspx">Ritorna a pagina vendita automobili</a>
             </div>
         </div>
     </div>

@@ -128,9 +128,11 @@ public class AUTOMOBILI
         return db.SQLselect();
     }
 
-
+    /// <summary>
+    /// la query permette già la modifica in qaunto necessitando di un where é già un update (modifica inizialmente dati null)
+    /// </summary>
     //inserimento dati vendita
-    public void InserimentoVendita()
+    public void RegistrazioneVendita()
     {
         DB db = new DB();
         db.query = "AUTOMOBILI_RiempimentoDatiVendita";

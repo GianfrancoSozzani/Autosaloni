@@ -172,7 +172,7 @@ public partial class _Default : System.Web.UI.Page
         a.K_Cliente_Vendita = int.Parse(ddlClienti.SelectedValue);
         a.K_Auto = int.Parse(chiave);
 
-        a.InserimentoVendita();
+        a.RegistrazioneVendita();
 
 
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Dati di vendita aggiunti correttamente');", true);
