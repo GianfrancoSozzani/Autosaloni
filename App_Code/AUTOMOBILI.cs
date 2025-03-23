@@ -181,4 +181,61 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         return db.SQLselect();
     }
+
+    public DataTable ddlClienteAcquistoModifica()
+    {
+
+        DB db = new DB();
+        db.query = "AUTOMOBILI_ddlClienteAcquistoModifica";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
+
+    public DataTable ddlClienteVenditaModifica()
+    {
+
+        DB db = new DB();
+        db.query = "AUTOMOBILI_ddlClienteVenditaModifica";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
+
+    //seleziona_chiave
+    public DataTable SelezionaChiave()
+    {
+
+        DB db = new DB();
+        db.query = "AUTOMOBILI_SelezionaChiave";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
+
+    //modifica
+    public void Modifica()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_Update";
+        db.cmd.Parameters.AddWithValue("@modello", K_Modello);
+        db.cmd.Parameters.AddWithValue("@stato", Stato);
+        db.cmd.Parameters.AddWithValue("@data_acquisto", Data_Acquisto);
+        db.cmd.Parameters.AddWithValue("@cliente_acquisto", K_Cliente_Acquisto);
+        db.cmd.Parameters.AddWithValue("@prezzo_acquisto", Prezzo_Acquisto);
+        db.cmd.Parameters.AddWithValue("@salone", K_Salone);
+        db.cmd.Parameters.AddWithValue("@responsabile", K_Responsabile);
+        db.cmd.Parameters.AddWithValue("@venditore", K_Venditore);
+        db.cmd.Parameters.AddWithValue("@alimentazione", Alimentazione);
+        db.cmd.Parameters.AddWithValue("@colore", Colore);
+        db.cmd.Parameters.AddWithValue("@km", KM);
+        db.cmd.Parameters.AddWithValue("@cambio", Cambio);
+        db.cmd.Parameters.AddWithValue("@targa", Targa);
+        db.cmd.Parameters.AddWithValue("@vin", Telaio);
+        db.cmd.Parameters.AddWithValue("@condizione", Condizione);
+        db.cmd.Parameters.AddWithValue("@optional", Optional);
+        db.cmd.Parameters.AddWithValue("@prezzo_offerto", Prezzo_Offerto);
+        db.cmd.Parameters.AddWithValue("@prezzo_vendita", Prezzo_Vendita);
+        db.cmd.Parameters.AddWithValue("@data_vendita", Data_Vendita);
+        db.cmd.Parameters.AddWithValue("@cliente_vendita", K_Cliente_Vendita);
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        db.SQLCommand();
+    }
 }

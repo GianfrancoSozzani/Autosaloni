@@ -136,11 +136,11 @@ public partial class _Default : System.Web.UI.Page
         }
 
         //controllo che la data inserita non sia precedente a quella di acquisto 
-        DateTime dataAcquisto = DateTime.Now;
+        DateTime dataAcquisto;
         AUTOMOBILI a = new AUTOMOBILI();
         DataTable DT = new DataTable();
         DT = a.SelectVendita();
-        dataAcquisto = DateTime.Parse(DT.Rows[0]["Data_di_Nascita"].ToString());
+        dataAcquisto = DateTime.Parse(DT.Rows[0]["Data_Acquisto"].ToString());
 
 
         if (DateTime.Parse(txtDataVendita.Text) < dataAcquisto)

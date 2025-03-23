@@ -100,6 +100,8 @@ public partial class _Default : System.Web.UI.Page
         //collegamento al database
         s.Modifica();
 
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Autosalone Modificato Correttamente');", true);
+
         //ritorno a Marche_Modifica
         Response.Redirect("Autosaloni_Modifica.aspx");
     }

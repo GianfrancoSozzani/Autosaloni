@@ -26,8 +26,6 @@
             <div class="form-group">
                 <asp:Label ID="Label3" runat="server" Text="Cliente Acquisto: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
                 <asp:DropDownList ID="ddlClientiAcquisto" runat="server" AutoPostBack="true" ForeColor="#236BB3"></asp:DropDownList>
-                &nbsp;
-             <a href="Clienti_Inserimento.aspx">Nuovo Cliente </a>
             </div>
             <div>&nbsp;</div>
             <div class="form-group">
@@ -92,14 +90,35 @@
                 <asp:Label ID="Label14" runat="server" Text="Optionals:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
                 <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" ForeColor="#236BB3"></asp:TextBox>
             </div>
+        </div>
+        <div id="parte3">
+            <div class="title">
+                <p>Dati di Vendita</p>
+            </div>
+            <span>&nbsp;</span>
+            <div class="form-group">
+                <asp:Label ID="Label20" runat="server" Text="Cliente Vendita: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                <asp:DropDownList ID="ddlClientiVendita" runat="server" AutoPostBack="true" ForeColor="#236BB3"></asp:DropDownList>
+            </div>
+            <span>&nbsp;</span>
+            <div class="form-group">
+                <asp:Label ID="Label8" runat="server" Text="Prezzo Offerto: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                <asp:TextBox ID="txtPrezzoOfferto" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label ID="Label18" runat="server" Text="Prezzo di Vendita: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                <asp:TextBox ID="txtPrezzoVendita" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <asp:Label ID="Label19" runat="server" Text="Data di Vendita: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                <asp:TextBox ID="txtDataVendita" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
+            </div>
             <div>&nbsp;</div>
             <div class="form-group">
+                <a href="Clienti_Inserimento.aspx">Nuovo Cliente </a>
                 <p>&nbsp;</p>
-                <asp:Button ID="btnInserimento" runat="server" Text="Inserimento" ForeColor="#236BB3" />
+                <asp:Button ID="btnModifica" runat="server" Text="Modifica" ForeColor="#236BB3" OnClick="btnModifica_Click" />
             </div>
-        </div>
-        <div id="part3">
-            <asp:Button ID="btnModificaVendita" runat="server" Text="Modifica dati di Vendita" ForeColor="#236BB3" />
         </div>
     </div>
 </asp:Content>
