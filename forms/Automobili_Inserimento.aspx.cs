@@ -270,8 +270,8 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //dichiaro una variabile per storare il valore di K_Salone
-        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Salone del recor selezionato
+        //dichiaro una variabile per storare il valore di K_Auto
+        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Auto del recor selezionato
         string chiave = griglia.SelectedValue.ToString();
         //passare il dato chaive alla pagina per la modifica
         //inviare l'utente alla pagina di modifica
