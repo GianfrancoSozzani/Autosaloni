@@ -24,7 +24,6 @@ public partial class _Default : System.Web.UI.Page
             //ddl modelli
             CaricaModelli();
 
-
             // Popola la dropdown solo al primo caricamento della pagina
             // Aggiungi la voce "N"
             ddlStato.Items.Add(new ListItem("Nuova", "N")); // Testo visualizzato, Valore effettivo
@@ -33,10 +32,8 @@ public partial class _Default : System.Web.UI.Page
 
             //CARICAMENTO DROPDOWNLIST CLIENTIACQUISTO
             //collagmento a DB
-            DB db = new DB();
-            //eseguo query
-            db.query = "CLIENTI_DatiAnagraficiClienteAcquisto";
-            ddlClientiAcquisto.DataSource = db.SQLselect();
+            AUTOMOBILI a = new AUTOMOBILI();
+            ddlClientiAcquisto.DataSource = a.AUTOMOBILI_ddlClienti();
             //indico come la ddl deve visualizzare i valori
             ddlClientiAcquisto.DataValueField = "K_Cliente";
             ddlClientiAcquisto.DataTextField = "NomeCognome";
@@ -45,10 +42,9 @@ public partial class _Default : System.Web.UI.Page
 
             //CARICAMENTO DROPDOWNLIST SALONI
             //collagmento a DB
-            DB x = new DB();
+            SALONI s = new SALONI();
             //eseguo query
-            x.query = "SALONI_SelectAll";
-            ddlSaloni.DataSource = x.SQLselect();
+            ddlSaloni.DataSource = s.SelectAll();
             //indico come la ddl deve visualizzare i valori
             ddlSaloni.DataValueField = "K_Salone";
             ddlSaloni.DataTextField = "Nome_Salone";
@@ -60,6 +56,7 @@ public partial class _Default : System.Web.UI.Page
 
             //CARICAMENTO DROPDOWNLIST VENDITORI
             CaricaVenditori();
+
             // lista carburanti
 
             ddlAlimentazione.Items.Add(new ListItem("benzina", "benzina")); // Testo visualizzato, Valore effettivo
@@ -113,13 +110,9 @@ public partial class _Default : System.Web.UI.Page
     {
         //CARICAMENTO DROPDOWNLIST GENERALE
         //collagmento a DB
-        DB r = new DB();
-        //eseguo query
-        r.query = "DIPENDENTI_ResponsabiliSalone";
-        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        DataTable DT = new DataTable();
-        DT = r.SQLselect();
-        ddlResponsabile.DataSource = DT;
+        AUTOMOBILI a = new AUTOMOBILI();
+        a.K_Salone = int.Parse(ddlSaloni.SelectedValue);
+        ddlResponsabile.DataSource = a.AUTOMOBILI_ddlResponabiliSalone();
         //indico come la ddl deve visualizzare i valori
         ddlResponsabile.DataValueField = "K_Dipendente";
         ddlResponsabile.DataTextField = "NomeCognome";
@@ -131,13 +124,9 @@ public partial class _Default : System.Web.UI.Page
     {
         //CARICAMENTO DROPDOWNLIST GENERALE
         //collagmento a DB
-        DB r = new DB();
-        //eseguo query
-        r.query = "DIPENDENTI_VenditoriSalone";
-        r.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        DataTable DT = new DataTable();
-        DT = r.SQLselect();
-        ddlVenditore.DataSource = DT;
+        AUTOMOBILI a = new AUTOMOBILI();
+        a.K_Salone = int.Parse(ddlSaloni.SelectedValue);
+        ddlVenditore.DataSource = a.AUTOMOBILI_ddlVenditoriSalone();
         //indico come la ddl deve visualizzare i valori
         ddlVenditore.DataValueField = "K_Dipendente";
         ddlVenditore.DataTextField = "NomeCognome";
@@ -145,14 +134,9 @@ public partial class _Default : System.Web.UI.Page
         ddlVenditore.DataBind();
     }
 
-
-
-
     protected void btnInserimento_Click(object sender, EventArgs e)
     {
-        DateTime Day;
-
-        //controllo campi vuoti
+        //controllo se i campi obbligatori sono vuoti
         if (
             String.IsNullOrEmpty(txtDataAcquisto.Text) ||
             String.IsNullOrEmpty(txtPrezzoAcquisto.Text) ||
@@ -164,21 +148,31 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllo che la data inserita sia valida come formato
-        if (DateTime.TryParse(txtDataAcquisto.Text, out Day) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
-        {
-            Day = Day.Date;
+        //controllose dll hanno valori vuoti es. si è registrata una marca ma non si è ancora registrato un modello
+        //oppure si è registrato un salone ma bisogna ancora asumere il personale 
 
+        if (
+            (!int.TryParse(ddlModelli.SelectedValue, out _)) || 
+            (!int.TryParse(ddlResponsabile.SelectedValue, out _)) ||
+            (!int.TryParse(ddlVenditore.SelectedValue, out _))
+            )
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
+            return;
         }
-        else
+
+
+        //controllo che la data inserita sia valida come formato
+        if (!DateTime.TryParse(txtDataAcquisto.Text, out _) && !String.IsNullOrEmpty(txtDataAcquisto.Text))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida');", true);
             return;
+
         }
         //controllo che la data inserita non sia oltre la data corrente
         DateTime dataOdierna = DateTime.Now;
 
-        if (Day > dataOdierna)
+        if (DateTime.Parse(txtDataAcquisto.Text) > dataOdierna)
         {
 
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera la data corrente ');", true);
@@ -194,6 +188,8 @@ public partial class _Default : System.Web.UI.Page
 
         if (
            txtTelaio.Text.Contains(" ") ||
+           txtKM.Text.Contains(" ") ||
+           txtPrezzoAcquisto.Text.Contains(" ") ||
            (txtTarga.Text.Contains(" ") && !String.IsNullOrEmpty(txtTarga.Text))
           )
         {
@@ -201,49 +197,53 @@ public partial class _Default : System.Web.UI.Page
             return;
 
         }
+        //controllo che il prezzo di acquisto sia valido
+        if (!Decimal.TryParse(txtPrezzoAcquisto.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(Il dato Prezzo d'acquisto inserito non é valido);", true);
+            return;
+        }
 
+        //controllo che il chilometraggio sia valido
+        if (!int.TryParse(txtKM.Text, out _))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert(Il dato Chilometraggio inserito non é valido);", true);
+            return;
+        }
 
         //CONTROLLLO CHE L'AUTO NON SIA GIà REGISTRATA
         //collagmento a DB
-        DB c = new DB();
-        //eseguo query
-        c.query = "AUTOMOBILI_ControlloDuplicati";
-        c.cmd.Parameters.AddWithValue("@vin", txtTelaio.Text.Trim());
+        AUTOMOBILI a = new AUTOMOBILI();
+        a.Telaio = txtTelaio.Text;
         DataTable DT = new DataTable();
-        DT = c.SQLselect();
+        DT = a.AUTOMOBILI_SelezionaAutomobile();
 
-        if ((int)DT.Rows[0]["QUANTI"] == 1) //ricordarsi di mettre (int) davanti
+        if (DT.Rows.Count > 0) //ricordarsi di mettre (int) davanti
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile già registrata');", true);
             return;
         }
 
+        a.K_Modello = int.Parse(ddlModelli.SelectedValue);
+        a.Stato = ddlStato.SelectedValue;
+        a.Data_Acquisto = DateTime.Parse(txtDataAcquisto.Text);
+        a.K_Cliente_Acquisto = int.Parse(ddlClientiAcquisto.SelectedValue);
+        a.Prezzo_Acquisto = Decimal.Parse(txtPrezzoAcquisto.Text.Trim());
+        a.K_Salone = int.Parse(ddlSaloni.SelectedValue);
+        a.K_Responsabile = int.Parse(ddlResponsabile.SelectedValue);
+        a.K_Venditore = int.Parse(ddlVenditore.SelectedValue);
+        a.Alimentazione = ddlAlimentazione.SelectedValue;
+        a.Colore = txtColori.Text.Trim();
+        a.KM = int.Parse(txtKM.Text);
+        a.Cambio = ddlCambio.SelectedValue;
+        a.Targa = txtTarga.Text;
+        a.Telaio = txtTelaio.Text;
+        a.Condizione = txtCondizioni.Text.Trim();
+        a.Optional = txtOptional.Text.Trim();
 
-        DB db = new DB();
-        //eseguo query
-        db.query = "AUTOMOBILI_Inserimento";
-        db.cmd.Parameters.AddWithValue("@modello", ddlModelli.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@stato", ddlStato.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@data_acquisto", txtDataAcquisto.Text);
-        db.cmd.Parameters.AddWithValue("@cliente_acquisto", ddlClientiAcquisto.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@prezzo_acquisto", Decimal.Parse(txtPrezzoAcquisto.Text.Trim()));
-        db.cmd.Parameters.AddWithValue("@salone", ddlSaloni.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@responsabile", ddlResponsabile.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@venditore", ddlVenditore.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@alimentazione", ddlAlimentazione.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@colore", txtColori.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@km", int.Parse(txtKM.Text.Trim()));
-        db.cmd.Parameters.AddWithValue("@cambio", ddlCambio.SelectedValue);
-        db.cmd.Parameters.AddWithValue("@targa", txtTarga.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@telaio", txtTelaio.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@condizione", txtCondizioni.Text.Trim());
-        db.cmd.Parameters.AddWithValue("@optional", txtOptional.Text.Trim());
-
-        //eseguo il comando di update
-        db.SQLCommand();
+        a.Inserimento();
 
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Automobile registrata correttamente');", true);
-
         //svuoto campi di inserimento
         txtDataAcquisto.Text = "";
         txtPrezzoAcquisto.Text = "";
@@ -258,4 +258,33 @@ public partial class _Default : System.Web.UI.Page
 
 
 
+
+    protected void btnVendita_Click(object sender, EventArgs e)
+    {
+        //controllo se l'utente non ha selezionato nulla
+        if (griglia.SelectedIndex == -1)
+        {
+            //in caso gli si rilascia un alert di erro
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Non hai selezionato nulla');", true);
+            return;
+        }
+
+        //dichiaro una variabile per storare il valore di K_Auto
+        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Auto del recor selezionato
+        string chiave = griglia.SelectedValue.ToString();
+        //passare il dato chaive alla pagina per la modifica
+        //inviare l'utente alla pagina di modifica
+        Response.Redirect("Automobili_Vendita.aspx" + "?c=" + chiave);
+    }
+
+    protected void griglia_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        part3.Visible = true;
+    }
+
+    protected void griglia_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //tolgo visibiltà a K_Auto
+        e.Row.Cells[1].Visible = false;
+    }
 }

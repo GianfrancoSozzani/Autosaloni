@@ -24,45 +24,50 @@
         <div class="inserimento">
             <div class="form-container">
                 <div class="form-group">
-                    <asp:Label ID="lblCognome" runat="server" Text="Cognome: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtCognome" runat="server" CssClass="form-input"></asp:TextBox>
+                    <asp:Label ID="lblCognome" runat="server" Text="Cognome: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtCognome" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblNome" runat="server" Text="Nome: " CssClass="form-label"></asp:Label>
+                    <asp:Label ID="lblNome" runat="server" Text="Nome: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
                     <asp:TextBox ID="txtNome" runat="server" CssClass="form-input"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblCodiceFiscale" runat="server" Text="Codice Fiscale: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtCodiceFiscale" runat="server" CssClass="form-input Upper" MaxLength="16"></asp:TextBox>
+                    <asp:Label ID="lblCodiceFiscale" runat="server" Text="Codice Fiscale: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtCodiceFiscale" runat="server" CssClass="form-input Upper" MaxLength="16" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblCitta" runat="server" Text="Città: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtCitta" runat="server" CssClass="form-input"></asp:TextBox>
+                    <asp:Label ID="lblCitta" runat="server" Text="Città: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtCitta" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblIndirizzo" runat="server" Text="Indirizzo: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtIndirizzo" runat="server" CssClass="form-input"></asp:TextBox>
+                    <asp:Label ID="lblIndirizzo" runat="server" Text="Indirizzo: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtIndirizzo" runat="server" CssClass="form-input" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblProvincia" runat="server" Text="Provincia: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtProvincia" runat="server" CssClass="form-input Upper" MaxLength="2" Width="30px"></asp:TextBox>
+                    <asp:Label ID="lblProvincia" runat="server" Text="Provincia: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtProvincia" runat="server" CssClass="form-input Upper" MaxLength="2" Width="30px" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblCAP" runat="server" Text="CAP: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtCAP" runat="server" CssClass="form-input" MaxLength="5" Width="45px"></asp:TextBox>
+                    <asp:Label ID="lblCAP" runat="server" Text="CAP: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtCAP" runat="server" CssClass="form-input" MaxLength="5" Width="45px" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="lblPatente" runat="server" Text="Codice Patente:" CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtPatente" runat="server" CssClass="form-input Upper" MaxLength="10" Width="150px"></asp:TextBox>
+                    <asp:Label ID="lblPatente" runat="server" Text="Codice Patente:" CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtPatente" runat="server" CssClass="form-input Upper" MaxLength="10" Width="150px" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:Label ID="Label1" runat="server" Text="Data di Nascità: " CssClass="form-label"></asp:Label>
-                    <asp:TextBox ID="txtDataNascita" runat="server" CssClass="form-input" MaxLength="10" TextMode="Date"></asp:TextBox>
+                    <asp:Label ID="Label1" runat="server" Text="Data di Nascità: " CssClass="form-label" ForeColor="#236BB3"></asp:Label>
+                    <asp:TextBox ID="txtDataNascita" runat="server" CssClass="form-input" MaxLength="10" TextMode="Date" ForeColor="#236BB3"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <p>&nbsp;</p>
                     <asp:Button ID="btnInserimento" runat="server" Text="Inserimento" OnClick="btnInserimento_Click" />
                 </div>
+            </div>
+            <div id="link">
+                <a href="Automobili_Inserimento.aspx">Automobili Inserimento</a>
+                <p>&nbsp;</p>
+                <a href="Automobili_Vendita.aspx">Automobili Vendita</a>
             </div>
         </div>
     </div>

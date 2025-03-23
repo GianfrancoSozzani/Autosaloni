@@ -1,0 +1,45 @@
+﻿.container-vendita {
+    display: flex;
+    height: 100%;
+    padding: 15px;
+    gap: 5px;
+}
+
+    .container-vendita > div {
+        border: 1px solid #236BB3;
+        border-radius: 5px;
+        padding: 8px;
+    }
+
+
+.dati-cliente {
+    /* flex:1 1 auto; */
+    flex-grow: 1;
+}
+
+.operazioni-automobile {
+    /* flex:5 1 auto; */
+    flex-grow: 5;
+    display: flex;
+    justify-content: flex-start;
+    /* flex-flow: column; */
+    flex-direction: column;
+    height: 100%;
+    padding: 15px;
+    gap: 116px;
+}
+
+#griglie {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    align-content: stretch;
+    padding: 15px;
+    gap: 30px;
+    flex-grow: 2;
+}
+
+#dati-vendita {
+    flex-grow: 1;
+}
