@@ -173,4 +173,12 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         return db.SQLselect();
     }
+
+    public DataTable ddlVeditoriModifica()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_ddlVenditoriModifica";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
 }

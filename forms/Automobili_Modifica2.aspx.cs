@@ -11,7 +11,7 @@ public partial class _Default : System.Web.UI.Page
     static string chiave;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!IsPostBack)
+        if (!IsPostBack)
         {
             if (Request.QueryString["c"] != null)
             {
@@ -48,7 +48,7 @@ public partial class _Default : System.Web.UI.Page
             ddlSaloni.DataTextField = "Nome_Salone";
             ddlSaloni.DataBind();
 
-           
+
 
 
             // caricamneto elenco stato
@@ -95,8 +95,18 @@ public partial class _Default : System.Web.UI.Page
             //caricamento elenco responsabili del salone
             CaricaResponsabili();
 
+            //caricamneto resp auto
+            DataTable dt_resp = new DataTable();
+            dt_resp = a.ddlResponsabiliModifica();
+            ddlResponsabile.SelectedValue = dt_resp.Rows[0]["K_Dipendente"].ToString();
+
             //caricamento elenco venditori del salone
             CaricaVenditori();
+
+            //caricamneto venditori auto
+            DataTable dt_seller = new DataTable();
+            dt_seller = a.ddlVeditoriModifica();
+            ddlVenditore.SelectedValue = dt_seller.Rows[0]["K_Dipendente"].ToString();
 
         }
     }
