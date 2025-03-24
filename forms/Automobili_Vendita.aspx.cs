@@ -137,10 +137,12 @@ public partial class _Default : System.Web.UI.Page
 
         //controllo che la data inserita non sia precedente a quella di acquisto 
         DateTime dataAcquisto;
+        decimal prezzoAcquisto;
         AUTOMOBILI a = new AUTOMOBILI();
         DataTable DT = new DataTable();
         DT = a.SelectVendita();
         dataAcquisto = DateTime.Parse(DT.Rows[0]["Data_Acquisto"].ToString());
+        prezzoAcquisto = Decimal.Parse(DT.Rows[0]["Prezzo_Acquisto"].ToString());
 
 
         if (DateTime.Parse(txtDataVendita.Text) < dataAcquisto)
@@ -149,6 +151,15 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('La data inserita supera quella di acquisto');", true);
             return;
         }
+
+        //controllo che il prezzo offerto e il prezzo di vendita sia maggiore del prezzo di acquisto
+
+        if ((Decimal.Parse(txtPrezzoOfferto.Text) > prezzoAcquisto) || (Decimal.Parse(txtPrezzoVendita.Text) > prezzoAcquisto))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Vietato vendere auto in perdita');", true);
+            return;
+        }
+        
 
         //controllo che i dati numerici siano validi
         if (

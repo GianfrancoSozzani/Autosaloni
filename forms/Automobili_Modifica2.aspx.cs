@@ -318,6 +318,14 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
+        //controllo che il prezzo offerto e il prezzo di vendita sia maggiore del prezzo di acquisto
+
+        if ((Decimal.Parse(txtPrezzoOfferto.Text) > Decimal.Parse(txtPrezzoAcquisto.Text)) || (Decimal.Parse(txtPrezzoVendita.Text) > Decimal.Parse(txtPrezzoAcquisto.Text)))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Vietato vendere auto in perdita');", true);
+            return;
+        }
+
 
         //controllo di non star inserendo un duplicato di un automobile
         //CONTROLLLO CHE L'AUTO NON SIA GIà REGISTRATA
