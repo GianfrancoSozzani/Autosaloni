@@ -305,22 +305,9 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        //controllose dll hanno valori vuoti es. si è registrata una marca ma non si è ancora registrato un modello
-        //oppure si è registrato un salone ma bisogna ancora asumere il personale 
-
-        if (
-            (!int.TryParse(ddlModelli.SelectedValue, out _)) ||
-            (!int.TryParse(ddlResponsabile.SelectedValue, out _)) ||
-            (!int.TryParse(ddlVenditore.SelectedValue, out _))
-            )
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Campi obbligatori vuoti');", true);
-            return;
-        }
-
         //controllo che il prezzo offerto e il prezzo di vendita sia maggiore del prezzo di acquisto
 
-        if ((Decimal.Parse(txtPrezzoOfferto.Text) > Decimal.Parse(txtPrezzoAcquisto.Text)) || (Decimal.Parse(txtPrezzoVendita.Text) > Decimal.Parse(txtPrezzoAcquisto.Text)))
+        if ((Decimal.Parse(txtPrezzoOfferto.Text) < Decimal.Parse(txtPrezzoAcquisto.Text)) || (Decimal.Parse(txtPrezzoVendita.Text) < Decimal.Parse(txtPrezzoAcquisto.Text)))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Vietato vendere auto in perdita');", true);
             return;

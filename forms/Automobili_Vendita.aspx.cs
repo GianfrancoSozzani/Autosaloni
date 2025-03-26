@@ -23,7 +23,7 @@ public partial class _Default : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            //chiave assumerà il valore c che ricevo dalla pagina Automobili_Modifica
+            //chiave assumerà il valore c che ricevo dalla pagina Automobili_Inserimento
             if (Request.QueryString["c"] != null)
             {
                 chiave = Request.QueryString["c"].ToString();
@@ -154,7 +154,7 @@ public partial class _Default : System.Web.UI.Page
 
         //controllo che il prezzo offerto e il prezzo di vendita sia maggiore del prezzo di acquisto
 
-        if ((Decimal.Parse(txtPrezzoOfferto.Text) > prezzoAcquisto) || (Decimal.Parse(txtPrezzoVendita.Text) > prezzoAcquisto))
+        if ((Decimal.Parse(txtPrezzoOfferto.Text) < prezzoAcquisto) || (Decimal.Parse(txtPrezzoVendita.Text) < prezzoAcquisto))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Vietato vendere auto in perdita');", true);
             return;
