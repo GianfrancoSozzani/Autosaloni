@@ -288,4 +288,22 @@ public partial class _Default : System.Web.UI.Page
         //tolgo visibiltà a K_Auto
         e.Row.Cells[1].Visible = false;
     }
+
+    protected void btnSpese_Click(object sender, EventArgs e)
+    {
+        //controllo se l'utente non ha selezionato nulla
+        if (griglia.SelectedIndex == -1)
+        {
+            //in caso gli si rilascia un alert di erro
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Non hai selezionato nulla');", true);
+            return;
+        }
+
+        //dichiaro una variabile per storare il valore di K_Auto
+        // e gli dico che selezionando un record la variabile chiave assume il valore di k_Auto del recor selezionato
+        string chiave = griglia.SelectedValue.ToString();
+        //passare il dato chaive alla pagina per la modifica
+        //inviare l'utente alla pagina di modifica
+        Response.Redirect("Automobili_Spese.aspx" + "?c=" + chiave);
+    }
 }
