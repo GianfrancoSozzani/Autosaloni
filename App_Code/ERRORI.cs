@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public class ERRORI
+public static class ERRORI
 {
-    public ERRORI()
-    {
-      
-    }
-
     //errori
-    public void Errori_Insert(string errore)
+    public static void Errori_Insert(string errore)
     {
         DB db = new DB();
         db.query = "LOG_ERRORI_Insert";
