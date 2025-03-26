@@ -8,9 +8,6 @@ public partial class _Default : System.Web.UI.Page
     {
         CaricaDati();
     }
-
-
-
     protected void btnSalva_Click(object sender, EventArgs e)
     {
         //dichairo variabile di strorage per la marca inserita
@@ -25,21 +22,45 @@ public partial class _Default : System.Web.UI.Page
         MARCHE m = new MARCHE();
         m.Marca = inserimentoMarca;
         DataTable DT = new DataTable();
-        DT = m.SelezionaMarca();
+        try
+        {
+            DT = m.SelezionaMarca();
+        }
+        catch (Exception ex)
+        {
+            ERRORI er = new ERRORI();
+            er.Errori_Insert(ex.Message);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
+        }
 
         //controllo che non sia già presente la marca
-        if (DT.Rows.Count != 0) 
+        if (DT.Rows.Count != 0)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca già presente');", true);
             return;
         }
 
         //se non è presente inserimento
-        m.Inserimento();
+        try
+        {
+            m.Inserimento();
+
+        }
+        catch (Exception ex)
+        {
+            ERRORI er = new ERRORI();
+            er.Errori_Insert(ex.Message);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
+
+        }
+        finally
+        {
+            CaricaDati();
+        }
 
         //aggiorna i valori della griglia
         //forzo il ricaricamento della griglia in questo caso (vedasi Marche_Modifica)
-        CaricaDati();
+        //CaricaDati();
         //avviso l'utente che la registrazione è avvenuta correttamente
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Marca inserita correttamente');", true);
 
@@ -52,9 +73,18 @@ public partial class _Default : System.Web.UI.Page
     protected void CaricaDati()
     {
         MARCHE m = new MARCHE();
-        grigliaMarche.DataSource = m.SelectAll();
-        grigliaMarche.DataBind();
+        try
+        {
+            grigliaMarche.DataSource = m.SelectAll();
+            grigliaMarche.DataBind();
+        }
+        catch (Exception ex)
+        {
+            ERRORI er = new ERRORI();
+            er.Errori_Insert(ex.Message);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
 
+        }
     }
 
     protected void grigliaMarche_RowDataBound(object sender, GridViewRowEventArgs e)

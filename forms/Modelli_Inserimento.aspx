@@ -4,7 +4,7 @@
 
     <div class="content">
         <div class="title">
-            <p>Inserire una nuovo modello</p>
+            <p>Inserire una nuova marca</p>
         </div>
         <div class="griglia">
             <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Modello" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" CssClass="grid" OnRowDataBound="griglia_RowDataBound">
