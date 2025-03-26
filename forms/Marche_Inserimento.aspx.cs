@@ -33,7 +33,7 @@ public partial class _Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ERRORI.Errori_Insert(ex.Message);
+            LOG.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
         }
 
@@ -48,11 +48,12 @@ public partial class _Default : System.Web.UI.Page
         try
         {
             m.Inserimento();
+            LOG.Eventi_Insert(Session["USR"].ToString(), System.IO.Path.GetFileName(Request.Url.AbsolutePath), "Inserita Marca " + inserimentoMarca);
 
         }
         catch (Exception ex)
         {
-            ERRORI.Errori_Insert(ex.Message);
+            LOG.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
         }
         finally
@@ -82,7 +83,7 @@ public partial class _Default : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ERRORI.Errori_Insert(ex.Message);
+            LOG.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
 
         }
