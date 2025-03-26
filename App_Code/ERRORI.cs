@@ -5,14 +5,13 @@ using System.Web;
 
 public class ERRORI
 {
-    public string errore;
     public ERRORI()
     {
       
     }
 
     //errori
-    public void Errori_Insert()
+    public void Errori_Insert(string errore)
     {
         DB db = new DB();
         db.query = "LOG_ERRORI_Insert";

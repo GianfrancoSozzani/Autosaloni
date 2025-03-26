@@ -37,9 +37,8 @@ public partial class _Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ERRORI er = new ERRORI();
-            er.errore = ex.Message;
             //er.iperrore = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-            er.Errori_Insert();
+            er.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
         }
 
@@ -59,8 +58,7 @@ public partial class _Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ERRORI er = new ERRORI();
-            er.errore = ex.Message;
-            er.Errori_Insert();
+            er.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
 
         }
@@ -92,8 +90,7 @@ public partial class _Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ERRORI er = new ERRORI();
-            er.errore = ex.Message;
-            er.Errori_Insert();
+            er.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
 
         }
