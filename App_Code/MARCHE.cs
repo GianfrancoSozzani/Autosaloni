@@ -21,8 +21,6 @@ public class MARCHE
         db.query = "MARCHE_InserimentoMarca";
         db.cmd.Parameters.AddWithValue("@marca", Marca);
         db.SQLCommand();
-
-
     }
     //modifica
     public void Modifica()
