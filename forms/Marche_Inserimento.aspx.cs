@@ -13,9 +13,6 @@ public partial class _Default : System.Web.UI.Page
     {
         CaricaDati();
     }
-
-
-
     protected void btnSalva_Click(object sender, EventArgs e)
     {
         //dichairo variabile di strorage per la marca inserita
@@ -37,7 +34,6 @@ public partial class _Default : System.Web.UI.Page
         catch (Exception ex)
         {
             ERRORI er = new ERRORI();
-            //er.iperrore = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             er.Errori_Insert(ex.Message);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Si è verificato un errore, di prega di riprovare più tardi');", true);
         }
