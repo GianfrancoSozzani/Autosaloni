@@ -19,6 +19,7 @@ public class ERRORI
     public void Errori_Insert()
     {
         DB db = new DB();
+        db.query = "LOG_ERRORI_Insert";
         db.cmd.Parameters.AddWithValue("@ip", iperrore);
         db.cmd.Parameters.AddWithValue("@errore", errore);
         db.SQLCommand();
