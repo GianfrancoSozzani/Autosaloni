@@ -53,7 +53,7 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px; /* Spazio tra i gruppi di label e textbox */
+    margin-bottom: 10px;  Spazio tra i gruppi di label e textbox 
 }
 
 .form-label {
@@ -150,5 +150,18 @@
     display:flex;
     flex-direction: row;
     gap: 35px;
+}
+
+.griglia-optimized3 {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    gap: 5px;
+    margin: 0 auto;
+    flex-direction: column;
+    color: #236BB3;
+    overflow: scroll;
+    width: 600px;
+    height: 70%;
 }
 

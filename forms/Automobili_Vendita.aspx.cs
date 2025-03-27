@@ -8,36 +8,30 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
-    static string chiave;
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        //MECCANISMO PER PASSARE A CLIENTI INSERIMENTO E TORNARE INDIETRO SENZA PERDERE LA CHIAVE PASSATA DA AUTOMOBILI INSERIMENTO
-
-        //Se l'utente accede alla pagina con un parametro c nell'URL,
-        //il valore di c viene assegnato a chiave e salvato nella sessione.
-
-        //Se l'utente accede alla pagina senza il parametro c, ma la sessione contiene già un valore per passaggio,
-        //allora chiave verrà impostato su quel valore.
-
-
         if (!IsPostBack)
         {
-            //chiave assumerà il valore c che ricevo dalla pagina Automobili_Inserimento
-            if (Request.QueryString["c"] != null)
-            {
-                chiave = Request.QueryString["c"].ToString();
-                Session["passaggio"] = chiave;
-            }
 
-            else if (Session["passaggio"] != null)
-            {
-                chiave = Session["passaggio"].ToString();
-            }
+            //CARICAMENTO DROPDOWNLIST CLIENTI
+            AUTOMOBILI a = new AUTOMOBILI();
+            //collagmento a DB
+            ddlClienti.DataSource = a.AUTOMOBILI_ddlClienti();
+            //indico come la ddl deve visualizzare i valori
+            ddlClienti.DataValueField = "K_Cliente";
+            ddlClienti.DataTextField = "NomeCognome";
+            //aggiornamento ddl
+            ddlClienti.DataBind();
 
+            //dati automobile
+            CaricaAutomobile();
+            //dati griglie
             CaricaDati();
-
+            //dati cliente
             CaricaCliente();
+
         }
     }
     protected void ddlClienti_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,28 +39,36 @@ public partial class _Default : System.Web.UI.Page
         CaricaCliente();
     }
 
+    protected void ddlAutomobili_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CaricaDati();
+    }
+
+    protected void CaricaAutomobile()
+    {
+        AUTOMOBILI a = new AUTOMOBILI();
+        ddlAutomobili.DataSource = a.ddlAutomobiliVendita();
+        ddlAutomobili.DataValueField = "K_Auto";
+        ddlAutomobili.DataTextField = "MarcaModello";
+        ddlAutomobili.DataBind();
+    }
+
+
+
+
     protected void CaricaDati()
     {
         //caricamento griglia dati auto
         AUTOMOBILI a = new AUTOMOBILI();
-        a.K_Auto = int.Parse(chiave);
+        a.K_Auto = int.Parse(ddlAutomobili.SelectedValue);
         griglia_automobili.DataSource = a.SelectVendita();
         griglia_automobili.DataBind();
 
         //caricmento griglia dati spese auto
         SPESE_AUTO sa = new SPESE_AUTO();
-        sa.K_Auto = int.Parse(chiave);
+        sa.K_Auto = int.Parse(ddlAutomobili.SelectedValue);
         griglia_spese.DataSource = sa.SPESE_AUTO_SelezionaAutomobile();
         griglia_spese.DataBind();
-
-        //CARICAMENTO DROPDOWNLIST CLIENTI
-        //collagmento a DB
-        ddlClienti.DataSource = a.AUTOMOBILI_ddlClienti();
-        //indico come la ddl deve visualizzare i valori
-        ddlClienti.DataValueField = "K_Cliente";
-        ddlClienti.DataTextField = "NomeCognome";
-        //aggiornamento ddl
-        ddlClienti.DataBind();
     }
 
 
@@ -124,7 +126,7 @@ public partial class _Default : System.Web.UI.Page
         }
         //controllo che la data inserita non sia oltre la data corrente
         DateTime dataOdierna = DateTime.Now;
-       
+
 
 
 
@@ -139,6 +141,7 @@ public partial class _Default : System.Web.UI.Page
         DateTime dataAcquisto;
         decimal prezzoAcquisto;
         AUTOMOBILI a = new AUTOMOBILI();
+        a.K_Auto = int.Parse(ddlAutomobili.SelectedValue);
         DataTable DT = new DataTable();
         DT = a.SelectVendita();
         dataAcquisto = DateTime.Parse(DT.Rows[0]["Data_Acquisto"].ToString());
@@ -159,7 +162,7 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Vietato vendere auto in perdita');", true);
             return;
         }
-        
+
 
         //controllo che i dati numerici siano validi
         if (
@@ -176,12 +179,12 @@ public partial class _Default : System.Web.UI.Page
 
         //INSERIMENTO IN DB
 
-        
+
         a.Prezzo_Offerto = Decimal.Parse(txtPrezzoOfferto.Text);
         a.Prezzo_Vendita = Decimal.Parse(txtPrezzoVendita.Text);
         a.Data_Vendita = DateTime.Parse(txtDataVendita.Text);
         a.K_Cliente_Vendita = int.Parse(ddlClienti.SelectedValue);
-        a.K_Auto = int.Parse(chiave);
+        a.K_Auto = int.Parse(ddlAutomobili.SelectedValue);
 
         a.RegistrazioneVendita();
 
@@ -192,8 +195,8 @@ public partial class _Default : System.Web.UI.Page
         txtPrezzoVendita.Text = "";
         txtDataVendita.Text = "";
 
-        Response.Redirect("Automobili_Inserimento.aspx");
-
-
+      
     }
+
+
 }

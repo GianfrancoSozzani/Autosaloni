@@ -238,4 +238,12 @@ public class AUTOMOBILI
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         db.SQLCommand();
     }
+
+    //seleziona automobile da vendere
+    public DataTable ddlAutomobiliVendita()
+    {
+        DB db = new DB();
+        db.query = "AUTOMOBILI_ddlAutomobiliVendita";
+        return db.SQLselect();
+    }
 }

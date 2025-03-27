@@ -57,14 +57,14 @@
                             <li class='has-sub'><a href='#'>Automobili </a>
                                 <ul class='drop-down'>
                                     <li><a href="Automobili_Spese.aspx">Spese </a></li>
+                                    <li><a href="Automobili_Vendita.aspx">Vendite </a></li>
                                     <li><a href="Automobili_Inserimento.aspx">Nuova Automobile </a></li>
                                     <li><a href="Automobili_Modifica.aspx">Modifica Automobili </a></li>
                                 </ul>
                             </li>
                             <li class='has-sub'><a href='#'>Statistiche </a>
                                 <ul class='drop-down'>
-                                    <li><a href="Statistiche_Acquisti.aspx">Acquisti </a></li>
-                                    <li><a href="Statistiche_Vendite.aspx">Vendite </a></li>
+                                    <li><a href="Statistiche_Auto.aspx">Acquisti </a></li>
                                 </ul>
                             </li>
                             <li class='has-sub'><a href='#'>Utente </a>

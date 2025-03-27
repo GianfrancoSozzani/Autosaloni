@@ -8,10 +8,7 @@
         <div class="pagina">
 
             <div class="griglia-optimized2">
-                <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnSelectedIndexChanged="griglia_SelectedIndexChanged" OnRowDataBound="griglia_RowDataBound">
-                    <Columns>
-                        <asp:CommandField ButtonType="Button" HeaderText="Seleziona" ShowSelectButton="true" ShowHeader="true" />
-                    </Columns>
+                <asp:GridView ID="griglia" runat="server" DataKeyNames="K_Auto" CssClass="grid" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowDataBound="griglia_RowDataBound">
                     <FooterStyle BackColor="White" ForeColor="#000066" />
                     <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
                     <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
@@ -121,7 +118,7 @@
                         <asp:Button ID="btnInserimento" runat="server" Text="Inserimento" OnClick="btnInserimento_Click" ForeColor="#236BB3" />
                     </div>
                 </div>
-                <div id="part3" runat="server" visible="false">
+                <%--<div id="part3" runat="server" visible="false">
                     <div>
                         <asp:Button ID="btnVendita" runat="server" Text="Dati di Vendita" OnClick="btnVendita_Click" ForeColor="#236BB3" />
                     </div>
@@ -129,7 +126,7 @@
                     <div>
                         <asp:Button ID="btnSpese" runat="server" Text="Dati Spese" OnClick="btnSpese_Click" ForeColor="#236BB3" />
                     </div>
-                </div>
+                </div>--%>
 
             </div>
         </div>
