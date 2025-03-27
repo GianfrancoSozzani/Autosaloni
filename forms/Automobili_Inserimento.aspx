@@ -121,7 +121,13 @@
                     </div>
                 </div>
                 <div id="part3" runat="server" visible="false">
-                    <asp:Button ID="btnVendita" runat="server" Text="Dati di Vendita" OnClick="btnVendita_Click" ForeColor="#236BB3" />
+                    <div>
+                        <asp:Button ID="btnVendita" runat="server" Text="Dati di Vendita" OnClick="btnVendita_Click" ForeColor="#236BB3" />
+                    </div>
+                    <p>&nbsp;</p>
+                    <div>
+                        <asp:Button ID="btnSpese" runat="server" Text="Dati Spese" OnClick="btnSpese_Click" ForeColor="#236BB3" />
+                    </div>
                 </div>
 
             </div>

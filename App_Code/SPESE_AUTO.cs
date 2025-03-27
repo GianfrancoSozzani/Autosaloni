@@ -23,4 +23,12 @@ public class SPESE_AUTO
         db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
         return db.SQLselect();
     }
+
+    public DataTable DatiCliente()
+    {
+        DB db = new DB();
+        db.query = "SPESE_AUTO_DatiCliente";
+        db.cmd.Parameters.AddWithValue("@chiave", K_Auto);
+        return db.SQLselect();
+    }
 }

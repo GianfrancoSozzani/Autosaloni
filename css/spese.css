@@ -1,0 +1,49 @@
+﻿.container-spese {
+    display: flex;
+}
+
+.dati {
+    flex-grow: 2;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.griglia-spese {
+    flex-grow: 1;
+    border: 1px solid #236BB3;
+    padding: 20px;
+}
+
+.forms {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+    .forms > div {
+        color: #236BB3;
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+.contenitore-dati {
+    display: flex;
+    gap: 20px;
+}
+
+#autochart {
+    border: 1px solid #236BB3;
+    padding: 15px;
+}
+
+.cliente {
+    border: 1px solid #236BB3;
+}
+
+.spesa {
+    border: 1px solid #236BB3;
+    margin-top: 10px;
+}
