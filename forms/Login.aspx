@@ -25,7 +25,7 @@
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
 
-                                        <asp:TextBox ID="txtUSR" runat="server" CssClass="form-control" placeholder="password" TextMode="Password"></asp:TextBox>
+                                        <asp:TextBox ID="txtUSR" runat="server" CssClass="form-control" placeholder="password"></asp:TextBox>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Password</label>
