@@ -25,4 +25,18 @@ public class STATISTICHE
         dB.query = "AUTOMOBILI_StatisticheAutomobile2024";
         return dB.SQLselect();
     }
+
+    public DataTable SaldoTotale2025()
+    {
+        DB dB = new DB();
+        dB.query = "AUTOMOBILI_Saldo_Totale_2025";
+        return dB.SQLselect();
+    }
+
+    public DataTable SaldoTotale2024()
+    {
+        DB dB = new DB();
+        dB.query = "AUTOMOBILI_Saldo_Totale_2024";
+        return dB.SQLselect();
+    }
 }

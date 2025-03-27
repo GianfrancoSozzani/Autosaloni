@@ -26,6 +26,19 @@ public partial class _Default : System.Web.UI.Page
 
         griglia_2024.DataSource = st.Griglia2024();
         griglia_2024.DataBind();
+
+
+        DataTable dt = new DataTable();
+        dt = st.SaldoTotale2025();
+        txtCosti2025.Text = dt.Rows[0]["Costi"].ToString();
+        txtRicavi2025.Text = dt.Rows[0]["Ricavi"].ToString();
+        txtSaldoTotale2025.Text = dt.Rows[0]["SaldoTotale"].ToString();
+
+        DataTable DT = new DataTable();
+        DT = st.SaldoTotale2024();
+        txtCosti2024.Text = DT.Rows[0]["Costi"].ToString();
+        txtRicavi2024.Text = DT.Rows[0]["Ricavi"].ToString();
+        txtSaldoTotale2024.Text = DT.Rows[0]["SaldoTotale"].ToString();
     }
 
     protected void griglia_2025_RowDataBound(object sender, GridViewRowEventArgs e)
