@@ -62,9 +62,9 @@ public partial class forms_Login : System.Web.UI.Page
         // controlli formali
         if (txtUSR.Text.Trim() == "" || txtPWD.Text == "") // Trim impedisce di mettere spazi all'inizio e al fondo
         {
-            lblMessaggio.Text = "Dati non validi!";
-
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Errore');", true);
             return;
+
         }
 
         string wUSR = txtUSR.Text.Trim(); //dichiaro le variabili
@@ -86,8 +86,7 @@ public partial class forms_Login : System.Web.UI.Page
 
         if (trovati == 0)
         {
-            lblMessaggio.Text = "Dati non validi"; // se i dati inseriti non sono validi
-
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Errore');", true);
             return;
         }
 
